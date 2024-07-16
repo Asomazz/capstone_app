@@ -4,7 +4,7 @@ const storeToken = async (token) => {
   await SecureStore.setItemAsync("token", token);
 };
 
-const getToken = async (token) => {
+const getToken = async () => {
   const token = await SecureStore.getItemAsync("token");
   return token;
 };

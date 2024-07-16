@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import UserContext from "./context/UserContext";
 import { StyleSheet, Text, View } from "react-native";
+import UserContext from "./src/context/UserContext";
+import { getToken } from "./src/apis/storage";
 
 export default function App() {
   const [user, setUser] = useState(false);
@@ -26,6 +27,12 @@ export default function App() {
     <View>
       <QueryClientProvider client={queryClient}>
         <UserContext.Provider value={[user, setUser]}>
+          <Text>Helli fluid</Text>
+          <Text>Helli fluid</Text>
+          <Text>Helli fluid</Text>
+          <Text>Helli fluid</Text>
+          <Text>Helli fluid</Text>
+          <Text>Helli fluid</Text>
           <Text>Helli fluid</Text>
         </UserContext.Provider>
       </QueryClientProvider>
