@@ -10,5 +10,15 @@ const register = async (userInfo) => {
     console.log(error);
   }
 };
-
-export { register };
+const login = async (userInfo) => {
+  try {
+    const { data } = await instance.post("/creator/login", userInfo);
+    if (data.token) {
+      storeToken(data.token);
+    }
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export { register, login };
