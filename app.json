@@ -1,5 +1,6 @@
 {
   "expo": {
+    "assets": ["assets/fonts/"],
     "name": "capstone_app",
     "slug": "capstone_app",
     "version": "1.0.0",
@@ -23,8 +24,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-secure-store"
-    ]
+    "plugins": ["expo-secure-store"]
   }
 }

@@ -6,8 +6,21 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StyleSheet, Text, View } from "react-native";
 import UserContext from "./src/context/UserContext";
 import { getToken } from "./src/apis/storage";
+import * as Font from "expo-font";
 
 export default function App() {
+  // const loadFonts = async () => {
+  //   await Font.loadAsync({
+  //     "quicksand-bold": require("./assets/fonts/Quicksand-Bold.ttf"),
+  //   });
+  // };
+  // const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  // if (!fontsLoaded) {
+  //   loadFonts().then(() => setFontsLoaded(true));
+  //   return <Text>Loading...</Text>;
+  // }
+
   const [user, setUser] = useState(false);
 
   const checkToken = async () => {
@@ -21,7 +34,7 @@ export default function App() {
 
   useEffect(() => {
     checkToken();
-  });
+  }, []);
 
   const queryClient = new QueryClient();
 
