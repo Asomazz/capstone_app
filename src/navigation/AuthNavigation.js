@@ -10,7 +10,6 @@ const AuthNavigation = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="register" component={Register} />
       <Stack.Screen name="login" component={Login} />
-      <Stack.Screen name="mainNavigation" component={MainNavigation} />
     </Stack.Navigator>
   );
 };

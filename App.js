@@ -3,10 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import AuthNavigation from "./src/navigation/AuthNavigation";
 import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import UserContext from "./src/context/UserContext";
-import { getToken } from "./src/apis/storage";
+import { getToken, removeToken } from "./src/apis/storage";
 import * as Font from "expo-font";
+import MainNavigation from "./src/navigation/MainNavigation";
 
 export default function App() {
   // const loadFonts = async () => {
@@ -25,9 +26,7 @@ export default function App() {
 
   const checkToken = async () => {
     const token = await getToken();
-    if (!token) {
-      setUser(false);
-    } else {
+    if (token) {
       setUser(true);
     }
   };
@@ -36,6 +35,7 @@ export default function App() {
     checkToken();
   }, []);
 
+  // console.log(first);
   const queryClient = new QueryClient();
 
   return (
@@ -43,7 +43,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <UserContext.Provider value={[user, setUser]}>
           <NavigationContainer>
-            <AuthNavigation />
+            {user ? <MainNavigation /> : <AuthNavigation />}
           </NavigationContainer>
         </UserContext.Provider>
       </QueryClientProvider>
