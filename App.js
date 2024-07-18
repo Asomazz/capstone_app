@@ -26,27 +26,32 @@ export default function App() {
 
   const checkToken = async () => {
     const token = await getToken();
-    if (token) {
-      setUser(true);
+
+    if (!token) {
+      setUser(false);
+    } else {
+      if (token) {
+        setUser(true);
+      }
     }
+
+    useEffect(() => {
+      checkToken();
+    }, []);
+
+    // console.log(first);
+    const queryClient = new QueryClient();
+
+    return (
+      <View style={{ flex: 1 }}>
+        <QueryClientProvider client={queryClient}>
+          <UserContext.Provider value={[user, setUser]}>
+            <NavigationContainer>
+              {user ? <MainNavigation /> : <AuthNavigation />}
+            </NavigationContainer>
+          </UserContext.Provider>
+        </QueryClientProvider>
+      </View>
+    );
   };
-
-  useEffect(() => {
-    checkToken();
-  }, []);
-
-  // console.log(first);
-  const queryClient = new QueryClient();
-
-  return (
-    <View style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>
-        <UserContext.Provider value={[user, setUser]}>
-          <NavigationContainer>
-            {user ? <MainNavigation /> : <AuthNavigation />}
-          </NavigationContainer>
-        </UserContext.Provider>
-      </QueryClientProvider>
-    </View>
-  );
 }

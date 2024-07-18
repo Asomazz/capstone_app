@@ -10,6 +10,12 @@ const register = async (userInfo) => {
     console.log(error);
   }
 };
+const login = async (userInfo) => {
+  try {
+    const { data } = await instance.post("/creator/login", userInfo);
+    if (data.token) {
+      storeToken(data.token);
+    }}}
 
 const getProfile = async (userInfo) => {
   const { data } = await instance.get("/creator/profile", userInfo);
@@ -25,4 +31,5 @@ const updateProfile = async (userInfo) => {
   }
 };
 
-export { register, getProfile, updateProfile };
+
+export { register, getProfile, updateProfile, login };
