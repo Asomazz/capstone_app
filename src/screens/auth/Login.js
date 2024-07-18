@@ -18,6 +18,7 @@ const Login = () => {
     mutationKey: ["login"],
     mutationFn: () => login(userInfo),
     onSuccess: (data) => {
+      if (!data) return;
       setUser(true);
       navigation.navigate("mainNavigation");
     },

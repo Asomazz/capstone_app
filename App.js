@@ -7,6 +7,7 @@ import { StyleSheet, Text, View } from "react-native";
 import UserContext from "./src/context/UserContext";
 import { getToken } from "./src/apis/storage";
 import * as Font from "expo-font";
+import MainNavigation from "./src/navigation/MainNavigation";
 
 export default function App() {
   // const loadFonts = async () => {
@@ -25,6 +26,7 @@ export default function App() {
 
   const checkToken = async () => {
     const token = await getToken();
+    console.log(token);
     if (!token) {
       setUser(false);
     } else {
@@ -43,7 +45,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <UserContext.Provider value={[user, setUser]}>
           <NavigationContainer>
-            <AuthNavigation />
+            {user ? <MainNavigation /> : <AuthNavigation />}
           </NavigationContainer>
         </UserContext.Provider>
       </QueryClientProvider>
