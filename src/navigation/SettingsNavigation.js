@@ -1,14 +1,14 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import Dashboard from "../screens/dashboard/Dashboard";
+import SettingsScreen from "../screens/settings/SettingsScreen";
 
 const Stack = createStackNavigator();
 
-const DashboardNavigation = () => {
+const SettingsNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="dashboard" component={Dashboard} />
+      <Stack.Screen name="settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
 };
 
-export default DashboardNavigation;
+export default SettingsNavigation;
