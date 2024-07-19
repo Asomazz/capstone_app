@@ -2,27 +2,32 @@ import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React, { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../apis/auth";
-import { removeToken } from "../apis/storage";
-import UserContext from "../context/UserContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useNavigation } from "@react-navigation/native";
 
 const Profile = () => {
+  const navigation = useNavigation();
+
   const { data: userInfo } = useQuery({
     queryKey: ["getProfile"],
     queryFn: getProfile,
   });
 
+  const handleGoToEdit = () => {
+    navigation.navigate("");
+  };
+
   return (
     <View
       style={{
-        height: 200,
+        height: 210,
         backgroundColor: "white",
         borderRadius: 10,
         overflow: "hidden",
         padding: 10,
         borderColor: "gray",
-        borderWidth: 0.5,
+        gap: 5,
       }}
     >
       <View
@@ -49,18 +54,18 @@ const Profile = () => {
             elevation: 50,
           }}
         >
-          {/* <Image
+          <Image
             style={{
-              backgroundColor: "green",
+              backgroundColor: "gray",
               width: "100%",
               height: "100%",
             }}
             source={userInfo?.image}
-          /> */}
+          />
         </View>
         <View
           style={{
-            backgroundColor: "pink",
+            backgroundColor: "white",
             flex: 3,
             width: "100%",
             height: "100%",
@@ -70,7 +75,6 @@ const Profile = () => {
           <Text style={{ fontWeight: "bold", fontSize: 20 }}>
             {userInfo?.name}name
           </Text>
-          <Text>{userInfo?.username}</Text>
         </View>
         <View
           style={{
@@ -83,8 +87,9 @@ const Profile = () => {
           <TouchableOpacity
             style={{ flexDirection: "row" }}
             title="Edit Profile"
+            onPress={handleGoToEdit}
           >
-            <Text style={{ fontSize: 12, color: "#574EFA" }}>Edit Profile</Text>
+            <Text style={{ fontSize: 10, color: "#574EFA" }}>Edit Profile</Text>
             <Icon
               name="pencil"
               size={12}
@@ -96,25 +101,26 @@ const Profile = () => {
       </View>
       <View
         style={{
-          flex: 2,
-          backgroundColor: "yellow",
+          flex: 7,
+          backgroundColor: "white",
           overflow: "hidden",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "flex-start",
+          paddingLeft: 20,
         }}
       >
-        <Text>Here will show the social media links</Text>
+        <Text>{userInfo?.bio}Bio</Text>
       </View>
       <View
         style={{
-          flex: 2,
-          backgroundColor: "green",
+          flex: 4,
+          backgroundColor: "white",
           overflow: "hidden",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <Text>Here will show the social media links</Text>
+        <Text>Social Media links</Text>
       </View>
     </View>
   );

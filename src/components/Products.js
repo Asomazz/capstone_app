@@ -13,7 +13,6 @@ const Products = () => {
         padding: 10,
         borderRadius: 10,
         borderColor: "gray",
-        borderWidth: 0.5,
         elevation: 50,
       }}
     ></View>
