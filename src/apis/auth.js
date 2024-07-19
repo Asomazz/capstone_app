@@ -10,6 +10,7 @@ const register = async (userInfo) => {
     console.log(error);
   }
 };
+
 const login = async (userInfo) => {
   try {
     const { data } = await instance.post("/creator/login", userInfo);

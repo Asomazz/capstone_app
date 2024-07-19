@@ -4,21 +4,24 @@ import Profile from "../components/Profile";
 import Link from "../components/Link";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../apis/auth";
+import Products from "../components/Products";
 
 const MyStore = () => {
-  const { data: profile } = useQuery({
-    queryKey: ["getProfile"],
-    queryFn: getProfile,
-  });
-
   return (
-    <View style={{ flex: 1 }}>
-      <Link username={profile.username} />
-      <Profile profile={profile} />
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        justifyContent: "flex-start",
+        gap: 5,
+      }}
+    >
+      <Link />
+      <Profile />
+      <Products />
     </View>
   );
 };
 
 export default MyStore;
-
-const styles = StyleSheet.create({});
