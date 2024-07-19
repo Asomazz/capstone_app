@@ -10,18 +10,6 @@ import * as Font from "expo-font";
 import MainNavigation from "./src/navigation/MainNavigation";
 
 export default function App() {
-  // const loadFonts = async () => {
-  //   await Font.loadAsync({
-  //     "quicksand-bold": require("./assets/fonts/Quicksand-Bold.ttf"),
-  //   });
-  // };
-  // const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  // if (!fontsLoaded) {
-  //   loadFonts().then(() => setFontsLoaded(true));
-  //   return <Text>Loading...</Text>;
-  // }
-
   const [user, setUser] = useState(false);
 
   const checkToken = async () => {
@@ -39,7 +27,6 @@ export default function App() {
       checkToken();
     }, []);
 
-    // console.log(first);
     const queryClient = new QueryClient();
 
     return (
