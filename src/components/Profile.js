@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../apis/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 const Profile = () => {
   const navigation = useNavigation();
 
-  const { data: userInfo } = useQuery({
+  const { data: userInfo, refetch } = useQuery({
     queryKey: ["getProfile"],
     queryFn: getProfile,
   });
@@ -17,6 +17,12 @@ const Profile = () => {
   const handleGoToEdit = () => {
     navigation.navigate("editProfile");
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   return (
     <View
@@ -73,7 +79,7 @@ const Profile = () => {
           }}
         >
           <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            {userInfo?.name}name
+            {userInfo?.name}
           </Text>
         </View>
         <View
@@ -109,7 +115,7 @@ const Profile = () => {
           paddingLeft: 20,
         }}
       >
-        <Text>{userInfo?.bio}Bio</Text>
+        <Text>{userInfo?.bio}</Text>
       </View>
       <View
         style={{
