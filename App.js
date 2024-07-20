@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import UserContext from "./src/context/UserContext";
 import { getToken, removeToken } from "./src/apis/storage";
-import * as Font from "expo-font";
 import MainNavigation from "./src/navigation/MainNavigation";
 
 export default function App() {
@@ -14,7 +13,6 @@ export default function App() {
 
   const checkToken = async () => {
     const token = await getToken();
-
     if (!token) {
       setUser(false);
     } else {

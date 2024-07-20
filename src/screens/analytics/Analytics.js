@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import Profile from "../components/Profile";
 
-const MyStore = () => {
+const Analytics = () => {
   return (
-    <View style={{ flex: 1 }}>
-      <Profile />
+    <View>
+      <Text>Analytics</Text>
     </View>
   );
 };
 
-export default MyStore;
+export default Analytics;
 
 const styles = StyleSheet.create({});
