@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Alert } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { getProfile, updateProfile } from "../../apis/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import Foundation from "react-native-vector-icons/Foundation"; //social-snapchat
+import Entypo from "react-native-vector-icons/Entypo"; //instagram //twitter
 
 const EditProfile = () => {
   const [userInfo, setUserInfo] = useState({ image: "", name: "", bio: "" });
