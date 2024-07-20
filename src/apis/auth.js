@@ -15,7 +15,11 @@ const login = async (userInfo) => {
     const { data } = await instance.post("/creator/login", userInfo);
     if (data.token) {
       storeToken(data.token);
-    }}}
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const getProfile = async (userInfo) => {
   const { data } = await instance.get("/creator/profile", userInfo);
@@ -30,6 +34,5 @@ const updateProfile = async (userInfo) => {
     console.log(error);
   }
 };
-
 
 export { register, getProfile, updateProfile, login };
