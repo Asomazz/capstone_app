@@ -13,6 +13,7 @@ export default function App() {
 
   const checkToken = async () => {
     const token = await getToken();
+    console.log(token);
     if (!token) {
       setUser(false);
     } else {

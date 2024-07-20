@@ -1,5 +1,4 @@
 import { createStackNavigator } from "@react-navigation/stack";
-
 import MyStore from "../screens/myStore/MyStore";
 import EditProfile from "../screens/myStore/EditProfile";
 
