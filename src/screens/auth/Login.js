@@ -46,6 +46,7 @@ const Login = () => {
           Login To Your Account
         </Text>
       </View>
+
       <View
         style={{
           flex: 10,
@@ -70,12 +71,18 @@ const Login = () => {
           />
           <Text style={{ paddingTop: 20, fontWeight: "500" }}>Password</Text>
           <TextInput
+            style={{
+              borderBottomWidth: 1,
+              borderColor: "lightgray",
+              paddingVertical: 10,
+            }}
             secureTextEntry
             placeholder="Enter Your Password"
             onChangeText={(text) => {
               setuserInfo({ ...userInfo, password: text });
             }}
           />
+          <View style={{ padding: 20 }}></View>
           <TouchableOpacity
             style={{
               backgroundColor: "#574EFA",
