@@ -15,7 +15,7 @@ const Profile = () => {
   });
 
   const handleGoToEdit = () => {
-    navigation.navigate("");
+    navigation.navigate("editProfile");
   };
 
   return (
