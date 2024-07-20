@@ -32,9 +32,23 @@ const getProfile = async (userInfo) => {
   }
 };
 
-const updateProfile = async (userInfo) => {
+const updateProfile = async (userInfo, image) => {
   try {
-    const { data } = await instance.put("/creator/profile/", userInfo);
+    const formData = new FormData();
+
+    if (image) {
+      formData.append("image", {
+        uri: image.uri,
+        type: image.type,
+        name: image.name,
+      });
+    }
+
+    for (let key in userInfo) {
+      formData.append(key, userInfo[key]);
+    }
+
+    const { data } = await instance.put("/creator/profile/", formData);
     return data;
   } catch (error) {
     console.log(error);
