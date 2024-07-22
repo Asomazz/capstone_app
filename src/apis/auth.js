@@ -1,12 +1,10 @@
 import instance from ".";
-import * as SecureStore from "expo-secure-store";
-import { getId, storeId, storeToken } from "./storage";
+import { storeToken } from "./storage";
 
 const register = async (userInfo) => {
   try {
     const { data } = await instance.post("/creator/register", userInfo);
     storeToken(data.token);
-    storeId(data._id);
     return data;
   } catch (error) {
     console.log(error);
@@ -33,11 +31,21 @@ const getProfile = async (userInfo) => {
   }
 };
 
-const updateProfile = async (userInfo) => {
+const updateProfile = async (userInfo, image) => {
   try {
-    const id = await getId();
-    const { data } = await instance.put(`/creator/profile/${id}`, userInfo);
-    return data;
+    if (image) {
+      const formData = new FormData();
+
+      for (let key in userInfo) {
+        formData.append(key, userInfo[key]);
+      }
+
+      const { data } = await instance.put("/creator/profile/", formData);
+      return data;
+    } else {
+      const { data } = await instance.put("/creator/profile/", userInfo);
+      return data;
+    }
   } catch (error) {
     console.log(error);
   }

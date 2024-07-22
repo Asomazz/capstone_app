@@ -19,6 +19,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({});
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [user, setUser] = useContext(UserContext);
 
   const navigation = useNavigation();
@@ -35,8 +36,16 @@ const Register = () => {
     setUserInfo((prev) => ({ ...prev, [key]: value }));
   };
 
+  const handleConfirmPasswordChange = (value) => {
+    setConfirmPassword(value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (userInfo.password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
     mutate(userInfo);
   };
 
@@ -120,8 +129,8 @@ const Register = () => {
                 paddingVertical: 10,
               }}
               secureTextEntry
-              onChangeText={(text) => handleChange("password", text)}
-              value={userInfo.password}
+              onChangeText={handleConfirmPasswordChange}
+              value={confirmPassword}
               placeholder="Re-Enter your password"
             />
             <Text style={{ paddingTop: 20, fontWeight: "500" }}>

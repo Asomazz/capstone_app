@@ -14,12 +14,11 @@ export default function App() {
 
   const checkToken = async () => {
     const token = await getToken();
-    if (!token) {
-      setUser(false);
+    console.log(token);
+    if (token) {
+      setUser(true);
     } else {
-      if (token) {
-        setUser(true);
-      }
+      setUser(false);
     }
   };
 
