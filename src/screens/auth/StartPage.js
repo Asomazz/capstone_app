@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, ViewComponent } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import logo from "../../../assets/logo.png";
 
 const StartPage = () => {
   const navigation = useNavigation();
@@ -13,6 +14,10 @@ const StartPage = () => {
   };
   return (
     <View style={{ flex: 1 }}>
+      <Image
+        source={require("../../../assets/logo.png")}
+        style={{ width: "100%", position: "absolute" }}
+      />
       <View
         style={{
           flex: 3,
@@ -23,13 +28,13 @@ const StartPage = () => {
           overflow: "hidden",
         }}
       >
-        <Text style={{ fontSize: 30, color: "#574EFA" }}>
+        <View style={{ fontSize: 30, color: "#574EFA" }}>
           <Text style={{}}>Our Mission</Text>
           <Text>
             to empower every single Creator to make a living working for
             themselves
           </Text>
-        </Text>
+        </View>
 
         <View></View>
         <View style={{ flexDirection: "row" }}>

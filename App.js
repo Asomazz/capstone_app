@@ -7,6 +7,7 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import UserContext from "./src/context/UserContext";
 import { getToken, removeToken } from "./src/apis/storage";
 import MainNavigation from "./src/navigation/MainNavigation";
+import SettingsNavigation from "./src/navigation/SettingsNavigation";
 
 export default function App() {
   const [user, setUser] = useState(false);
@@ -32,7 +33,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <UserContext.Provider value={[user, setUser]}>
           <NavigationContainer>
-            {user ? <MainNavigation /> : <AuthNavigation />}
+            {!user ? <MainNavigation /> : <AuthNavigation />}
           </NavigationContainer>
         </UserContext.Provider>
       </QueryClientProvider>
