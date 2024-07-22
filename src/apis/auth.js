@@ -1,5 +1,4 @@
 import instance from ".";
-import * as SecureStore from "expo-secure-store";
 import { storeToken } from "./storage";
 
 const register = async (userInfo) => {
@@ -34,22 +33,19 @@ const getProfile = async (userInfo) => {
 
 const updateProfile = async (userInfo, image) => {
   try {
-    const formData = new FormData();
-
     if (image) {
-      formData.append("image", {
-        uri: image.uri,
-        type: image.type,
-        name: image.name,
-      });
-    }
+      const formData = new FormData();
 
-    for (let key in userInfo) {
-      formData.append(key, userInfo[key]);
-    }
+      for (let key in userInfo) {
+        formData.append(key, userInfo[key]);
+      }
 
-    const { data } = await instance.put("/creator/profile/", formData);
-    return data;
+      const { data } = await instance.put("/creator/profile/", formData);
+      return data;
+    } else {
+      const { data } = await instance.put("/creator/profile/", userInfo);
+      return data;
+    }
   } catch (error) {
     console.log(error);
   }

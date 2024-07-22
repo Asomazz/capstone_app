@@ -5,12 +5,13 @@ import { getProfile } from "../apis/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { BASE_URL } from "../apis";
 
 const Profile = () => {
   const navigation = useNavigation();
 
   const { data: userInfo, refetch } = useQuery({
-    queryKey: ["getProfile"],
+    queryKey: ["getMyProfile"],
     queryFn: getProfile,
   });
 
@@ -62,11 +63,11 @@ const Profile = () => {
         >
           <Image
             style={{
-              backgroundColor: "gray",
+              backgroundColor: "lightgray",
               width: "100%",
               height: "100%",
             }}
-            source={userInfo?.image}
+            source={{ uri: `${BASE_URL}/${userInfo?.image}` }}
           />
         </View>
         <View
