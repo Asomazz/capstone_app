@@ -1,86 +1,66 @@
-import React, { useEffect, useState } from "react";
 import {
-  View,
+  StyleSheet,
   Text,
+  View,
   Image,
   Modal,
-  TextInput,
+  Pressable,
   TouchableOpacity,
-  Platform,
+  TextInput,
 } from "react-native";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { getProfile, updateProfile } from "../../apis/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import * as ImagePicker from "expo-image-picker";
+import { useMutation } from "@tanstack/react-query";
+import { createOneProduct } from "../../apis/products";
 
-const EditProfile = () => {
-  const [userInfo, setUserInfo] = useState({ image: "", name: "", bio: "" });
+const AddProduct = () => {
+  const [productInfo, setProductInfo] = useState({
+    title: "",
+    price: "",
+  });
+  const [image, setImage] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const navigation = useNavigation();
 
-  const { data } = useQuery({
-    queryKey: ["getMyProfile2"],
-    queryFn: getProfile,
-  });
-
   const { mutate } = useMutation({
-    mutationKey: ["updateProfile"],
-    mutationFn: () => updateProfile(userInfo),
+    mutationKey: ["createOneProduct"],
+    mutationFn: () => createOneProduct({ ...productInfo, image }),
     onSuccess: () => {
-      setAlertMessage("Profile Updated");
+      setAlertMessage("Product Added!");
       setModalVisible(true);
       setTimeout(() => {
         navigation.navigate("myStore");
       }, 500);
     },
     onError: () => {
-      setAlertMessage("There was an error updating your profile.");
+      setAlertMessage("There was an error adding your product");
       setModalVisible(true);
     },
   });
 
   useEffect(() => {
-    if (data) {
-      setUserInfo(data);
+    if (productInfo) {
+      setProductInfo(productInfo);
     }
-
-    const requestPermission = async () => {
-      if (Platform.OS !== "web") {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
-        }
-      }
-    };
-
-    requestPermission();
-  }, [data]);
+  }, [productInfo]);
 
   const handleChange = (key, value) => {
-    setUserInfo((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const handleChooseImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setUserInfo((prev) => ({ ...prev, image: result.uri }));
-    }
+    setProductInfo((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSubmit = () => {
-    mutate(userInfo);
+    mutate();
   };
 
   return (
-    <View style={{ flex: 1, borderRadius: 10, padding: 5 }}>
+    <View
+      style={{
+        flex: 1,
+        borderRadius: 10,
+        padding: 5,
+      }}
+    >
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View
           style={{
@@ -93,6 +73,7 @@ const EditProfile = () => {
           <View
             style={{
               margin: 20,
+              width: 250,
               backgroundColor: "white",
               borderRadius: 20,
               padding: 35,
@@ -107,7 +88,12 @@ const EditProfile = () => {
               elevation: 5,
             }}
           >
-            <Text style={{ marginBottom: 15, textAlign: "center" }}>
+            <Text
+              style={{
+                marginBottom: 15,
+                textAlign: "center",
+              }}
+            >
               {alertMessage}
             </Text>
           </View>
@@ -129,10 +115,10 @@ const EditProfile = () => {
         <View
           style={{
             backgroundColor: "blue",
-            flex: 2,
-            width: 100,
-            height: 100,
-            borderRadius: 50,
+            flex: 6,
+            width: 300,
+            height: 300,
+            borderRadius: 10,
             overflow: "hidden",
             elevation: 50,
           }}
@@ -143,7 +129,7 @@ const EditProfile = () => {
               width: "100%",
               height: "100%",
             }}
-            source={{ uri: userInfo.image || "default-image-uri" }}
+            // source={productInfo?.image}
           />
         </View>
         <View
@@ -155,10 +141,8 @@ const EditProfile = () => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity onPress={handleChooseImage}>
-            <Text style={{ fontSize: 12, color: "#574EFA" }}>
-              Change picture
-            </Text>
+          <TouchableOpacity>
+            <Text style={{ fontSize: 12, color: "#574EFA" }}>Change image</Text>
           </TouchableOpacity>
         </View>
 
@@ -172,7 +156,7 @@ const EditProfile = () => {
             gap: 5,
           }}
         >
-          <Text style={{ fontWeight: "500" }}>Name</Text>
+          <Text style={{ fontWeight: "500" }}>Product Title</Text>
           <TextInput
             style={{
               borderWidth: 1,
@@ -182,9 +166,9 @@ const EditProfile = () => {
               paddingVertical: 10,
               paddingHorizontal: 5,
             }}
-            value={userInfo.name}
-            onChangeText={(text) => handleChange("name", text)}
-            placeholder="Enter your name"
+            value={productInfo?.title}
+            onChangeText={(text) => handleChange("title", text)}
+            placeholder={productInfo.title}
           />
         </View>
         <View
@@ -198,43 +182,26 @@ const EditProfile = () => {
             gap: 5,
           }}
         >
-          <Text style={{ fontWeight: "500" }}>Bio</Text>
+          <Text style={{ fontWeight: "500" }}>Product Price</Text>
           <TextInput
             style={{
               borderWidth: 1,
               borderRadius: 7,
               width: "100%",
-              height: 100,
               borderColor: "lightgray",
               paddingVertical: 10,
               paddingHorizontal: 5,
-              textAlignVertical: "top",
             }}
-            multiline={true}
-            blurOnSubmit={true}
-            value={userInfo.bio}
-            onChangeText={(text) => handleChange("bio", text)}
-            placeholder="Enter your bio"
+            value={productInfo?.price}
+            onChangeText={(text) => handleChange("price", text)}
+            placeholder={productInfo.price}
           />
-        </View>
-        <View
-          style={{
-            flex: 2,
-            backgroundColor: "white",
-            justifyContent: "center",
-            width: "100%",
-            alignItems: "center",
-            paddingTop: 12,
-          }}
-        >
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            Social Media??
-          </Text>
         </View>
         <View
           style={{
             flex: 2.5,
             backgroundColor: "white",
+            paddingTop: 12,
             justifyContent: "center",
             width: "100%",
             alignItems: "center",
@@ -252,7 +219,7 @@ const EditProfile = () => {
             }}
             onPress={handleSubmit}
           >
-            <Text style={{ color: "white" }}>Submit</Text>
+            <Text style={{ color: "white" }}>Add Product</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -260,4 +227,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default AddProduct;
