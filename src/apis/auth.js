@@ -42,5 +42,8 @@ const updateProfile = async (userInfo) => {
     console.log(error);
   }
 };
+const logout = () => {
+  localStorage.removeItem("token");
+};
 
-export { register, getProfile, updateProfile, login };
+export { register, getProfile, updateProfile, login, logout };
