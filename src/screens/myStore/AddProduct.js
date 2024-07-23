@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createOneProduct } from "../../apis/products";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as ImagePicker from "expo-image-picker";
+import ImagePickerComp from "../../components/ImagePicker";
 
 const AddProduct = () => {
   const [productInfo, setProductInfo] = useState({
@@ -26,33 +27,6 @@ const AddProduct = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const navigation = useNavigation();
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== "web") {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
-        }
-      }
-    })();
-  }, []);
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.cancelled && result.assets && result.assets.length > 0) {
-      const uri = result.assets[0].uri;
-      setImage(result.uri);
-      setProductInfo({ ...productInfo, image: result.uri });
-    }
-  };
 
   const { mutate } = useMutation({
     mutationKey: ["createOneProduct"],
@@ -141,36 +115,14 @@ const AddProduct = () => {
           style={{
             backgroundColor: "blue",
             flex: 4,
-            width: 300,
-            height: 300,
+            width: "85%",
+            // height: 300,
             borderRadius: 10,
             overflow: "hidden",
             elevation: 50,
           }}
         >
-          {image && (
-            <Image
-              style={{
-                backgroundColor: "gray",
-                width: "100%",
-                height: "100%",
-              }}
-              source={{ uri: image }}
-            />
-          )}
-        </View>
-        <View
-          style={{
-            backgroundColor: "white",
-            flex: 0.5,
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity onPress={pickImage}>
-            <Text style={{ fontSize: 12, color: "#574EFA" }}>Change image</Text>
-          </TouchableOpacity>
+          <ImagePickerComp setImage={setImage} image={image} />
         </View>
         <KeyboardAwareScrollView
           style={{

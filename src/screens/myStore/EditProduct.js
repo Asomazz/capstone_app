@@ -13,7 +13,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteProduct, getProduct, updateProduct } from "../../apis/products";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as ImagePicker from "expo-image-picker";
+import ImagePickerComp from "../../components/ImagePicker";
 
 const EditProduct = () => {
   const route = useRoute();
@@ -23,20 +23,21 @@ const EditProduct = () => {
     price: "",
     description: "",
   });
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const navigation = useNavigation();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["getProduct", id],
     queryFn: () => getProduct(id),
   });
 
   const { mutate: updateProductMutate } = useMutation({
     mutationKey: ["updateProduct"],
-    mutationFn: ({ productInfo, id, image }) =>
-      updateProduct(productInfo, id, image),
+    mutationFn: () => {
+      updateProduct({ ...productInfo, image: image || data?.image }, id);
+    },
 
     onSuccess: () => {
       setAlertMessage("Product Updated!");
@@ -83,38 +84,13 @@ const EditProduct = () => {
   };
 
   const handleUpdate = () => {
-    const updateData = {
-      productInfo,
-      id,
-      image: image && image !== "undefined" ? image : null,
-    };
-    updateProductMutate(updateData);
+    updateProductMutate();
   };
 
   const handleDelete = () => {
     deleteProductMutate(id);
   };
-
-  const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to make this work!");
-      return;
-    }
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-      setProductInfo((prev) => ({ ...prev, image: result.uri }));
-    }
-  };
-
+  if (isLoading) return <Text>Loading...</Text>;
   return (
     <View
       style={{
@@ -184,14 +160,7 @@ const EditProduct = () => {
             elevation: 50,
           }}
         >
-          <Image
-            style={{
-              backgroundColor: "gray",
-              width: "100%",
-              height: "100%",
-            }}
-            source={{ uri: image }}
-          />
+          <ImagePickerComp setImage={setImage} image={image} />
         </View>
         <View
           style={{
@@ -201,11 +170,7 @@ const EditProduct = () => {
             alignItems: "center",
             justifyContent: "center",
           }}
-        >
-          <TouchableOpacity onPress={pickImage}>
-            <Text style={{ fontSize: 12, color: "#574EFA" }}>Change image</Text>
-          </TouchableOpacity>
-        </View>
+        ></View>
         <KeyboardAwareScrollView
           style={{
             borderTopEndRadius: 10,
