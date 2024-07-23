@@ -1,20 +1,27 @@
-import React, { useEffect, useState } from "react";
 import {
-  View,
+  StyleSheet,
   Text,
+  View,
   Image,
   Modal,
-  TextInput,
-  TouchableOpacity,
-  Platform,
+  Pressable,
+  Alert,
 } from "react-native";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { getProfile, updateProfile } from "../../apis/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import * as ImagePicker from "expo-image-picker";
 
 const EditProfile = () => {
-  const [userInfo, setUserInfo] = useState({ image: "", name: "", bio: "" });
+  const [userInfo, setUserInfo] = useState({
+    image: "",
+    name: "",
+    bio: "",
+    instagram: "",
+    snapchat: "",
+    twitter: "",
+  });
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const navigation = useNavigation();
@@ -44,35 +51,10 @@ const EditProfile = () => {
     if (data) {
       setUserInfo(data);
     }
-
-    const requestPermission = async () => {
-      if (Platform.OS !== "web") {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
-        }
-      }
-    };
-
-    requestPermission();
   }, [data]);
 
   const handleChange = (key, value) => {
     setUserInfo((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const handleChooseImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setUserInfo((prev) => ({ ...prev, image: result.uri }));
-    }
   };
 
   const handleSubmit = () => {
@@ -80,7 +62,13 @@ const EditProfile = () => {
   };
 
   return (
-    <View style={{ flex: 1, borderRadius: 10, padding: 5 }}>
+    <View
+      style={{
+        flex: 1,
+        borderRadius: 10,
+        padding: 5,
+      }}
+    >
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View
           style={{
@@ -107,7 +95,12 @@ const EditProfile = () => {
               elevation: 5,
             }}
           >
-            <Text style={{ marginBottom: 15, textAlign: "center" }}>
+            <Text
+              style={{
+                marginBottom: 15,
+                textAlign: "center",
+              }}
+            >
               {alertMessage}
             </Text>
           </View>
@@ -130,9 +123,9 @@ const EditProfile = () => {
           style={{
             backgroundColor: "blue",
             flex: 2,
-            width: 100,
-            height: 100,
-            borderRadius: 50,
+            width: 115,
+            height: 150,
+            borderRadius: 100,
             overflow: "hidden",
             elevation: 50,
           }}
@@ -143,19 +136,18 @@ const EditProfile = () => {
               width: "100%",
               height: "100%",
             }}
-            source={{ uri: userInfo.image || "default-image-uri" }}
+            // source={userInfo?.image}
           />
         </View>
         <View
           style={{
-            backgroundColor: "white",
             flex: 0.5,
             width: "100%",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity onPress={handleChooseImage}>
+          <TouchableOpacity>
             <Text style={{ fontSize: 12, color: "#574EFA" }}>
               Change picture
             </Text>
@@ -168,7 +160,7 @@ const EditProfile = () => {
             width: "100%",
             alignItems: "flex-start",
             justifyContent: "center",
-            padding: 30,
+            paddingHorizontal: 30,
             gap: 5,
           }}
         >
@@ -182,19 +174,18 @@ const EditProfile = () => {
               paddingVertical: 10,
               paddingHorizontal: 5,
             }}
-            value={userInfo.name}
+            value={userInfo?.name}
             onChangeText={(text) => handleChange("name", text)}
-            placeholder="Enter your name"
+            placeholder={userInfo.name}
           />
         </View>
         <View
           style={{
-            backgroundColor: "white",
-            flex: 2,
+            flex: 2.5,
             justifyContent: "center",
             width: "100%",
             alignItems: "flex-start",
-            padding: 30,
+            paddingHorizontal: 30,
             gap: 5,
           }}
         >
@@ -212,29 +203,68 @@ const EditProfile = () => {
             }}
             multiline={true}
             blurOnSubmit={true}
-            value={userInfo.bio}
+            value={userInfo?.bio}
             onChangeText={(text) => handleChange("bio", text)}
-            placeholder="Enter your bio"
+            placeholder="Who are you? talk about yourself briefly"
           />
         </View>
         <View
           style={{
-            flex: 2,
-            backgroundColor: "white",
-            justifyContent: "center",
+            flex: 3,
             width: "100%",
-            alignItems: "center",
-            paddingTop: 12,
+            alignItems: "flex-start",
+            justifyContent: "center",
+            paddingHorizontal: 30,
+            gap: 5,
           }}
         >
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            Social Media??
-          </Text>
+          <Text style={{ fontWeight: "500" }}>Social Media Accounts</Text>
+          <TextInput
+            style={{
+              borderWidth: 1,
+              borderRadius: 7,
+              width: "100%",
+              borderColor: "lightgray",
+              paddingVertical: 10,
+              paddingHorizontal: 5,
+            }}
+            value={userInfo?.instagram}
+            onChangeText={(text) => handleChange("instagram", text)}
+            placeholder="Paste URL here"
+          />
+          <TextInput
+            style={{
+              borderWidth: 1,
+              borderRadius: 7,
+              width: "100%",
+              borderColor: "lightgray",
+              paddingVertical: 10,
+              paddingHorizontal: 5,
+            }}
+            value={userInfo?.snapchat}
+            onChangeText={(text) => handleChange("snapchat", text)}
+            placeholder="Paste URL here"
+          />
+          <TextInput
+            style={{
+              borderWidth: 1,
+              borderRadius: 7,
+              width: "100%",
+              borderColor: "lightgray",
+              paddingVertical: 10,
+              paddingHorizontal: 5,
+            }}
+            value={userInfo?.twitter}
+            onChangeText={(text) => handleChange("twitter", text)}
+            placeholder="Paste URL here"
+          />
         </View>
+
         <View
           style={{
-            flex: 2.5,
+            flex: 1,
             backgroundColor: "white",
+            paddingTop: 12,
             justifyContent: "center",
             width: "100%",
             alignItems: "center",
