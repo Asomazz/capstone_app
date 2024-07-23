@@ -12,6 +12,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { getProfile, updateProfile } from "../../apis/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import AntDesign from "react-native-vector-icons/AntDesign"; //instagram //twitter
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"; //snapchat
+import FontAwesome6 from "react-native-vector-icons/FontAwesome6"; //x-twitter
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const EditProfile = () => {
   const [userInfo, setUserInfo] = useState({
@@ -153,113 +157,180 @@ const EditProfile = () => {
             </Text>
           </TouchableOpacity>
         </View>
-
-        <View
+        <KeyboardAwareScrollView
           style={{
-            flex: 1,
+            borderTopEndRadius: 10,
             width: "100%",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            paddingHorizontal: 30,
-            gap: 5,
+          }}
+          contentContainerStyle={{
+            // flex: 10,
+            justifyContent: "space-evenly",
+            alignItems: "center",
           }}
         >
-          <Text style={{ fontWeight: "500" }}>Name</Text>
-          <TextInput
+          <View
             style={{
-              borderWidth: 1,
-              borderRadius: 7,
+              flex: 1,
               width: "100%",
-              borderColor: "lightgray",
-              paddingVertical: 10,
-              paddingHorizontal: 5,
+              alignItems: "flex-start",
+              justifyContent: "center",
+              paddingHorizontal: 30,
+              paddingVertical: 5,
+              gap: 5,
             }}
-            value={userInfo?.name}
-            onChangeText={(text) => handleChange("name", text)}
-            placeholder={userInfo.name}
-          />
-        </View>
-        <View
-          style={{
-            flex: 2.5,
-            justifyContent: "center",
-            width: "100%",
-            alignItems: "flex-start",
-            paddingHorizontal: 30,
-            gap: 5,
-          }}
-        >
-          <Text style={{ fontWeight: "500" }}>Bio</Text>
-          <TextInput
+          >
+            <Text style={{ fontWeight: "500" }}>Name</Text>
+            <TextInput
+              style={{
+                borderWidth: 1,
+                borderRadius: 7,
+                width: "100%",
+                borderColor: "lightgray",
+                paddingVertical: 10,
+                paddingHorizontal: 5,
+              }}
+              value={userInfo?.name}
+              onChangeText={(text) => handleChange("name", text)}
+              placeholder={userInfo.name}
+            />
+          </View>
+          <View
             style={{
-              borderWidth: 1,
-              borderRadius: 7,
+              flex: 2.5,
+              justifyContent: "center",
               width: "100%",
-              height: 100,
-              borderColor: "lightgray",
-              paddingVertical: 10,
-              paddingHorizontal: 5,
-              textAlignVertical: "top",
+              alignItems: "flex-start",
+              paddingHorizontal: 30,
+              paddingVertical: 5,
+              gap: 5,
             }}
-            multiline={true}
-            blurOnSubmit={true}
-            value={userInfo?.bio}
-            onChangeText={(text) => handleChange("bio", text)}
-            placeholder="Who are you? talk about yourself briefly"
-          />
-        </View>
-        <View
-          style={{
-            flex: 3,
-            width: "100%",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            paddingHorizontal: 30,
-            gap: 5,
-          }}
-        >
-          <Text style={{ fontWeight: "500" }}>Social Media Accounts</Text>
-          <TextInput
+          >
+            <Text style={{ fontWeight: "500" }}>Bio</Text>
+            <TextInput
+              style={{
+                borderWidth: 1,
+                borderRadius: 7,
+                width: "100%",
+                height: 100,
+                borderColor: "lightgray",
+                paddingVertical: 10,
+                paddingHorizontal: 5,
+                textAlignVertical: "top",
+              }}
+              multiline={true}
+              blurOnSubmit={true}
+              value={userInfo?.bio}
+              onChangeText={(text) => handleChange("bio", text)}
+              placeholder="Who are you? talk about yourself briefly"
+            />
+          </View>
+          <View
             style={{
-              borderWidth: 1,
-              borderRadius: 7,
+              flex: 3,
               width: "100%",
-              borderColor: "lightgray",
-              paddingVertical: 10,
-              paddingHorizontal: 5,
+              alignItems: "flex-start",
+              justifyContent: "center",
+              paddingHorizontal: 30,
+              paddingVertical: 5,
+              gap: 5,
             }}
-            value={userInfo?.instagram}
-            onChangeText={(text) => handleChange("instagram", text)}
-            placeholder="Paste URL here"
-          />
-          <TextInput
-            style={{
-              borderWidth: 1,
-              borderRadius: 7,
-              width: "100%",
-              borderColor: "lightgray",
-              paddingVertical: 10,
-              paddingHorizontal: 5,
-            }}
-            value={userInfo?.snapchat}
-            onChangeText={(text) => handleChange("snapchat", text)}
-            placeholder="Paste URL here"
-          />
-          <TextInput
-            style={{
-              borderWidth: 1,
-              borderRadius: 7,
-              width: "100%",
-              borderColor: "lightgray",
-              paddingVertical: 10,
-              paddingHorizontal: 5,
-            }}
-            value={userInfo?.twitter}
-            onChangeText={(text) => handleChange("twitter", text)}
-            placeholder="Paste URL here"
-          />
-        </View>
-
+          >
+            <Text style={{ fontWeight: "500" }}>Social Media Accounts</Text>
+            <View
+              style={{
+                flex: 2.5,
+                justifyContent: "flex-end",
+                width: 333,
+                alignItems: "center",
+                paddingHorizontal: 30,
+                gap: 5,
+                flexDirection: "row",
+              }}
+            >
+              <AntDesign
+                name="instagram"
+                size={25}
+                color="#342B7F"
+                style={{ marginLeft: 7 }}
+              />
+              <TextInput
+                style={{
+                  borderWidth: 1,
+                  borderRadius: 7,
+                  width: "100%",
+                  borderColor: "lightgray",
+                  paddingVertical: 10,
+                  paddingHorizontal: 5,
+                }}
+                value={userInfo?.instagram}
+                onChangeText={(text) => handleChange("instagram", text)}
+                placeholder="Paste URL here"
+              />
+            </View>
+            <View
+              style={{
+                flex: 2.5,
+                justifyContent: "flex-end",
+                width: 333,
+                alignItems: "center",
+                paddingHorizontal: 30,
+                gap: 5,
+                flexDirection: "row",
+              }}
+            >
+              <MaterialIcons
+                name="snapchat"
+                size={25}
+                color="#342B7F"
+                style={{ marginLeft: 7 }}
+              />
+              <TextInput
+                style={{
+                  borderWidth: 1,
+                  borderRadius: 7,
+                  width: "100%",
+                  borderColor: "lightgray",
+                  paddingVertical: 10,
+                  paddingHorizontal: 5,
+                }}
+                value={userInfo?.snapchat}
+                onChangeText={(text) => handleChange("snapchat", text)}
+                placeholder="Paste URL here"
+              />
+            </View>
+            <View
+              style={{
+                flex: 2.5,
+                justifyContent: "flex-end",
+                width: 333,
+                alignItems: "center",
+                paddingHorizontal: 30,
+                gap: 5,
+                flexDirection: "row",
+              }}
+            >
+              <FontAwesome6
+                name="x-twitter"
+                size={25}
+                color="#342B7F"
+                style={{ marginLeft: 7 }}
+              />
+              <TextInput
+                style={{
+                  borderWidth: 1,
+                  borderRadius: 7,
+                  width: "100%",
+                  borderColor: "lightgray",
+                  paddingVertical: 10,
+                  paddingHorizontal: 5,
+                }}
+                value={userInfo?.twitter}
+                onChangeText={(text) => handleChange("twitter", text)}
+                placeholder="Paste URL here"
+              />
+            </View>
+          </View>
+        </KeyboardAwareScrollView>
         <View
           style={{
             flex: 1,
