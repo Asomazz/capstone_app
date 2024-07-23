@@ -17,6 +17,7 @@ const login = async (userInfo) => {
     if (data.token) {
       storeToken(data.token);
     }
+    return data.token;
   } catch (error) {
     console.log(error);
   }
