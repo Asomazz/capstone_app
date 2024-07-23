@@ -26,7 +26,6 @@ const Login = () => {
     onSuccess: (data) => {
       if (!data) return;
       setUser(true);
-      navigation.navigate("mainNavigation");
     },
   });
   const handleSubmit = (e) => {
