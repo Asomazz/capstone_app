@@ -7,6 +7,7 @@ import {
   Pressable,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -84,6 +85,7 @@ const EditProduct = () => {
   };
 
   const handleUpdate = () => {
+    if (!productInfo.price) return Alert.alert("please add a price");
     updateProductMutate();
   };
 
@@ -229,6 +231,7 @@ const EditProduct = () => {
               defaultValue={data?.price}
               onChangeText={(text) => handleChange("price", text)}
               value={productInfo?.price}
+              keyboardType="numeric"
             />
           </View>
           <View

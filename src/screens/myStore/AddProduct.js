@@ -184,6 +184,7 @@ const AddProduct = () => {
               value={productInfo?.price}
               onChangeText={(text) => handleChange("price", text)}
               placeholder={productInfo.price}
+              keyboardType="numeric"
             />
           </View>
           <View
