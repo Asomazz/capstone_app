@@ -7,11 +7,14 @@ import {
   Pressable,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteProduct, getProduct, updateProduct } from "../../apis/products";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import ImagePickerComp from "../../components/ImagePicker";
 
 const EditProduct = () => {
   const route = useRoute();
@@ -19,21 +22,23 @@ const EditProduct = () => {
   const [productInfo, setProductInfo] = useState({
     title: "",
     price: "",
+    description: "",
   });
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const navigation = useNavigation();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["getProduct", id],
     queryFn: () => getProduct(id),
   });
 
   const { mutate: updateProductMutate } = useMutation({
     mutationKey: ["updateProduct"],
-    mutationFn: ({ productInfo, id, image }) =>
-      updateProduct(productInfo, id, image),
+    mutationFn: () => {
+      updateProduct({ ...productInfo, image: image || data?.image }, id);
+    },
 
     onSuccess: () => {
       setAlertMessage("Product Updated!");
@@ -69,7 +74,7 @@ const EditProduct = () => {
       setProductInfo({
         title: data.title,
         price: data.price,
-        image: data.image,
+        description: data.description,
       });
       setImage(data.image);
     }
@@ -80,19 +85,14 @@ const EditProduct = () => {
   };
 
   const handleUpdate = () => {
-    // Ensure image is only passed if it's valid
-    const updateData = {
-      productInfo,
-      id,
-      image: image && image !== "undefined" ? image : null, // Pass null if image is not valid
-    };
-    updateProductMutate(updateData);
+    if (!productInfo.price) return Alert.alert("please add a price");
+    updateProductMutate();
   };
 
   const handleDelete = () => {
     deleteProductMutate(id);
   };
-
+  if (isLoading) return <Text>Loading...</Text>;
   return (
     <View
       style={{
@@ -148,14 +148,13 @@ const EditProduct = () => {
           overflow: "hidden",
           justifyContent: "center",
           alignItems: "center",
-          gap: 10,
           padding: 10,
         }}
       >
         <View
           style={{
             backgroundColor: "blue",
-            flex: 6,
+            flex: 4,
             width: 300,
             height: 300,
             borderRadius: 10,
@@ -163,14 +162,7 @@ const EditProduct = () => {
             elevation: 50,
           }}
         >
-          <Image
-            style={{
-              backgroundColor: "gray",
-              width: "100%",
-              height: "100%",
-            }}
-            source={productInfo?.image}
-          />
+          <ImagePickerComp setImage={setImage} image={image} />
         </View>
         <View
           style={{
@@ -180,103 +172,138 @@ const EditProduct = () => {
             alignItems: "center",
             justifyContent: "center",
           }}
-        >
-          <TouchableOpacity>
-            <Text style={{ fontSize: 12, color: "#574EFA" }}>Change image</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View
+        ></View>
+        <KeyboardAwareScrollView
           style={{
-            flex: 1,
+            borderTopEndRadius: 10,
             width: "100%",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            padding: 30,
-            gap: 5,
           }}
-        >
-          <Text style={{ fontWeight: "500" }}>Product Title</Text>
-          <TextInput
-            style={{
-              borderWidth: 1,
-              borderRadius: 7,
-              width: "100%",
-              borderColor: "lightgray",
-              paddingVertical: 10,
-              paddingHorizontal: 5,
-            }}
-            value={productInfo?.title}
-            onChangeText={(text) => handleChange("title", text)}
-            defaultValue={data?.title}
-          />
-        </View>
-        <View
-          style={{
-            backgroundColor: "white",
-            flex: 2,
-            justifyContent: "center",
-            width: "100%",
-            alignItems: "flex-start",
-            padding: 30,
-            gap: 5,
-          }}
-        >
-          <Text style={{ fontWeight: "500" }}>Product Price</Text>
-          <TextInput
-            style={{
-              borderWidth: 1,
-              borderRadius: 7,
-              width: "100%",
-              borderColor: "lightgray",
-              paddingVertical: 10,
-              paddingHorizontal: 5,
-            }}
-            defaultValue={data?.price}
-            onChangeText={(text) => handleChange("price", text)}
-            value={productInfo?.price}
-          />
-        </View>
-        <View
-          style={{
-            flex: 2.5,
-            backgroundColor: "white",
-            paddingTop: 12,
-            justifyContent: "center",
-            width: "100%",
+          contentContainerStyle={{
+            // flex: 10,
+            justifyContent: "space-evenly",
             alignItems: "center",
-            gap: 10,
           }}
         >
-          <TouchableOpacity
+          <View
             style={{
-              backgroundColor: "#574EFA",
-              borderRadius: 7,
+              flex: 1,
+              width: "100%",
+              alignItems: "flex-start",
               justifyContent: "center",
-              alignItems: "center",
-              padding: 10,
-              width: 300,
-              height: 45,
+              padding: 30,
             }}
-            onPress={handleUpdate}
           >
-            <Text style={{ color: "white" }}>Update</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            <Text style={{ fontWeight: "500" }}>Product Title</Text>
+            <TextInput
+              style={{
+                borderWidth: 1,
+                borderRadius: 7,
+                width: "100%",
+                borderColor: "lightgray",
+                paddingVertical: 10,
+                paddingHorizontal: 5,
+              }}
+              value={productInfo?.title}
+              onChangeText={(text) => handleChange("title", text)}
+              defaultValue={data?.title}
+            />
+          </View>
+          <View
             style={{
-              backgroundColor: "#FF6F6F",
-              borderRadius: 7,
+              backgroundColor: "white",
+              flex: 1,
               justifyContent: "center",
-              alignItems: "center",
-              padding: 10,
-              width: 300,
-              height: 45,
+              width: "100%",
+              alignItems: "flex-start",
+              padding: 30,
             }}
-            onPress={handleDelete}
           >
-            <Text style={{ color: "white" }}>Delete</Text>
-          </TouchableOpacity>
-        </View>
+            <Text style={{ fontWeight: "500" }}>Product Price</Text>
+            <TextInput
+              style={{
+                borderWidth: 1,
+                borderRadius: 7,
+                width: "100%",
+                borderColor: "lightgray",
+                paddingVertical: 10,
+                paddingHorizontal: 5,
+              }}
+              defaultValue={data?.price}
+              onChangeText={(text) => handleChange("price", text)}
+              value={productInfo?.price}
+              keyboardType="numeric"
+            />
+          </View>
+          <View
+            style={{
+              backgroundColor: "white",
+              flex: 1,
+              justifyContent: "center",
+              width: "100%",
+              alignItems: "flex-start",
+              padding: 30,
+            }}
+          >
+            <Text style={{ fontWeight: "500" }}>Product Description</Text>
+            <TextInput
+              style={{
+                borderWidth: 1,
+                borderRadius: 7,
+                width: "100%",
+                height: 80,
+                borderColor: "lightgray",
+                paddingVertical: 10,
+                paddingHorizontal: 5,
+                textAlignVertical: "top",
+              }}
+              defaultValue={data?.description}
+              onChangeText={(text) => handleChange("description", text)}
+              value={productInfo?.description}
+              multiline={true}
+              blurOnSubmit={true}
+            />
+          </View>
+          <View
+            style={{
+              flex: 2.5,
+              backgroundColor: "white",
+              paddingTop: 12,
+              justifyContent: "center",
+              width: "100%",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#574EFA",
+                borderRadius: 7,
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 10,
+                width: 300,
+                height: 45,
+              }}
+              onPress={handleUpdate}
+            >
+              <Text style={{ color: "white" }}>Update</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#FF6F6F",
+                borderRadius: 7,
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 10,
+                width: 300,
+                height: 45,
+              }}
+              onPress={handleDelete}
+            >
+              <Text style={{ color: "white" }}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAwareScrollView>
       </View>
     </View>
   );

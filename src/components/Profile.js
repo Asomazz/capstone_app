@@ -3,7 +3,10 @@ import React, { useCallback, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../apis/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome"; //pencil
+import AntDesign from "react-native-vector-icons/AntDesign"; //instagram //twitter
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"; //snapchat
+import FontAwesome6 from "react-native-vector-icons/FontAwesome6"; //x-twitter
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { BASE_URL } from "../apis";
 
@@ -123,14 +126,59 @@ const Profile = () => {
           flex: 4,
           backgroundColor: "white",
           overflow: "hidden",
-          justifyContent: "center",
+          justifyContent: "space-evenly",
           alignItems: "center",
+          flexDirection: "row",
         }}
       >
-        <Text>Social Media links</Text>
+        {userInfo?.instagram && (
+          <AntDesign
+            name="instagram"
+            size={25}
+            color="#342B7F"
+            style={{ marginLeft: 7 }}
+          />
+        )}
+        {userInfo?.snapchat && (
+          <MaterialIcons
+            name="snapchat"
+            size={25}
+            color="#342B7F"
+            style={{ marginLeft: 7 }}
+          />
+        )}
+        {userInfo?.twitter && (
+          <FontAwesome6
+            name="x-twitter"
+            size={25}
+            color="#342B7F"
+            style={{ marginLeft: 7 }}
+          />
+        )}
       </View>
     </View>
   );
 };
 
 export default Profile;
+
+{
+  /* <AntDesign
+name="instagram"
+size={25}
+color="#342B7F"
+style={{ marginLeft: 7 }}
+/>
+<MaterialIcons
+name="snapchat"
+size={25}
+color="#342B7F"
+style={{ marginLeft: 7 }}
+/>
+<FontAwesome6
+name="x-twitter"
+size={25}
+color="#342B7F"
+style={{ marginLeft: 7 }}
+/> */
+}

@@ -1,13 +1,33 @@
 import instance from ".";
 import * as SecureStore from "expo-secure-store";
-
 const createOneProduct = async (productInfo) => {
   try {
     const formData = new FormData();
+
     for (let key in productInfo) {
-      formData.append(key, productInfo[key]);
+      if (key === "image" && productInfo[key]) {
+        const localUri = productInfo[key];
+        const filename = localUri.split("/").pop();
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : `image`;
+
+        const response = await fetch(localUri);
+        const blob = await response.blob();
+        formData.append(key, {
+          uri: localUri,
+          name: filename,
+          type: type,
+        });
+      } else {
+        formData.append(key, productInfo[key]);
+      }
     }
-    const { data } = await instance.post("/product/", formData);
+
+    const { data } = await instance.post("/product/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);
@@ -16,9 +36,28 @@ const createOneProduct = async (productInfo) => {
 
 const updateProduct = async (productInfo, id) => {
   try {
+    console.log(productInfo);
     const formData = new FormData();
+
     for (let key in productInfo) {
-      formData.append(key, productInfo[key]);
+      if (key === "image" && productInfo[key]) {
+        if (!productInfo[key].includes("media/")) {
+          const localUri = productInfo[key];
+          const filename = localUri.split("/").pop();
+          const match = /\.(\w+)$/.exec(filename);
+          const type = match ? `image/${match[1]}` : `image`;
+
+          const response = await fetch(localUri);
+          const blob = await response.blob();
+          formData.append(key, {
+            uri: localUri,
+            name: filename,
+            type: type,
+          });
+        }
+      } else {
+        formData.append(key, productInfo[key]);
+      }
     }
 
     const { data } = await instance.put(`/product/${id}`, formData);
