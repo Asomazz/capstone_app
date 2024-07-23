@@ -10,7 +10,7 @@ const ProductsList = () => {
     queryKey: ["products"],
     queryFn: () => getAllProducts(),
   });
-
+  console.log(data);
   useFocusEffect(
     useCallback(() => {
       refetch();
