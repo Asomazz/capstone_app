@@ -9,6 +9,7 @@ const ProductCard = ({ _id, title, link, price }) => {
   const handlePress = () => {
     navigation.navigate("editProduct", { id: _id });
   };
+  console.log(link);
   return (
     <View
       style={{
