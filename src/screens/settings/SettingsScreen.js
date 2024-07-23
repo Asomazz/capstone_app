@@ -1,13 +1,20 @@
 import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { Switch, TouchableOpacity } from "react-native-gesture-handler";
 import { logout } from "../../apis/auth";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { removeToken } from "../../apis/storage";
+import UserContext from "../../context/UserContext";
 
 const SettingsScreen = () => {
-  const handlelogout = () => {};
+  const [user, setUser] = useContext(UserContext);
+
+  const handlelogout = () => {
+    removeToken();
+    setUser(false);
+  };
   const navigation = useNavigation();
   const handleGobilling = () => {
     navigation.navigate("billing");
@@ -15,7 +22,9 @@ const SettingsScreen = () => {
   const handleGohelp = () => {
     navigation.navigate("helpcenter");
   };
-
+  const handleGoSecurity = () => {
+    navigation.navigate("securitypage");
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
@@ -150,7 +159,10 @@ const SettingsScreen = () => {
           </Text>
           <AntDesign name="right" size={20} color="black" />
         </View>
-        <View
+
+        <TouchableOpacity
+          title="Security Page"
+          onPress={handleGoSecurity}
           style={{
             justifyContent: "space-between",
             alignItems: "center",
@@ -169,11 +181,12 @@ const SettingsScreen = () => {
             Security
           </Text>
           <AntDesign name="right" size={20} color="black" />
-        </View>
+        </TouchableOpacity>
       </View>
 
       <View>
         <TouchableOpacity
+          onPress={handlelogout}
           style={{
             backgroundColor: "white",
             flexDirection: "row",

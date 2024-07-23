@@ -18,7 +18,7 @@ const getToken = async () => {
   return token;
 };
 
-const removeToken = async (token) => {
+const removeToken = async () => {
   await SecureStore.deleteItemAsync("token");
 };
 

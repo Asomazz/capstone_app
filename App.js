@@ -33,7 +33,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <UserContext.Provider value={[user, setUser]}>
           <NavigationContainer>
-            {!user ? <MainNavigation /> : <AuthNavigation />}
+            {user ? <MainNavigation /> : <AuthNavigation />}
           </NavigationContainer>
         </UserContext.Provider>
       </QueryClientProvider>

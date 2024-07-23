@@ -17,6 +17,7 @@ const login = async (userInfo) => {
     if (data.token) {
       storeToken(data.token);
     }
+    return data.token;
   } catch (error) {
     console.log(error);
   }
@@ -50,8 +51,5 @@ const updateProfile = async (userInfo, image) => {
     console.log(error);
   }
 };
-const logout = () => {
-  localStorage.removeItem("token");
-};
 
-export { register, getProfile, updateProfile, login, logout };
+export { getProfile, login, register, updateProfile };
