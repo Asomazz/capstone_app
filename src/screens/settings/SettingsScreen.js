@@ -11,11 +11,21 @@ import UserContext from "../../context/UserContext";
 const SettingsScreen = () => {
   const [user, setUser] = useContext(UserContext);
 
+<<<<<<< HEAD
+=======
   const handlelogout = () => {
     removeToken();
     setUser(false);
   };
+>>>>>>> origin/main
   const navigation = useNavigation();
+
+  const handlelogout = () => {
+    removeToken;
+    setUser(false);
+    navigation.navigate("start");
+  };
+
   const handleGobilling = () => {
     navigation.navigate("billing");
   };
@@ -202,6 +212,7 @@ const SettingsScreen = () => {
             borderWidth: 1,
           }}
           title="Logout"
+          onPress={handlelogout}
         >
           <Text
             style={{

@@ -99,7 +99,7 @@ const Profile = () => {
             title="Edit Profile"
             onPress={handleGoToEdit}
           >
-            <Text style={{ fontSize: 10, color: "#574EFA" }}>Edit Profile</Text>
+            <Text style={{ fontSize: 15, color: "#574EFA" }}>Edit Profile</Text>
             <Icon
               name="pencil"
               size={12}

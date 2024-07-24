@@ -36,7 +36,6 @@ const createOneProduct = async (productInfo) => {
 
 const updateProduct = async (productInfo, id) => {
   try {
-    console.log(productInfo);
     const formData = new FormData();
 
     for (let key in productInfo) {

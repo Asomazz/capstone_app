@@ -81,6 +81,7 @@ const EditProduct = () => {
   }, [data]);
 
   const handleChange = (key, value) => {
+    console.log("first");
     setProductInfo((prev) => ({ ...prev, [key]: value }));
   };
 

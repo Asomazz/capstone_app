@@ -1,16 +1,17 @@
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
-import { Image, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+
 import { BASE_URL } from "../apis";
 
 export default function ImagePickerComp({
   image,
   setImage,
-  buttonTitle = "اختر صورة",
+  buttonTitle = "choose Image",
 }) {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -27,7 +28,7 @@ export default function ImagePickerComp({
       style={{
         alignItems: "flex-end",
         justifyContent: "flex-end",
-        backgroundColor: "red",
+        backgroundColor: "lightgray",
         width: "100%",
         height: "100%",
       }}
