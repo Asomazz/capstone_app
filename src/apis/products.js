@@ -68,7 +68,7 @@ const updateProduct = async (productInfo, id) => {
 
 const getAllProducts = async () => {
   try {
-    const { data } = await instance.get("/product/creator");
+    const { data } = await instance.get("/product");
     return data;
   } catch (error) {
     console.log(error);

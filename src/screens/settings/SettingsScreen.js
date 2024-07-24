@@ -11,13 +11,6 @@ import UserContext from "../../context/UserContext";
 const SettingsScreen = () => {
   const [user, setUser] = useContext(UserContext);
 
-<<<<<<< HEAD
-=======
-  const handlelogout = () => {
-    removeToken();
-    setUser(false);
-  };
->>>>>>> origin/main
   const navigation = useNavigation();
 
   const handlelogout = () => {
