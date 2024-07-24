@@ -50,8 +50,7 @@ const Dashboard = () => {
     <ScrollView
     refreshControl={
       <RefreshControl
-        refreshing={isRefetching}
-        onRefresh={refetch}
+      storeClicks
       />}
     style={styles.container}>
       <View style={styles.headerContainer}>
