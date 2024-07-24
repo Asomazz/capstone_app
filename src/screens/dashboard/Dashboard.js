@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { Dimensions, ScrollView, StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, View, ActivityIndicator, RefreshControl } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { getProfile } from "../../apis/auth";
 
 const screenWidth = Dimensions.get("window").width;
 
 const Dashboard = () => {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading,refetch,isRefetching } = useQuery({
     queryKey: ["creatorProfile"],
     queryFn: getProfile,
   });
@@ -16,16 +16,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (data && data.receipts) {
-      // Sort receipts by createdAt date in descending order
       const sortedReceipts = data.receipts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      // Get the 7 most recent receipts
       const recentReceipts = sortedReceipts.slice(0, 5);
       const labels = recentReceipts.map((entry) => {
         const date = new Date(entry.createdAt);
         return `${date.getDate()}/${date.getMonth() + 1}`;
-      }).reverse(); // Reverse to maintain chronological order
+      }).reverse(); 
       const dataset = recentReceipts.map((entry) => entry.totalAmount).reverse();
-      setChartData({ labels, datasets: [{ data: dataset, color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, strokeWidth: 2 }] });
+      setChartData({ labels, datasets: [{ data: dataset.length ? dataset : [0], color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, strokeWidth: 2 }] });
     }
   }, [data]);
 
@@ -49,14 +47,20 @@ const Dashboard = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+    refreshControl={
+      <RefreshControl
+        refreshing={isRefetching}
+        onRefresh={refetch}
+      />}
+    style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.dashboardText}>Welcome {data?.username} to your Fluid Store Dashboard</Text>
         <Text style={styles.revenueText}>Total Revenue:</Text>
         <Text style={styles.revenueAmount}>{totalRevenue} KWD</Text>
       </View>
       <View style={styles.chartContainer}>
-        <LineChart
+      { data?.receipts && <LineChart
           data={chartData}
           width={screenWidth - 20}
           height={250}
@@ -71,14 +75,14 @@ const Dashboard = () => {
           withInnerLines
           withOuterLines
           yAxisLabel=""
-          yAxisSuffix=" KWD"
+          yAxisSuffix=""
           yAxisInterval={1}
           style={styles.chart}
-        />
+        />}
       </View>
       <View style={styles.ordersContainer}>
         <Text style={styles.ordersTitle}>Your Recent Orders:</Text>
-        {receipts.slice(0, 7).map((receipt) => (
+        {receipts.slice(0, 5).map((receipt) => (
           <View key={receipt._id} style={styles.orderCard}>
             <Text style={styles.orderText}>Receipt Number: {receipt._id}</Text>
             <Text style={styles.orderText}>Timestamp: {new Date(receipt.createdAt).toLocaleString()}</Text>
