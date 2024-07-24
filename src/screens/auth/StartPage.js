@@ -1,73 +1,95 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import logo from "../../../assets/logo.png";
 
 const StartPage = () => {
   const navigation = useNavigation();
+
   const handleGoToLogin = () => {
     navigation.navigate("login");
   };
+
   const handleGoToRegister = () => {
     navigation.navigate("register");
   };
+
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{
-          flex: 3,
-          justifyContent: "center",
-          alignItems: "flex-start",
-          padding: 20,
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Image source={logo} style={styles.logo} resizeMode="contain" />
+      </View>
 
-          overflow: "hidden",
-        }}
-      >
-        <Text style={{ fontSize: 30, color: "#574EFA" }}>
-          <Text style={{}}>Our Mission</Text>
-          <Text>
-            to empower every single Creator to make a living working for
-            themselves
-          </Text>
-        </Text>
+      <View style={styles.content}>
+        <Text style={styles.title}>Welcome to</Text>
+        <Text style={styles.subtitle}>Empower Your Creativity</Text>
 
-        <View></View>
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#574EFA",
-              borderRadius: 100,
-              justifyContent: "center",
-              alignItems: "center",
-              padding: 10,
-              width: 180,
-              height: 45,
-            }}
-            onPress={handleGoToRegister}
-          >
-            <Text style={{ color: "white", fontSize: 18 }}>Register Page</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#574EFA",
-              borderRadius: 100,
-              justifyContent: "center",
-              alignItems: "center",
-              padding: 10,
-              width: 180,
-              height: 45,
-            }}
-            title="Go to Login"
-            onPress={handleGoToLogin}
-          >
-            <Text style={{ color: "white", fontSize: 18 }}>Login Page</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={[styles.button, styles.registerButton]}
+          onPress={handleGoToRegister}
+        >
+          <Text style={styles.buttonText}>Get Started</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.loginButton]}
+          onPress={handleGoToLogin}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default StartPage;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F5F5F5",
+  },
+  header: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 50,
+  },
+  logo: {
+    width: 200,
+    height: 200,
+  },
+  content: {
+    flex: 2,
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#333",
+    marginTop: 20,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: "#666",
+    marginBottom: 30,
+  },
+  button: {
+    width: "80%",
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  registerButton: {
+    backgroundColor: "#574EFA",
+  },
+  loginButton: {
+    backgroundColor: "#50D2C2",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+  },
+});
 
-const styles = StyleSheet.create({});
+export default StartPage;

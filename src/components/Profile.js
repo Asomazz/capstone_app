@@ -1,22 +1,32 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../apis/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/FontAwesome"; //pencil
+import AntDesign from "react-native-vector-icons/AntDesign"; //instagram //twitter
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"; //snapchat
+import FontAwesome6 from "react-native-vector-icons/FontAwesome6"; //x-twitter
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { BASE_URL } from "../apis";
 
 const Profile = () => {
   const navigation = useNavigation();
 
-  const { data: userInfo } = useQuery({
-    queryKey: ["getProfile"],
+  const { data: userInfo, refetch } = useQuery({
+    queryKey: ["getMyProfile"],
     queryFn: getProfile,
   });
 
   const handleGoToEdit = () => {
     navigation.navigate("editProfile");
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   return (
     <View
@@ -56,11 +66,11 @@ const Profile = () => {
         >
           <Image
             style={{
-              backgroundColor: "gray",
+              backgroundColor: "lightgray",
               width: "100%",
               height: "100%",
             }}
-            source={userInfo?.image}
+            source={{ uri: `${BASE_URL}/${userInfo?.image}` }}
           />
         </View>
         <View
@@ -73,7 +83,7 @@ const Profile = () => {
           }}
         >
           <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            {userInfo?.name}name
+            {userInfo?.name}
           </Text>
         </View>
         <View
@@ -89,7 +99,7 @@ const Profile = () => {
             title="Edit Profile"
             onPress={handleGoToEdit}
           >
-            <Text style={{ fontSize: 10, color: "#574EFA" }}>Edit Profile</Text>
+            <Text style={{ fontSize: 15, color: "#574EFA" }}>Edit Profile</Text>
             <Icon
               name="pencil"
               size={12}
@@ -109,21 +119,66 @@ const Profile = () => {
           paddingLeft: 20,
         }}
       >
-        <Text>{userInfo?.bio}Bio</Text>
+        <Text>{userInfo?.bio}</Text>
       </View>
       <View
         style={{
           flex: 4,
           backgroundColor: "white",
           overflow: "hidden",
-          justifyContent: "center",
+          justifyContent: "space-evenly",
           alignItems: "center",
+          flexDirection: "row",
         }}
       >
-        <Text>Social Media links</Text>
+        {userInfo?.instagram && (
+          <AntDesign
+            name="instagram"
+            size={25}
+            color="#342B7F"
+            style={{ marginLeft: 7 }}
+          />
+        )}
+        {userInfo?.snapchat && (
+          <MaterialIcons
+            name="snapchat"
+            size={25}
+            color="#342B7F"
+            style={{ marginLeft: 7 }}
+          />
+        )}
+        {userInfo?.twitter && (
+          <FontAwesome6
+            name="x-twitter"
+            size={25}
+            color="#342B7F"
+            style={{ marginLeft: 7 }}
+          />
+        )}
       </View>
     </View>
   );
 };
 
 export default Profile;
+
+{
+  /* <AntDesign
+name="instagram"
+size={25}
+color="#342B7F"
+style={{ marginLeft: 7 }}
+/>
+<MaterialIcons
+name="snapchat"
+size={25}
+color="#342B7F"
+style={{ marginLeft: 7 }}
+/>
+<FontAwesome6
+name="x-twitter"
+size={25}
+color="#342B7F"
+style={{ marginLeft: 7 }}
+/> */
+}
