@@ -16,16 +16,17 @@ import AntDesign from "react-native-vector-icons/AntDesign"; //instagram //twitt
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"; //snapchat
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6"; //x-twitter
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import ImagePickerComp from "../../components/ImagePicker";
 
 const EditProfile = () => {
   const [userInfo, setUserInfo] = useState({
-    image: "",
     name: "",
     bio: "",
     instagram: "",
     snapchat: "",
     twitter: "",
   });
+  const [image, setImage] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const navigation = useNavigation();
@@ -37,7 +38,11 @@ const EditProfile = () => {
 
   const { mutate } = useMutation({
     mutationKey: ["updateProfile"],
-    mutationFn: () => updateProfile(userInfo),
+    mutationFn: () =>
+      updateProfile({
+        ...userInfo,
+        image: image.includes("file") ? image : "",
+      }),
     onSuccess: () => {
       setAlertMessage("Profile Updated");
       setModalVisible(true);
@@ -48,12 +53,22 @@ const EditProfile = () => {
     onError: () => {
       setAlertMessage("There was an error updating your profile.");
       setModalVisible(true);
+      setTimeout(() => {
+        navigation.navigate("myStore");
+      }, 500);
     },
   });
 
   useEffect(() => {
     if (data) {
-      setUserInfo(data);
+      setUserInfo({
+        name: data.name,
+        bio: data.bio,
+        instagram: data.instagram,
+        snapchat: data.snapchat,
+        twitter: data.twitter,
+      });
+      setImage(data.image);
     }
   }, [data]);
 
@@ -62,7 +77,7 @@ const EditProfile = () => {
   };
 
   const handleSubmit = () => {
-    mutate(userInfo);
+    mutate();
   };
 
   return (
@@ -114,7 +129,6 @@ const EditProfile = () => {
       <View
         style={{
           flex: 1,
-          backgroundColor: "white",
           borderRadius: 10,
           overflow: "hidden",
           justifyContent: "center",
@@ -125,45 +139,24 @@ const EditProfile = () => {
       >
         <View
           style={{
-            backgroundColor: "blue",
-            flex: 2,
             width: 115,
-            height: 150,
+            aspectRatio: 1,
             borderRadius: 100,
             overflow: "hidden",
             elevation: 50,
-          }}
-        >
-          <Image
-            style={{
-              backgroundColor: "gray",
-              width: "100%",
-              height: "100%",
-            }}
-            // source={userInfo?.image}
-          />
-        </View>
-        <View
-          style={{
-            flex: 0.5,
-            width: "100%",
-            alignItems: "center",
             justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <TouchableOpacity>
-            <Text style={{ fontSize: 12, color: "#574EFA" }}>
-              Change picture
-            </Text>
-          </TouchableOpacity>
+          <ImagePickerComp setImage={setImage} image={image} />
         </View>
+
         <KeyboardAwareScrollView
           style={{
             borderTopEndRadius: 10,
             width: "100%",
           }}
           contentContainerStyle={{
-            // flex: 10,
             justifyContent: "space-evenly",
             alignItems: "center",
           }}
@@ -191,7 +184,7 @@ const EditProfile = () => {
               }}
               value={userInfo?.name}
               onChangeText={(text) => handleChange("name", text)}
-              placeholder={userInfo.name}
+              placeholder="Enter your name"
             />
           </View>
           <View

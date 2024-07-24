@@ -1,14 +1,24 @@
 import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { Switch, TouchableOpacity } from "react-native-gesture-handler";
 import { logout } from "../../apis/auth";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { removeToken } from "../../apis/storage";
+import UserContext from "../../context/UserContext";
 
 const SettingsScreen = () => {
-  const handlelogout = () => {};
+  const [user, setUser] = useContext(UserContext);
+
   const navigation = useNavigation();
+
+  const handlelogout = () => {
+    removeToken;
+    setUser(false);
+    navigation.navigate("start");
+  };
+
   const handleGobilling = () => {
     navigation.navigate("billing");
   };
@@ -189,6 +199,7 @@ const SettingsScreen = () => {
             borderWidth: 1,
           }}
           title="Logout"
+          onPress={handlelogout}
         >
           <Text
             style={{
