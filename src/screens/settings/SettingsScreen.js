@@ -11,6 +11,13 @@ import UserContext from "../../context/UserContext";
 const SettingsScreen = () => {
   const [user, setUser] = useContext(UserContext);
 
+<<<<<<< HEAD
+=======
+  const handlelogout = () => {
+    removeToken();
+    setUser(false);
+  };
+>>>>>>> origin/main
   const navigation = useNavigation();
 
   const handlelogout = () => {
@@ -25,7 +32,9 @@ const SettingsScreen = () => {
   const handleGohelp = () => {
     navigation.navigate("helpcenter");
   };
-
+  const handleGoSecurity = () => {
+    navigation.navigate("securitypage");
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
@@ -160,7 +169,10 @@ const SettingsScreen = () => {
           </Text>
           <AntDesign name="right" size={20} color="black" />
         </View>
-        <View
+
+        <TouchableOpacity
+          title="Security Page"
+          onPress={handleGoSecurity}
           style={{
             justifyContent: "space-between",
             alignItems: "center",
@@ -179,11 +191,12 @@ const SettingsScreen = () => {
             Security
           </Text>
           <AntDesign name="right" size={20} color="black" />
-        </View>
+        </TouchableOpacity>
       </View>
 
       <View>
         <TouchableOpacity
+          onPress={handlelogout}
           style={{
             backgroundColor: "white",
             flexDirection: "row",

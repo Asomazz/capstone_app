@@ -67,4 +67,4 @@ const logout = () => {
   localStorage.removeItem("token");
 };
 
-export { register, getProfile, updateProfile, login, logout };
+export { getProfile, login, register, logout, updateProfile };
