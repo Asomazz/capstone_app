@@ -1,4 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
+
 import MyStore from "../screens/myStore/MyStore";
 import EditProfile from "../screens/myStore/EditProfile";
 import AddProduct from "../screens/myStore/AddProduct";
@@ -14,7 +15,7 @@ const MyStoreNavigation = () => {
       <Stack.Screen name="addProduct" component={AddProduct} />
       <Stack.Screen name="editProduct" component={EditProduct} />
     </Stack.Navigator>
-  );
+  );    
 };
 
 export default MyStoreNavigation;
