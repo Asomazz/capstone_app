@@ -29,16 +29,13 @@
     "native-notify": "^4.0.4",
     "react": "18.2.0",
     "react-native": "0.74.3",
+    "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-svg": "^15.4.0",
     "react-native-svg-transformer": "^1.5.0",
-    "react-native-vector-icons": "^10.1.0",
-    "expo-device": "~6.0.2",
-    "expo-notifications": "~0.28.10",
-    "expo-constants": "~16.0.2",
-    "expo-image-picker": "~15.0.7"
+    "react-native-vector-icons": "^10.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

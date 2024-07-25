@@ -1,5 +1,13 @@
-import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  TouchableOpacity as RNTouchableOpacity,
+} from "react-native";
+import React, { useContext, useState } from "react";
 import { Switch, TouchableOpacity } from "react-native-gesture-handler";
 import { logout } from "../../apis/auth";
 import { useNavigation } from "@react-navigation/native";
@@ -10,21 +18,36 @@ import UserContext from "../../context/UserContext";
 
 const SettingsScreen = () => {
   const [user, setUser] = useContext(UserContext);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const handlelogout = () => {
+  const navigation = useNavigation();
+
+  const handleLogoutConfirmation = () => {
     removeToken();
     setUser(false);
+    setModalVisible(false);
   };
-  const navigation = useNavigation();
-  const handleGobilling = () => {
+
+  const handleLogoutCancel = () => {
+    setModalVisible(false);
+  };
+
+  const handleLogout = () => {
+    setModalVisible(true);
+  };
+
+  const handleGoBilling = () => {
     navigation.navigate("billing");
   };
-  const handleGohelp = () => {
+
+  const handleGoHelp = () => {
     navigation.navigate("helpcenter");
   };
+
   const handleGoSecurity = () => {
     navigation.navigate("securitypage");
   };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
@@ -43,7 +66,6 @@ const SettingsScreen = () => {
             alignItems: "center",
             marginBottom: 0,
             borderBottomWidth: 1,
-
             borderBottomColor: "#574EFA",
             paddingBottom: 10,
             paddingTop: 10,
@@ -55,7 +77,7 @@ const SettingsScreen = () => {
           <Switch value={true} />
         </View>
 
-        <TouchableOpacity onPress={handleGobilling}>
+        <TouchableOpacity onPress={handleGoBilling}>
           <View
             style={{
               justifyContent: "space-between",
@@ -97,7 +119,7 @@ const SettingsScreen = () => {
           </Text>
           <AntDesign name="right" size={20} color="black" />
         </View>
-        <TouchableOpacity title="heplcenter" onPress={handleGohelp}>
+        <TouchableOpacity title="helpcenter" onPress={handleGoHelp}>
           <View
             style={{
               justifyContent: "space-between",
@@ -135,7 +157,7 @@ const SettingsScreen = () => {
               fontWeight: "bold",
             }}
           >
-            Term & Condtions
+            Term & Conditions
           </Text>
           <AntDesign name="right" size={20} color="black" />
         </View>
@@ -155,7 +177,7 @@ const SettingsScreen = () => {
               fontWeight: "bold",
             }}
           >
-            Privecy Policy
+            Privacy Policy
           </Text>
           <AntDesign name="right" size={20} color="black" />
         </View>
@@ -186,7 +208,7 @@ const SettingsScreen = () => {
 
       <View>
         <TouchableOpacity
-          onPress={handlelogout}
+          onPress={handleLogout}
           style={{
             backgroundColor: "white",
             flexDirection: "row",
@@ -220,10 +242,87 @@ const SettingsScreen = () => {
           />
         </TouchableOpacity>
       </View>
+
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Are you sure you want to logout?
+            </Text>
+            <View style={styles.modalButtons}>
+              <RNTouchableOpacity
+                style={[styles.button, styles.buttonClose]}
+                onPress={handleLogoutCancel}
+              >
+                <Text style={styles.textStyle}>Cancel</Text>
+              </RNTouchableOpacity>
+              <RNTouchableOpacity
+                style={[styles.button, styles.buttonConfirm]}
+                onPress={handleLogoutConfirmation}
+              >
+                <Text style={styles.textStyle}>Logout</Text>
+              </RNTouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
 
 export default SettingsScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalView: {
+    width: 300,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 18,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  buttonConfirm: {
+    backgroundColor: "#FF0000",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});
