@@ -5,11 +5,7 @@ import { getAllProducts } from "../apis/products";
 import ProductCard from "./ProductCard";
 import { useFocusEffect } from "@react-navigation/native";
 
-const ProductsList = () => {
-  const { data, refetch } = useQuery({
-    queryKey: ["products"],
-    queryFn: () => getAllProducts(),
-  });
+const ProductsList = ({ data, refetch }) => {
 
   useFocusEffect(
     useCallback(() => {
