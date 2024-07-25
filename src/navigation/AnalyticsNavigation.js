@@ -1,4 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import Analytics from "../screens/analytics/Analytics";
 
 const Stack = createStackNavigator();
 
