@@ -30,21 +30,21 @@ const Dashboard = () => {
   const totalRevenue = data?.revenue ?? 0;
   const receipts = data?.receipts ?? [];
 
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#574EFA" />
-      </View>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <View style={styles.loadingContainer}>
+  //       <ActivityIndicator size="large" color="#574EFA" />
+  //     </View>
+  //   );
+  // }
 
-  if (error) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Error fetching data</Text>
-      </View>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <View style={styles.errorContainer}>
+  //       <Text style={styles.errorText}>Error receiving data</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <ScrollView
