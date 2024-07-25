@@ -11,8 +11,8 @@ const createOneProduct = async (productInfo) => {
         const match = /\.(\w+)$/.exec(filename);
         const type = match ? `image/${match[1]}` : `image`;
 
-        const response = await fetch(localUri);
-        const blob = await response.blob();
+        // const response = await fetch(localUri);
+        // const blob = await response.blob();
         formData.append(key, {
           uri: localUri,
           name: filename,
@@ -46,8 +46,8 @@ const updateProduct = async (productInfo, id) => {
           const match = /\.(\w+)$/.exec(filename);
           const type = match ? `image/${match[1]}` : `image`;
 
-          const response = await fetch(localUri);
-          const blob = await response.blob();
+          // const response = await fetch(localUri);
+          // const blob = await response.blob();
           formData.append(key, {
             uri: localUri,
             name: filename,
