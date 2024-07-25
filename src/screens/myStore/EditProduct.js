@@ -71,6 +71,7 @@ const EditProduct = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(`I am useeffect , ${data.price}`);
       setProductInfo({
         title: data.title,
         price: data.price,
@@ -81,6 +82,7 @@ const EditProduct = () => {
   }, [data]);
 
   const handleChange = (key, value) => {
+    console.log("first");
     setProductInfo((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -93,6 +95,8 @@ const EditProduct = () => {
     deleteProductMutate(id);
   };
   if (isLoading) return <Text>Loading...</Text>;
+
+  console.log(data);
   return (
     <View
       style={{
@@ -228,9 +232,8 @@ const EditProduct = () => {
                 paddingVertical: 10,
                 paddingHorizontal: 5,
               }}
-              defaultValue={data?.price}
               onChangeText={(text) => handleChange("price", text)}
-              value={productInfo?.price}
+              value={`${productInfo?.price}`}
               keyboardType="numeric"
             />
           </View>

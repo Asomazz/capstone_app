@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
 const Analytics = () => {
@@ -8,7 +8,4 @@ const Analytics = () => {
     </View>
   );
 };
-
 export default Analytics;
-
-const styles = StyleSheet.create({});

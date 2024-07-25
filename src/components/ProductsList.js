@@ -6,6 +6,7 @@ import ProductCard from "./ProductCard";
 import { useFocusEffect } from "@react-navigation/native";
 
 const ProductsList = ({ data, refetch }) => {
+
   useFocusEffect(
     useCallback(() => {
       refetch();

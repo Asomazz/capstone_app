@@ -37,6 +37,7 @@ const SettingsScreen = () => {
   };
 
   const handleGoBilling = () => {
+
     navigation.navigate("billing");
   };
 
@@ -224,6 +225,7 @@ const SettingsScreen = () => {
             borderWidth: 1,
           }}
           title="Logout"
+          onPress={handlelogout}
         >
           <Text
             style={{
