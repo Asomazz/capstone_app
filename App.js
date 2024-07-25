@@ -7,6 +7,7 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import UserContext from "./src/context/UserContext";
 import { getToken, removeToken } from "./src/apis/storage";
 import MainNavigation from "./src/navigation/MainNavigation";
+import SettingsNavigation from "./src/navigation/SettingsNavigation";
 
 export default function App() {
   const [user, setUser] = useState(false);
@@ -14,12 +15,10 @@ export default function App() {
   const checkToken = async () => {
     const token = await getToken();
     console.log(token);
-    if (!token) {
-      setUser(false);
+    if (token) {
+      setUser(true);
     } else {
-      if (token) {
-        setUser(true);
-      }
+      setUser(false);
     }
   };
 
