@@ -48,6 +48,10 @@ const SettingsScreen = () => {
     navigation.navigate("securitypage");
   };
 
+  const handleGopayment = () => {
+    navigation.navigate("payment");
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
@@ -99,7 +103,8 @@ const SettingsScreen = () => {
             <AntDesign name="right" size={20} color="black" />
           </View>
         </TouchableOpacity>
-        <View
+        <TouchableOpacity
+          onPress={handleGopayment}
           style={{
             justifyContent: "space-between",
             alignItems: "center",
@@ -118,7 +123,8 @@ const SettingsScreen = () => {
             Payment
           </Text>
           <AntDesign name="right" size={20} color="black" />
-        </View>
+        </TouchableOpacity>
+
         <TouchableOpacity title="helpcenter" onPress={handleGoHelp}>
           <View
             style={{
@@ -224,7 +230,6 @@ const SettingsScreen = () => {
             borderWidth: 1,
           }}
           title="Logout"
-          onPress={handleLogout}
         >
           <Text
             style={{

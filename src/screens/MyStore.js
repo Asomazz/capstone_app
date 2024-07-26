@@ -17,7 +17,9 @@ const MyStore = () => {
         gap: 5,
       }}
     >
-      <Link />
+      <TouchableOpacity>
+        <Link />
+      </TouchableOpacity>
       <Profile />
       <Products />
     </View>
