@@ -109,7 +109,9 @@ const Link = () => {
             justifyContent: "center",
             alignItems: "flex-start",
           }}
-          onPress={() => handleCopy(`https://fluid.link/${userInfo?.username}`)}
+          onPress={() =>
+            handleCopy(`https://fluidstore.link/${userInfo?.username}`)
+          }
         >
           <Text
             style={{
