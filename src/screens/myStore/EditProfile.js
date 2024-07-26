@@ -25,6 +25,7 @@ const EditProfile = () => {
     instagram: "",
     snapchat: "",
     twitter: "",
+    tiktok: "",
   });
   const [image, setImage] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -67,6 +68,7 @@ const EditProfile = () => {
         instagram: data.instagram,
         snapchat: data.snapchat,
         twitter: data.twitter,
+        tiktok: data.tiktok,
       });
       setImage(data.image);
     }
@@ -319,6 +321,37 @@ const EditProfile = () => {
                 }}
                 value={userInfo?.twitter}
                 onChangeText={(text) => handleChange("twitter", text)}
+                placeholder="Paste URL here"
+              />
+            </View>
+            <View
+              style={{
+                flex: 2.5,
+                justifyContent: "flex-end",
+                width: 333,
+                alignItems: "center",
+                paddingHorizontal: 30,
+                gap: 5,
+                flexDirection: "row",
+              }}
+            >
+              <MaterialIcons
+                name="tiktok"
+                size={25}
+                color="#342B7F"
+                style={{ marginLeft: 7 }}
+              />
+              <TextInput
+                style={{
+                  borderWidth: 1,
+                  borderRadius: 7,
+                  width: "100%",
+                  borderColor: "lightgray",
+                  paddingVertical: 10,
+                  paddingHorizontal: 5,
+                }}
+                value={userInfo?.tiktok}
+                onChangeText={(text) => handleChange("tiktok", text)}
                 placeholder="Paste URL here"
               />
             </View>

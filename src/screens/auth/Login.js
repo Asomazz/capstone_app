@@ -35,7 +35,7 @@ const Login = () => {
     mutate(userInfo);
   };
   const handlechange = (key, value) => {
-    navigation.navigate(); //toDashboardPage
+    navigation.navigate("dashboard"); //toDashboardPage
   };
   return (
     <>

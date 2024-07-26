@@ -5,7 +5,7 @@ import { getProfile } from "../apis/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome"; //pencil
 import AntDesign from "react-native-vector-icons/AntDesign"; //instagram //twitter
-import MaterialIcons from "react-native-vector-icons/MaterialIcons"; //snapchat
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"; //snapchat//tiktoc
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6"; //x-twitter
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { BASE_URL } from "../apis";
@@ -150,6 +150,14 @@ const Profile = () => {
         {userInfo?.twitter && (
           <FontAwesome6
             name="x-twitter"
+            size={25}
+            color="#342B7F"
+            style={{ marginLeft: 7 }}
+          />
+        )}
+        {userInfo?.tiktok && (
+          <MaterialIcons
+            name="tiktok"
             size={25}
             color="#342B7F"
             style={{ marginLeft: 7 }}
