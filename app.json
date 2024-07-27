@@ -1,8 +1,10 @@
 {
   "expo": {
-    "assets": ["assets/fonts/"],
+    "assets": [
+      "assets/fonts/"
+    ],
     "name": "capstone_app",
-    "slug": "capstone_app",
+    "slug": "capstone-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -25,7 +27,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.yourcompany.yourappname"
     },
     "web": {
       "favicon": "./assets/logo.png"
@@ -37,6 +43,12 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a7165250-d247-474a-b04c-130db4f5eee3"
+      }
+    },
+    "owner": "asomaz"
   }
 }

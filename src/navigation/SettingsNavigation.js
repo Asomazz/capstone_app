@@ -4,6 +4,7 @@ import Notification from "../screens/settings/Notification";
 import HelpCenter from "../screens/settings/HelpCenter";
 import Billing from "../screens/settings/Billing";
 import Security from "../screens/settings/Security";
+import Payment from "../screens/settings/Payment";
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ const SettingsNavigation = () => {
       <Stack.Screen name="billing" component={Billing} />
       <Stack.Screen name="helpcenter" component={HelpCenter} />
       <Stack.Screen name="securitypage" component={Security} />
+      <Stack.Screen name="payment" component={Payment} />
     </Stack.Navigator>
   );
 };
