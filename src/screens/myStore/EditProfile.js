@@ -219,6 +219,7 @@ const EditProfile = () => {
               placeholder="Who are you? talk about yourself briefly"
             />
           </View>
+
           <View
             style={{
               flex: 3,
@@ -262,6 +263,7 @@ const EditProfile = () => {
                 placeholder="Paste URL here"
               />
             </View>
+
             <View
               style={{
                 flex: 2.5,

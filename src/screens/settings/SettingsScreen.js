@@ -53,194 +53,55 @@ const SettingsScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View
-        style={{
-          flex: 1,
-          marginLeft: 10,
-          justifyContent: "space-evenly",
-          borderRadius: 90,
-          width: "95%",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 0,
-            borderBottomWidth: 1,
-            borderBottomColor: "#574EFA",
-            paddingBottom: 10,
-            paddingTop: 10,
-          }}
-        >
-          <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-            Notification Setting
-          </Text>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.settingRow}>
+          <Text style={styles.settingText}>Notification Setting</Text>
           <Switch value={true} />
         </View>
 
         <TouchableOpacity onPress={handleGoBilling}>
-          <View
-            style={{
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexDirection: "row",
-              borderBottomWidth: 1,
-              borderBottomColor: "#574EFA",
-              paddingBottom: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "bold",
-              }}
-            >
-              Billing
-            </Text>
-            <AntDesign name="right" size={20} color="black" />
+          <View style={styles.settingRow}>
+            <Text style={styles.settingText}>Billing</Text>
+            <AntDesign name="right" size={20} color="#574EFA" />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleGopayment}
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "row",
-            borderBottomWidth: 1,
-            borderBottomColor: "#574EFA",
-            paddingBottom: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: "bold",
-            }}
-          >
-            Payment
-          </Text>
-          <AntDesign name="right" size={20} color="black" />
-        </TouchableOpacity>
 
-        <TouchableOpacity title="helpcenter" onPress={handleGoHelp}>
-          <View
-            style={{
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexDirection: "row",
-              borderBottomWidth: 1,
-              borderBottomColor: "#574EFA",
-              paddingBottom: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "bold",
-              }}
-            >
-              Help Center
-            </Text>
-            <AntDesign name="right" size={20} color="black" />
+        <TouchableOpacity onPress={handleGopayment}>
+          <View style={styles.settingRow}>
+            <Text style={styles.settingText}>Payment</Text>
+            <AntDesign name="right" size={20} color="#574EFA" />
           </View>
         </TouchableOpacity>
-        <View
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "row",
-            borderBottomWidth: 1,
-            borderBottomColor: "#574EFA",
-            paddingBottom: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: "bold",
-            }}
-          >
-            Term & Conditions
-          </Text>
-          <AntDesign name="right" size={20} color="black" />
-        </View>
-        <View
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "row",
-            borderBottomWidth: 1,
-            borderBottomColor: "#574EFA",
-            paddingBottom: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: "bold",
-            }}
-          >
-            Privacy Policy
-          </Text>
-          <AntDesign name="right" size={20} color="black" />
+
+        <TouchableOpacity onPress={handleGoHelp}>
+          <View style={styles.settingRow}>
+            <Text style={styles.settingText}>Help Center</Text>
+            <AntDesign name="right" size={20} color="#574EFA" />
+          </View>
+        </TouchableOpacity>
+
+        <View style={styles.settingRow}>
+          <Text style={styles.settingText}>Term & Conditions</Text>
+          <AntDesign name="right" size={20} color="#574EFA" />
         </View>
 
-        <TouchableOpacity
-          title="Security Page"
-          onPress={handleGoSecurity}
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "row",
-            borderBottomWidth: 1,
-            borderBottomColor: "#574EFA",
-            paddingBottom: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: "bold",
-            }}
-          >
-            Security
-          </Text>
-          <AntDesign name="right" size={20} color="black" />
+        <View style={styles.settingRow}>
+          <Text style={styles.settingText}>Privacy Policy</Text>
+          <AntDesign name="right" size={20} color="#574EFA" />
+        </View>
+
+        <TouchableOpacity onPress={handleGoSecurity}>
+          <View style={styles.settingRow}>
+            <Text style={styles.settingText}>Security</Text>
+            <AntDesign name="right" size={20} color="#574EFA" />
+          </View>
         </TouchableOpacity>
       </View>
 
-      <View>
-        <TouchableOpacity
-          onPress={handleLogout}
-          style={{
-            backgroundColor: "white",
-            flexDirection: "row",
-            borderRadius: 100,
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 10,
-            width: 350,
-            height: 45,
-            marginLeft: 20,
-            marginBottom: 15,
-            borderColor: "#574EFA",
-            borderWidth: 1,
-          }}
-          title="Logout"
-        >
-          <Text
-            style={{
-              color: "#574EFA",
-              fontSize: 18,
-              marginEnd: 20,
-              fontWeight: "bold",
-            }}
-          >
-            Logout
-          </Text>
+      <View style={styles.logoutContainer}>
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
           <MaterialCommunityIcons
             name="logout-variant"
             size={24}
@@ -284,6 +145,57 @@ const SettingsScreen = () => {
 export default SettingsScreen;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f8f9fa",
+  },
+  container: {
+    flex: 1,
+    margin: 10,
+    borderRadius: 20,
+    padding: 10,
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    justifyContent: "space-between",
+  },
+  settingRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ececec",
+  },
+  settingText: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  logoutContainer: {
+    padding: 10,
+    alignItems: "center",
+  },
+  logoutButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: "#574EFA",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: 200,
+    justifyContent: "center",
+  },
+  logoutText: {
+    color: "#574EFA",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginRight: 10,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -297,10 +209,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
