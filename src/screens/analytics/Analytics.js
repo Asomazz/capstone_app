@@ -99,7 +99,6 @@ const AnalyticsPage = () => {
     twitterClicks = 0,
   } = data || {};
 
-  console.log(data)
   const productClicks = products.reduce((acc, product) => acc + (product.productClicks || 0), 0);
 
   const cardData = [
