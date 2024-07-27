@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+  Linking,
+} from "react-native";
 import React, { useCallback, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../apis/auth";
@@ -132,36 +139,47 @@ const Profile = () => {
         }}
       >
         {userInfo?.instagram && (
-          <AntDesign
-            name="instagram"
-            size={25}
-            color="#342B7F"
-            style={{ marginLeft: 7 }}
-          />
+          <TouchableOpacity
+            onPress={() => Linking.openURL(userInfo?.instagram)}
+          >
+            <AntDesign
+              name="instagram"
+              size={25}
+              color="#342B7F"
+              style={{ marginLeft: 7 }}
+            />
+          </TouchableOpacity>
         )}
         {userInfo?.snapchat && (
-          <MaterialIcons
-            name="snapchat"
-            size={25}
-            color="#342B7F"
-            style={{ marginLeft: 7 }}
-          />
+          <TouchableOpacity onPress={() => Linking.openURL(userInfo?.snapchat)}>
+            <MaterialIcons
+              name="snapchat"
+              size={25}
+              color="#342B7F"
+              style={{ marginLeft: 7 }}
+            />
+          </TouchableOpacity>
         )}
+
         {userInfo?.twitter && (
-          <FontAwesome6
-            name="x-twitter"
-            size={25}
-            color="#342B7F"
-            style={{ marginLeft: 7 }}
-          />
+          <TouchableOpacity onPress={() => Linking.openURL(userInfo?.twitter)}>
+            <FontAwesome6
+              name="x-twitter"
+              size={25}
+              color="#342B7F"
+              style={{ marginLeft: 7 }}
+            />
+          </TouchableOpacity>
         )}
         {userInfo?.tiktok && (
-          <MaterialIcons
-            name="tiktok"
-            size={25}
-            color="#342B7F"
-            style={{ marginLeft: 7 }}
-          />
+          <TouchableOpacity onPress={() => Linking.openURL(userInfo?.tiktok)}>
+            <MaterialIcons
+              name="tiktok"
+              size={25}
+              color="#342B7F"
+              style={{ marginLeft: 7 }}
+            />
+          </TouchableOpacity>
         )}
       </View>
     </View>
