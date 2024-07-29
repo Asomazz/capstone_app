@@ -14,7 +14,9 @@ const Tab = createBottomTabNavigator();
 
 const MainNavigation = () => {
   return (
-    <Tab.Navigator screenOptions={{ tabBarActiveTintColor: "#574EFA" }}>
+    <Tab.Navigator
+      screenOptions={{ tabBarActiveTintColor: "#574EFA", headerShown: false }}
+    >
       <Tab.Screen
         name="dashboardIndex"
         component={DashboardNavigation}
