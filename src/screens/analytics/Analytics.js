@@ -1,6 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, FlatList, RefreshControl } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  TouchableOpacity,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { getProfile } from "../../apis/auth";
 
@@ -13,7 +22,10 @@ const AnalyticsPage = () => {
   });
 
   const [selectedMetric, setSelectedMetric] = useState("productClicks");
-  const [chartData, setChartData] = useState({ labels: [], datasets: [{ data: [] }] });
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [{ data: [] }],
+  });
   const [showProductList, setShowProductList] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -33,10 +45,13 @@ const AnalyticsPage = () => {
       case "productClicks":
         if (selectedProduct) {
           labels = ["Clicks", "Purchases"];
-          dataset = [selectedProduct.productClicks || 0, selectedProduct.purchaseCount || 0];
+          dataset = [
+            selectedProduct.productClicks || 0,
+            selectedProduct.purchaseCount || 0,
+          ];
         } else {
-          labels = products.map(product => product.title);
-          dataset = products.map(product => product.productClicks || 0);
+          labels = products.map((product) => product.title);
+          dataset = products.map((product) => product.productClicks || 0);
         }
         break;
       case "storeClicks":
@@ -65,7 +80,13 @@ const AnalyticsPage = () => {
 
     setChartData({
       labels,
-      datasets: [{ data: dataset, color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, strokeWidth: 2 }],
+      datasets: [
+        {
+          data: dataset,
+          color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+          strokeWidth: 2,
+        },
+      ],
     });
   };
 
@@ -74,21 +95,21 @@ const AnalyticsPage = () => {
     setShowProductList(false);
   };
 
-//   if (isLoading) {
-//     return (
-//       <View style={styles.loadingContainer}>
-//         <ActivityIndicator size="large" color="#574EFA" />
-//       </View>
-//     );
-//   }
+  //   if (isLoading) {
+  //     return (
+  //       <View style={styles.loadingContainer}>
+  //         <ActivityIndicator size="large" color="#574EFA" />
+  //       </View>
+  //     );
+  //   }
 
-//   if (error) {
-//     return (
-//       <View style={styles.errorContainer}>
-//         <Text style={styles.errorText}>Error fetching data</Text>
-//       </View>
-//     );
-//   }
+  //   if (error) {
+  //     return (
+  //       <View style={styles.errorContainer}>
+  //         <Text style={styles.errorText}>Error fetching data</Text>
+  //       </View>
+  //     );
+  //   }
 
   const {
     products = [],
@@ -99,14 +120,25 @@ const AnalyticsPage = () => {
     twitterClicks = 0,
   } = data || {};
 
-  const productClicks = products.reduce((acc, product) => acc + (product.productClicks || 0), 0);
+  const productClicks = products.reduce(
+    (acc, product) => acc + (product.productClicks || 0),
+    0
+  );
 
   const cardData = [
     { title: "Product Clicks", value: productClicks, metric: "productClicks" },
     { title: "Store Visits", value: storeClicks, metric: "storeClicks" },
-    { title: "Instagram Clicks", value: instagramClicks, metric: "instagramClicks" },
+    {
+      title: "Instagram Clicks",
+      value: instagramClicks,
+      metric: "instagramClicks",
+    },
     { title: "TikTok Clicks", value: tiktokClicks, metric: "tiktokClicks" },
-    { title: "Snapchat Clicks", value: snapchatClicks, metric: "snapchatClicks" },
+    {
+      title: "Snapchat Clicks",
+      value: snapchatClicks,
+      metric: "snapchatClicks",
+    },
     { title: "Twitter Clicks", value: twitterClicks, metric: "twitterClicks" },
   ];
 
@@ -114,33 +146,40 @@ const AnalyticsPage = () => {
     <View style={styles.container}>
       <Text style={styles.headline}>My Store Analytics</Text>
       <View style={styles.chartContainer}>
-        <LineChart
-          data={chartData}
-          width={screenWidth - 20}
-          height={250}
-          verticalLabelRotation={30}
-          chartConfig={chartConfig}
-          bezier
-          fromZero
-          style={styles.chart}
-        />
+        {isLoading ? null : (
+          <LineChart
+            data={chartData}
+            width={screenWidth - 20}
+            height={250}
+            verticalLabelRotation={30}
+            chartConfig={chartConfig}
+            bezier
+            fromZero
+            style={styles.chart}
+          />
+        )}
       </View>
       <FlatList
         data={cardData}
         keyExtractor={(item) => item.metric}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card} onPress={() => {
-            if (item.metric === 'productClicks') {
-              setShowProductList(!showProductList);
-            } else {
-              setSelectedMetric(item.metric);
-            }
-          }}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => {
+              if (item.metric === "productClicks") {
+                setShowProductList(!showProductList);
+              } else {
+                setSelectedMetric(item.metric);
+              }
+            }}
+          >
             <Text style={styles.cardTitle}>{item.title}</Text>
             <Text style={styles.cardValue}>{item.value}</Text>
           </TouchableOpacity>
         )}
-        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={refetch} />
+        }
         numColumns={2}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.cardContainer}
@@ -157,7 +196,10 @@ const AnalyticsPage = () => {
             data={products}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => (
-              <TouchableOpacity style={styles.drawerItem} onPress={() => handleProductSelect(item)}>
+              <TouchableOpacity
+                style={styles.drawerItem}
+                onPress={() => handleProductSelect(item)}
+              >
                 <Text style={styles.drawerItemText}>{item.title}</Text>
               </TouchableOpacity>
             )}

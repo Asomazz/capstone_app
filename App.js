@@ -33,7 +33,9 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <UserContext.Provider value={[user, setUser]}>
           <NavigationContainer>
-            {user ? <MainNavigation /> : <AuthNavigation />}
+            <SafeAreaView style={{ flex: 1 }}>
+              {user ? <MainNavigation /> : <AuthNavigation />}
+            </SafeAreaView>
           </NavigationContainer>
         </UserContext.Provider>
       </QueryClientProvider>
