@@ -14,12 +14,14 @@ const Tab = createBottomTabNavigator();
 
 const MainNavigation = () => {
   return (
-    <Tab.Navigator screenOptions={{ tabBarActiveTintColor: "#574EFA" }}>
+    <Tab.Navigator
+      screenOptions={{ tabBarActiveTintColor: "#574EFA", headerShown: false }}
+    >
       <Tab.Screen
         name="dashboardIndex"
         component={DashboardNavigation}
         options={{
-          headerTitle:"Dashboard", //the title of the page on top
+          headerTitle: "Dashboard", //the title of the page on top
           tabBarLabel: "Dashboard",
           tabBarIcon: ({ size, focused }) => (
             <AntDesign
@@ -34,6 +36,7 @@ const MainNavigation = () => {
         name="myStoreNavigation"
         component={MyStoreNavigation}
         options={{
+          headerTitle: "My Store",
           tabBarLabel: "My Store",
           tabBarIcon: ({ size, focused }) => (
             <Ionicons
@@ -48,6 +51,7 @@ const MainNavigation = () => {
         name="analyticsNavigation"
         component={AnalyticsNavigation}
         options={{
+          headerTitle: "Analytics",
           tabBarLabel: "Analytics",
           tabBarIcon: ({ size, focused }) => (
             <MaterialIcons
@@ -62,6 +66,7 @@ const MainNavigation = () => {
         name="settingsNavigation"
         component={SettingsNavigation}
         options={{
+          headerTitle: "Settings",
           tabBarLabel: "Settings",
           tabBarIcon: ({ size, focused }) => (
             <Feather

@@ -17,13 +17,8 @@ import FontAwesome6 from "react-native-vector-icons/FontAwesome6"; //x-twitter
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { BASE_URL } from "../apis";
 
-const Profile = () => {
+const Profile = ({ userInfo, refetch }) => {
   const navigation = useNavigation();
-
-  const { data: userInfo, refetch } = useQuery({
-    queryKey: ["getMyProfile"],
-    queryFn: getProfile,
-  });
 
   const handleGoToEdit = () => {
     navigation.navigate("editProfile");
@@ -40,10 +35,9 @@ const Profile = () => {
       style={{
         height: 210,
         backgroundColor: "white",
-        borderRadius: 10,
+
         overflow: "hidden",
         padding: 10,
-        borderColor: "gray",
         gap: 5,
       }}
     >

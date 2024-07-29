@@ -9,12 +9,13 @@ import {
   TextInput,
   Platform,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import { createOneProduct } from "../../apis/products";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 import ImagePickerComp from "../../components/ImagePicker";
 
 const AddProduct = () => {
@@ -24,13 +25,14 @@ const AddProduct = () => {
     description: "",
   });
   const [image, setImage] = useState(null);
+  const [pdf, setPdf] = useState(null); // New state for PDF
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const navigation = useNavigation();
 
   const { mutate } = useMutation({
     mutationKey: ["createOneProduct"],
-    mutationFn: () => createOneProduct({ ...productInfo, image }),
+    mutationFn: () => createOneProduct({ ...productInfo, image, pdf }),
     onSuccess: () => {
       setAlertMessage("Product Added!");
       setModalVisible(true);
@@ -46,6 +48,15 @@ const AddProduct = () => {
 
   const handleChange = (key, value) => {
     setProductInfo((prev) => ({ ...prev, [key]: value }));
+  };
+  const handlePickPdf = async () => {
+    let result = await DocumentPicker.getDocumentAsync({
+      type: "application/pdf",
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setPdf(result.assets[0]);
+    }
   };
 
   const handleSubmit = () => {
@@ -116,7 +127,6 @@ const AddProduct = () => {
             backgroundColor: "blue",
             flex: 4,
             width: "85%",
-            // height: 300,
             borderRadius: 10,
             overflow: "hidden",
             elevation: 50,
@@ -124,13 +134,30 @@ const AddProduct = () => {
         >
           <ImagePickerComp setImage={setImage} image={image} />
         </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#574EFA",
+            borderRadius: 7,
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 10,
+            width: 300,
+            height: 45,
+            marginVertical: 10,
+          }}
+          onPress={handlePickPdf}
+        >
+          <Text style={{ color: "white" }}>Pick PDF</Text>
+        </TouchableOpacity>
+        {pdf && (
+          <Text style={{ marginBottom: 10 }}>Picked PDF: {pdf.name}</Text>
+        )}
         <KeyboardAwareScrollView
           style={{
             borderTopEndRadius: 10,
             width: "100%",
           }}
           contentContainerStyle={{
-            // flex: 10,
             justifyContent: "space-evenly",
             alignItems: "center",
           }}

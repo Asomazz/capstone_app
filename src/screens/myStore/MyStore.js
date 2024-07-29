@@ -18,12 +18,17 @@ import { useQuery } from "@tanstack/react-query";
 
 const MyStore = () => {
   const [query, setQuery] = useState("");
-  console.log(query);
+
   const navigation = useNavigation();
 
   const { data: products, refetch } = useQuery({
     queryKey: ["products"],
     queryFn: getAllProducts,
+  });
+
+  const { data: userInfo, refetch: userRefetch } = useQuery({
+    queryKey: ["getCreatorLink"],
+    queryFn: getProfile,
   });
 
   const handleGoToAddProduct = () => {
@@ -34,31 +39,70 @@ const MyStore = () => {
     setQuery(text);
   };
 
-  const filteredProducts = products?.filter((product) => {
-    return product.title.toLowerCase().includes(query.toLowerCase());
-  });
+  const filteredProducts = products
+    ?.sort((a, b) => {
+      return new Date(b.updatedAt) - new Date(a.updatedAt);
+    })
+    .filter((product) => {
+      return product.title.toLowerCase().includes(query.toLowerCase());
+    });
 
   return (
     <View style={styles.container}>
-      <ScrollView stickyHeaderIndices={[2]}>
-        <Link />
-        <Profile />
-        <View style={styles.addButtonContainer}>
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={handleGoToAddProduct}
-          >
-            <Text style={styles.addButtonText}>+ Add A Product</Text>
-          </TouchableOpacity>
+      <ScrollView stickyHeaderIndices={[1]} contentContainerStyle={{}}>
+        <View
+          style={{
+            overflow: "hidden",
+            backgroundColor: "white",
+          }}
+        >
+          <Link userInfo={userInfo} />
+          <Profile userInfo={userInfo} refetch={userRefetch} />
         </View>
-        <View style={styles.searchContainer}>
-          <SearchBar
-            placeholder="Search For Your Product Here..."
-            onChangeText={handleChange}
-            lightTheme
-            round
-            value={query}
-          />
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              paddingHorizontal: 20,
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: 6,
+              backgroundColor: "white",
+              padding: 12,
+              borderBottomLeftRadius: 12,
+              borderBottomRightRadius: 12,
+            }}
+          >
+            <View style={{ flex: 7 }}>
+              <SearchBar
+                placeholder="Search..."
+                onChangeText={handleChange}
+                lightTheme
+                containerStyle={{
+                  backgroundColor: "transparent",
+                  borderWidth: 0,
+                  padding: 0,
+                }}
+                round={true}
+                inputContainerStyle={{
+                  borderRadius: 10,
+                }}
+                value={query}
+              />
+            </View>
+            <View style={{ flex: 3 }}>
+              <TouchableOpacity
+                style={styles.addButton}
+                onPress={handleGoToAddProduct}
+              >
+                <Text style={styles.addButtonText}>+ Add A Product</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
         <ProductsList data={filteredProducts} refetch={refetch} />
       </ScrollView>
@@ -69,17 +113,11 @@ const MyStore = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 5,
-    paddingVertical: 5,
     justifyContent: "flex-start",
     gap: 5,
   },
-  addButtonContainer: {
-    flex: 1,
-  },
+
   addButton: {
-    height: 50,
-    width: 370,
     borderColor: "gray",
     backgroundColor: "#342B7F",
     borderWidth: 0.3,
@@ -93,9 +131,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     color: "white",
-  },
-  searchContainer: {
-    flex: 1,
   },
 });
 

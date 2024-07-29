@@ -14,7 +14,6 @@ export default function App() {
 
   const checkToken = async () => {
     const token = await getToken();
-    console.log(token);
     if (token) {
       setUser(true);
     } else {
@@ -33,7 +32,9 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <UserContext.Provider value={[user, setUser]}>
           <NavigationContainer>
-            {user ? <MainNavigation /> : <AuthNavigation />}
+            <SafeAreaView style={{ flex: 1 }}>
+              {user ? <MainNavigation /> : <AuthNavigation />}
+            </SafeAreaView>
           </NavigationContainer>
         </UserContext.Provider>
       </QueryClientProvider>

@@ -6,7 +6,6 @@ import ProductCard from "./ProductCard";
 import { useFocusEffect } from "@react-navigation/native";
 
 const ProductsList = ({ data, refetch }) => {
-
   useFocusEffect(
     useCallback(() => {
       refetch();
@@ -17,7 +16,6 @@ const ProductsList = ({ data, refetch }) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: "white",
         overflow: "hidden",
         justifyContent: "center",
         alignItems: "center",
@@ -43,6 +41,7 @@ const ProductsList = ({ data, refetch }) => {
               title={product.title}
               price={product.price}
               link={product.image}
+              product={product}
             />
           );
         })}
