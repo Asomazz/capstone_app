@@ -85,7 +85,7 @@ const getAllProducts = async () => {
 
 const getProduct = async (id) => {
   try {
-    const { data } = await instance.get(`/product/${id}`);
+    const { data } = await instance.get(`/product/app/${id}`);
     return data;
   } catch (error) {
     console.log(error);
