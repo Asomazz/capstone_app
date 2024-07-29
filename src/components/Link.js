@@ -1,15 +1,8 @@
-import { View, Text, TouchableOpacity, Modal, Pressable } from "react-native";
-import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getProfile } from "../apis/auth";
 import * as Clipboard from "expo-clipboard";
+import React, { useState } from "react";
+import { Modal, Pressable, Text, TouchableOpacity, View } from "react-native";
 
-const Link = () => {
-  const { data: userInfo } = useQuery({
-    queryKey: ["getCreatorLink"],
-    queryFn: getProfile,
-  });
-
+const Link = ({ userInfo }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleCopy = async (text) => {
@@ -20,14 +13,11 @@ const Link = () => {
   return (
     <View
       style={{
-        height: 75,
+        padding: 10,
         backgroundColor: "white",
-        borderRadius: 10,
         overflow: "hidden",
         justifyContent: "center",
-        alignItems: "center",
-        padding: 10,
-        gap: 20,
+        // alignItems: "center",
       }}
     >
       <Modal
@@ -95,19 +85,25 @@ const Link = () => {
         </View>
       </Modal>
 
-      <View style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          paddingHorizontal: 24,
+        }}
+      >
         <TouchableOpacity
           style={{
-            height: 30,
-            width: 360,
+            width: "100%",
+            padding: 10,
             borderColor: "gray",
             backgroundColor: "#A8A3FF",
             borderWidth: 0.3,
             padding: 5,
-            borderRadius: 10,
+            borderRadius: 8,
             overflow: "hidden",
             justifyContent: "center",
-            alignItems: "flex-start",
           }}
           onPress={() =>
             handleCopy(`https://fluidstore.link/${userInfo?.username}`)
@@ -126,11 +122,10 @@ const Link = () => {
       </View>
       <View
         style={{
-          alignItems: "flex-start",
+          alignItems: "center",
           flex: 1,
-          height: 30,
-          width: 360,
           padding: 5,
+          textAlign: "center",
         }}
       >
         <Text style={{ fontSize: 10 }}>

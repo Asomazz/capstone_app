@@ -29,7 +29,7 @@ const AddProduct = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const navigation = useNavigation();
-  console.log(pdf);
+
   const { mutate } = useMutation({
     mutationKey: ["createOneProduct"],
     mutationFn: () => createOneProduct({ ...productInfo, image, pdf }),

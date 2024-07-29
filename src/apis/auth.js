@@ -33,10 +33,8 @@ const getProfile = async () => {
 };
 const updateProfile = async (userInfo) => {
   try {
-    console.log("i am being called ", userInfo);
     const formData = new FormData();
 
-    console.log("i am being called 2");
     for (let key in userInfo) {
       if (key === "image" && userInfo[key]) {
         formData.append(key, {
@@ -48,14 +46,12 @@ const updateProfile = async (userInfo) => {
         formData.append(key, userInfo[key]);
       }
     }
-    console.log("i am being called 3");
 
     const { data } = await instance.put("/creator/profile/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log("i am being called 4");
 
     return data;
   } catch (error) {
