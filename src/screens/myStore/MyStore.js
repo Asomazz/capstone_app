@@ -113,7 +113,6 @@ const MyStore = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     justifyContent: "flex-start",
     gap: 5,
   },
