@@ -49,8 +49,13 @@ const MyStore = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView stickyHeaderIndices={[1]} contentContainerStyle={{ gap: 8 }}>
-        <View style={{ borderRadius: 12, overflow: "hidden" }}>
+      <ScrollView stickyHeaderIndices={[1]} contentContainerStyle={{}}>
+        <View
+          style={{
+            overflow: "hidden",
+            backgroundColor: "white",
+          }}
+        >
           <Link userInfo={userInfo} />
           <Profile userInfo={userInfo} refetch={userRefetch} />
         </View>
@@ -66,6 +71,10 @@ const MyStore = () => {
               flexDirection: "row",
               flexWrap: "wrap",
               gap: 6,
+              backgroundColor: "white",
+              padding: 12,
+              borderBottomLeftRadius: 12,
+              borderBottomRightRadius: 12,
             }}
           >
             <View style={{ flex: 7 }}>
@@ -104,8 +113,7 @@ const MyStore = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 5,
-    paddingVertical: 5,
+
     justifyContent: "flex-start",
     gap: 5,
   },
