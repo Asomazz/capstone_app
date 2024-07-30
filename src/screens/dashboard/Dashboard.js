@@ -1,9 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { Dimensions, ScrollView, Text, View, ActivityIndicator, RefreshControl, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  Dimensions,
+  ScrollView,
+  Text,
+  View,
+  ActivityIndicator,
+  RefreshControl,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { getProfile } from "../../apis/auth";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -14,7 +23,10 @@ const Dashboard = () => {
     queryFn: getProfile,
   });
 
-  const [chartData, setChartData] = useState({ labels: [], datasets: [{ data: [] }] });
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [{ data: [0, 0, 0, 0, 0] }],
+  });
 
   useEffect(() => {
     if (data) {
@@ -25,13 +37,17 @@ const Dashboard = () => {
       const dateLabels = [];
       const dateData = {};
 
-      for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      for (
+        let d = new Date(startDate);
+        d <= endDate;
+        d.setDate(d.getDate() + 1)
+      ) {
         const dateString = `${d.getDate()}/${d.getMonth() + 1}`;
         dateLabels.push(dateString);
         dateData[dateString] = 0;
       }
 
-      data.receipts.forEach(receipt => {
+      data.receipts.forEach((receipt) => {
         const date = new Date(receipt.createdAt);
         const dateString = `${date.getDate()}/${date.getMonth() + 1}`;
         if (dateString in dateData) {
@@ -40,15 +56,29 @@ const Dashboard = () => {
       });
 
       const labels = dateLabels;
-      const dataset = labels.map(label => dateData[label]);
+      const dataset = labels.map((label) => dateData[label]);
 
-      setChartData({ labels, datasets: [{ data: dataset, color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, strokeWidth: 2 }] });
+      setChartData({
+        labels,
+        datasets: [
+          {
+            data: dataset,
+            color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+            strokeWidth: 2,
+          },
+        ],
+      });
     }
   }, [data]);
 
   const totalRevenue = data?.revenue ?? 0;
-  const receipts = data?.receipts ?? [];
-  const storeClicks = data?.storeClicks ?? 0;
+  const receipts =
+    data?.receipts?.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    }) ?? [];
+
+  const storeClicks =
+    data?.clicks?.filter((click) => click.storeClick).length ?? 0;
 
   if (isLoading) {
     return (
@@ -68,11 +98,15 @@ const Dashboard = () => {
 
   return (
     <ScrollView
-      refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
+      refreshControl={
+        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+      }
       style={styles.container}
     >
       <View style={styles.headerContainer}>
-        <Text style={styles.dashboardText}>Welcome {data?.username} to your Fluid Store Dashboard</Text>
+        <Text style={styles.dashboardText}>
+          Welcome {data?.username} to your Fluid Store Dashboard
+        </Text>
         <Text style={styles.revenueText}>Total Revenue:</Text>
         <Text style={styles.revenueAmount}>{totalRevenue} KWD</Text>
       </View>
@@ -99,24 +133,37 @@ const Dashboard = () => {
           />
         )}
       </View>
-      <View style={styles.storeVisitsContainer}>
-        <Text style={styles.storeVisitsText}>Total Store Visits:</Text>
-        <Text style={styles.storeVisitsAmount}>{storeClicks}</Text>
+      <View style={styles.analyticsContainer}>
+        <View style={styles.analyticsCards}>
+          <View style={styles.analyticsCard}>
+            <Text style={styles.analyticsCardTitle}>Store Visits</Text>
+            <Text style={styles.analyticsCardValue}>{storeClicks}</Text>
+          </View>
+          {/* Add more cards here if needed */}
+        </View>
       </View>
       <View style={styles.ordersContainer}>
         <View style={styles.ordersHeader}>
           <Text style={styles.ordersTitle}>Your Recent Orders:</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Orders')}>
+          <TouchableOpacity onPress={() => navigation.navigate("Orders")}>
             <Text style={styles.viewAll}>View All</Text>
           </TouchableOpacity>
         </View>
         {receipts.slice(0, 5).map((receipt) => (
           <View key={receipt._id} style={styles.orderCard}>
             <View style={styles.orderHeader}>
-              <Text style={styles.orderTitle} numberOfLines={1} ellipsizeMode="tail">Receipt: {receipt._id}</Text>
+              <Text
+                style={styles.orderTitle}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                Receipt: {receipt?.receiptNumber}
+              </Text>
               <Text style={styles.orderAmount}>{receipt.totalAmount} KWD</Text>
             </View>
-            <Text style={styles.orderDate}>{new Date(receipt.createdAt).toLocaleString()}</Text>
+            <Text style={styles.orderDate}>
+              {new Date(receipt.createdAt).toLocaleString()}
+            </Text>
             <View style={styles.orderDetail}>
               <Text style={styles.detailLabel}>Email:</Text>
               <Text style={styles.detailValue}>{receipt.customerEmail}</Text>
@@ -160,7 +207,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
   },
   dashboardText: {
     fontSize: 16,
@@ -185,27 +232,45 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
   },
   chart: {
     borderRadius: 16,
   },
-  storeVisitsContainer: {
+  analyticsContainer: {
     marginVertical: 20,
     padding: 20,
     borderRadius: 16,
     backgroundColor: "#fff",
-    alignItems: 'center',
-    justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
   },
-  storeVisitsText: {
+  analyticsTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+  },
+  analyticsCards: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  analyticsCard: {
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "#f5f5f5",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  analyticsCardTitle: {
     fontSize: 14,
     fontWeight: "bold",
     color: "#574EFA",
   },
-  storeVisitsAmount: {
+  analyticsCardValue: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#333",
@@ -214,9 +279,9 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   ordersHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
   ordersTitle: {
@@ -226,7 +291,7 @@ const styles = StyleSheet.create({
   },
   viewAll: {
     fontSize: 14,
-    color: '#574EFA',
+    color: "#574EFA",
   },
   orderCard: {
     marginBottom: 15,
@@ -234,23 +299,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
   },
   orderHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 10,
   },
   orderTitle: {
     flex: 1,
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "#333",
     marginRight: 10,
   },
   orderAmount: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "#574EFA",
   },
   orderDate: {
@@ -259,14 +324,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   orderDetail: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 5,
   },
   detailLabel: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "#333",
-    width: '30%',
+    width: "30%",
   },
   detailValue: {
     fontSize: 12,

@@ -17,6 +17,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"; //snapchat
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6"; //x-twitter
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ImagePickerComp from "../../components/ImagePicker";
+import Header from "../../components/Header";
 
 const EditProfile = () => {
   const [userInfo, setUserInfo] = useState({
@@ -90,6 +91,7 @@ const EditProfile = () => {
         padding: 5,
       }}
     >
+      <Header />
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View
           style={{

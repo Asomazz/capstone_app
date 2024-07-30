@@ -10,6 +10,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Header from "../../components/Header";
 
 const Security = () => {
   const navigation = useNavigation();
@@ -25,9 +26,11 @@ const Security = () => {
 
   return (
     <>
-      <SafeAreaView style={{ flex: 0, backgroundColor: "#403a58" }} />
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#f4f4f9" }}>
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: "#f4f4f9", padding: 20 }}
+      >
         <View style={styles.headerContainer}>
+          <Header isDark={true} />
           <Text style={styles.headerText}>
             Security
             <MaterialIcons
@@ -37,6 +40,7 @@ const Security = () => {
             />
           </Text>
         </View>
+
         <KeyboardAwareScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContent}

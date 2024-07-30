@@ -7,9 +7,12 @@ const Stack = createStackNavigator();
 const DashboardNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="dashboard" component={Dashboard} />
+      <Stack.Screen
+        options={{ headerTitle: "Dashboard" }}
+        name="dashboard"
+        component={Dashboard}
+      />
       <Stack.Screen name="Orders" component={Orders} />
-
     </Stack.Navigator>
   );
 };

@@ -6,7 +6,13 @@ const Stack = createStackNavigator();
 const AnalyticsNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="analytics" component={Analytics} />
+      <Stack.Screen
+        options={{
+          headerTitle: "Analytics",
+        }}
+        name="analytics"
+        component={Analytics}
+      />
     </Stack.Navigator>
   );
 };

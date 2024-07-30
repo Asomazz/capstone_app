@@ -10,12 +10,36 @@ const Stack = createStackNavigator();
 const MyStoreNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="myStore" component={MyStore} />
-      <Stack.Screen name="editProfile" component={EditProfile} />
-      <Stack.Screen name="addProduct" component={AddProduct} />
-      <Stack.Screen name="editProduct" component={EditProduct} />
+      <Stack.Screen
+        options={{
+          headerTitle: "My Store",
+        }}
+        name="myStore"
+        component={MyStore}
+      />
+      <Stack.Screen
+        options={{
+          headerTitle: "Update Profile",
+        }}
+        name="editProfile"
+        component={EditProfile}
+      />
+      <Stack.Screen
+        options={{
+          headerTitle: "Add Product",
+        }}
+        name="addProduct"
+        component={AddProduct}
+      />
+      <Stack.Screen
+        options={{
+          headerTitle: "Update Product",
+        }}
+        name="editProduct"
+        component={EditProduct}
+      />
     </Stack.Navigator>
-  );    
+  );
 };
 
 export default MyStoreNavigation;

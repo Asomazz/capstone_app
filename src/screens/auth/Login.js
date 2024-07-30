@@ -27,10 +27,12 @@ const Login = () => {
     mutationKey: ["login"],
     mutationFn: () => login(userInfo),
     onSuccess: (data) => {
+
       if (!data || data.error) {
         Alert.alert("Login Failed", "The username or password is incorrect");
         return;
       }
+
       setUser(true);
       navigation.navigate("dashboard");
     },

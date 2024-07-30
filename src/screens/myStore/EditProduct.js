@@ -2,9 +2,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   Modal,
-  Pressable,
   TouchableOpacity,
   TextInput,
   Alert,
@@ -15,6 +13,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteProduct, getProduct, updateProduct } from "../../apis/products";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ImagePickerComp from "../../components/ImagePicker";
+import * as DocumentPicker from "expo-document-picker";
+import Header from "../../components/Header";
 
 const EditProduct = () => {
   const route = useRoute();
@@ -25,6 +25,7 @@ const EditProduct = () => {
     description: "",
   });
   const [image, setImage] = useState(null);
+  const [pdf, setPdf] = useState(null); // New state for PDF
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -38,7 +39,7 @@ const EditProduct = () => {
   const { mutate: updateProductMutate } = useMutation({
     mutationKey: ["updateProduct"],
     mutationFn: () => {
-      updateProduct({ ...productInfo, image: image || data?.image }, id);
+      updateProduct({ ...productInfo, image: image || data?.image, pdf }, id);
     },
 
     onSuccess: () => {
@@ -72,23 +73,36 @@ const EditProduct = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(`I am useeffect , ${data.price}`);
       setProductInfo({
         title: data.title,
         price: data.price,
         description: data.description,
       });
       setImage(data.image);
+      setPdf(data.file); // Set the existing PDF file
     }
   }, [data]);
 
   const handleChange = (key, value) => {
-    console.log("first");
     setProductInfo((prev) => ({ ...prev, [key]: value }));
   };
 
+  const handlePickPdf = async () => {
+    let result = await DocumentPicker.getDocumentAsync({
+      type: "application/pdf",
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setPdf(result.assets[0]);
+    }
+  };
+
+  const handleRemovePdf = () => {
+    setPdf(null);
+  };
+
   const handleUpdate = () => {
-    if (!productInfo.price) return Alert.alert("please add a price");
+    if (!productInfo.price) return Alert.alert("Please add a price");
     updateProductMutate();
   };
 
@@ -107,9 +121,9 @@ const EditProduct = () => {
 
   if (isLoading) return <Text>Loading...</Text>;
 
-  console.log(data);
   return (
     <View style={styles.container}>
+      <Header/>
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>
@@ -147,13 +161,13 @@ const EditProduct = () => {
       </Modal>
 
       <View style={styles.innerContainer}>
-        <View style={styles.imagePickerContainer}>
-          <ImagePickerComp setImage={setImage} image={image} />
-        </View>
         <KeyboardAwareScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContent}
         >
+          <View style={styles.imagePickerContainer}>
+            <ImagePickerComp setImage={setImage} image={image} />
+          </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Product Title</Text>
             <TextInput
@@ -183,6 +197,28 @@ const EditProduct = () => {
               blurOnSubmit={true}
             />
           </View>
+          {pdf ? (
+            <View style={styles.fileContainer}>
+              <Text style={styles.label}>Product File</Text>
+              <TouchableOpacity onPress={() => handleRemovePdf()}>
+                <Text style={styles.removeFileText}>Remove File</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  // Implement download functionality if needed
+                }}
+              >
+                <Text style={styles.downloadFileText}>Download File</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={styles.pickFileButton}
+              onPress={handlePickPdf}
+            >
+              <Text style={styles.buttonText}>Pick PDF</Text>
+            </TouchableOpacity>
+          )}
           <View style={styles.buttonsContainer}>
             <TouchableOpacity
               style={styles.updateButton}
@@ -269,9 +305,9 @@ const styles = StyleSheet.create({
   },
   imagePickerContainer: {
     backgroundColor: "blue",
-    flex: 4,
-    width: 300,
-    height: 300,
+    // flex: 8,
+    width: "85%",
+    height: 180,
     borderRadius: 10,
     overflow: "hidden",
     elevation: 50,
@@ -334,5 +370,28 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
+  },
+  fileContainer: {
+    width: "100%",
+    alignItems: "flex-start",
+    padding: 30,
+  },
+  pickFileButton: {
+    backgroundColor: "#574EFA",
+    borderRadius: 7,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    width: 300,
+    height: 45,
+    marginTop: 20,
+  },
+  removeFileText: {
+    color: "red",
+    marginTop: 10,
+  },
+  downloadFileText: {
+    color: "#0066cc",
+    marginTop: 10,
   },
 });

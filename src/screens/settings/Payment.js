@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Switch, Animated } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Button } from "react-native-elements";
+import Header from "../../components/Header";
 
 export default function Payment() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
@@ -25,6 +26,7 @@ export default function Payment() {
 
   return (
     <Animated.View style={[styles.container, { opacity }]}>
+      <Header />
       <View style={styles.section}>
         <Text style={styles.title}>Payment Methods</Text>
         <Button

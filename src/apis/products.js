@@ -1,5 +1,5 @@
 import instance from ".";
-import * as SecureStore from "expo-secure-store";
+
 const createOneProduct = async (productInfo) => {
   try {
     const formData = new FormData();
@@ -11,8 +11,16 @@ const createOneProduct = async (productInfo) => {
         const match = /\.(\w+)$/.exec(filename);
         const type = match ? `image/${match[1]}` : `image`;
 
-        // const response = await fetch(localUri);
-        // const blob = await response.blob();
+        formData.append(key, {
+          uri: localUri,
+          name: filename,
+          type: type,
+        });
+      } else if (key === "pdf" && productInfo[key]) {
+        const localUri = productInfo[key].uri;
+        const filename = productInfo[key].name;
+        const type = "application/pdf";
+
         formData.append(key, {
           uri: localUri,
           name: filename,
@@ -77,7 +85,7 @@ const getAllProducts = async () => {
 
 const getProduct = async (id) => {
   try {
-    const { data } = await instance.get(`/product/${id}`);
+    const { data } = await instance.get(`/product/app/${id}`);
     return data;
   } catch (error) {
     console.log(error);

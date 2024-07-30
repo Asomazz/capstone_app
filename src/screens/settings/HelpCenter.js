@@ -12,6 +12,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Header from "../../components/Header";
 
 const HelpCenter = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -28,11 +29,19 @@ const HelpCenter = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.safeArea} />
       <SafeAreaView style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>Customer Support</Text>
-          <AntDesign name="customerservice" size={30} color="white" />
+        <View
+          style={{
+            backgroundColor: "#574EFA",
+            paddingVertical: 30,
+            paddingHorizontal: 20,
+          }}
+        >
+          <Header isDark={true} />
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Customer Support</Text>
+            <AntDesign name="customerservice" size={30} color="white" />
+          </View>
         </View>
         <KeyboardAwareScrollView
           style={styles.scrollView}
