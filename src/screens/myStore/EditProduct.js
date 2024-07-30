@@ -14,6 +14,7 @@ import { deleteProduct, getProduct, updateProduct } from "../../apis/products";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ImagePickerComp from "../../components/ImagePicker";
 import * as DocumentPicker from "expo-document-picker";
+import Header from "../../components/Header";
 
 const EditProduct = () => {
   const route = useRoute();
@@ -122,6 +123,7 @@ const EditProduct = () => {
 
   return (
     <View style={styles.container}>
+      <Header/>
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>

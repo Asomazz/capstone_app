@@ -74,9 +74,11 @@ const Dashboard = () => {
   const totalRevenue = data?.revenue ?? 0;
   const receipts =
     data?.receipts?.sort((a, b) => {
-      return new Date(b.updatedAt) - new Date(a.updatedAt);
+      return new Date(b.createdAt) - new Date(a.createdAt);
     }) ?? [];
-  const storeClicks = data?.storeClicks ?? 0;
+
+  const storeClicks =
+    data?.clicks?.filter((click) => click.storeClick).length ?? 0;
 
   if (isLoading) {
     return (
@@ -131,9 +133,14 @@ const Dashboard = () => {
           />
         )}
       </View>
-      <View style={styles.storeVisitsContainer}>
-        <Text style={styles.storeVisitsText}>Total Store Visits:</Text>
-        <Text style={styles.storeVisitsAmount}>{storeClicks}</Text>
+      <View style={styles.analyticsContainer}>
+        <View style={styles.analyticsCards}>
+          <View style={styles.analyticsCard}>
+            <Text style={styles.analyticsCardTitle}>Store Visits</Text>
+            <Text style={styles.analyticsCardValue}>{storeClicks}</Text>
+          </View>
+          {/* Add more cards here if needed */}
+        </View>
       </View>
       <View style={styles.ordersContainer}>
         <View style={styles.ordersHeader}>
@@ -150,7 +157,7 @@ const Dashboard = () => {
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
-                Receipt: {receipt._id}
+                Receipt: {receipt?.receiptNumber}
               </Text>
               <Text style={styles.orderAmount}>{receipt.totalAmount} KWD</Text>
             </View>
@@ -230,22 +237,40 @@ const styles = StyleSheet.create({
   chart: {
     borderRadius: 16,
   },
-  storeVisitsContainer: {
+  analyticsContainer: {
     marginVertical: 20,
     padding: 20,
     borderRadius: 16,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
     borderWidth: 1,
     borderColor: "#ddd",
   },
-  storeVisitsText: {
+  analyticsTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+  },
+  analyticsCards: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  analyticsCard: {
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "#f5f5f5",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  analyticsCardTitle: {
     fontSize: 14,
     fontWeight: "bold",
     color: "#574EFA",
   },
-  storeVisitsAmount: {
+  analyticsCardValue: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#333",

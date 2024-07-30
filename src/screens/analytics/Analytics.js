@@ -156,15 +156,15 @@ const AnalyticsPage = () => {
         data: [],
         color: "rgba(255, 99, 132, 1)",
       },
-      snapchatClicks: {
-        label: "Snapchat Clicks",
-        data: [],
-        color: "rgba(255, 230, 0, 1)",
-      },
       twitterClicks: {
         label: "X Clicks",
         data: [],
         color: "rgba(0, 0, 0, 1)",
+      },
+      snapchatClicks: {
+        label: "Snapchat Clicks",
+        data: [],
+        color: "rgba(255, 230, 0, 1)",
       },
     };
 
@@ -270,16 +270,16 @@ const AnalyticsPage = () => {
       total: aggregateTotalClicks("tiktokClick"),
     },
     {
-      title: "Snapchat Clicks",
-      metric: "snapchatClicks",
-      color: "rgba(255, 230, 0, 1)",
-      total: aggregateTotalClicks("snapchatClick"),
-    },
-    {
       title: "X Clicks",
       metric: "twitterClicks",
       color: "rgba(0, 0, 0, 1)",
       total: aggregateTotalClicks("twitterClick"),
+    },
+    {
+      title: "Snapchat Clicks",
+      metric: "snapchatClicks",
+      color: "rgba(255, 230, 0, 1)",
+      total: aggregateTotalClicks("snapchatClick"),
     },
   ];
 
@@ -288,7 +288,9 @@ const AnalyticsPage = () => {
       <Text style={styles.headline}>My Store Analytics</Text>
       {selectedTitle ? (
         <Text style={styles.selectedTitle}>{selectedTitle}</Text>
-      ) : null}
+      ) : (
+        <Text style={styles.selectedTitle}>All</Text>
+      )}
       <View style={styles.chartContainer}>
         {isLoading ? (
           <View style={styles.loadingContainer}>
@@ -353,7 +355,9 @@ const AnalyticsPage = () => {
                 style={styles.drawerItem}
                 onPress={() => handleProductSelect(item)}
               >
+                {console.log(item)}
                 <Text style={styles.drawerItemText}>{item.title}</Text>
+                <Text style={styles.drawerItemText}>{item.clicks?.length}</Text>
               </TouchableOpacity>
             )}
           />
@@ -441,13 +445,12 @@ const styles = StyleSheet.create({
   cardContent: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 5,
   },
   cardTitle: {
     fontSize: 14,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 5,
-    marginLeft: 5,
   },
   cardTotal: {
     fontSize: 14,
@@ -489,6 +492,8 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   drawerItemText: {
     fontSize: 16,

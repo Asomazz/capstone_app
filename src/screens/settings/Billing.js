@@ -2,10 +2,12 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Header from "../../components/Header";
 
 export default function Billing() {
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+      <Header />
       <Text style={styles.title}>Billing</Text>
       <View style={styles.billingContainer}>
         <View style={styles.row}>

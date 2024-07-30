@@ -6,14 +6,17 @@ import Icon from "react-native-vector-icons/FontAwesome";
 export default function Header({
   title = "Back",
   backgroundColor = "transparent",
+  isDark = false,
 }) {
   const navigation = useNavigation();
   return (
     <View style={[styles.header, { backgroundColor: backgroundColor }]}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Icon name="arrow-left" size={24} color="#574EFA" />
+        <Icon name="arrow-left" size={24} color={isDark ? "#fff" : "#574EFA"} />
       </TouchableOpacity>
-      <Text style={styles.headerTitle}> {title} </Text>
+      <Text style={[styles.headerTitle, { color: isDark ? "#fff" : "#333" }]}>
+        {title}
+      </Text>
     </View>
   );
 }
@@ -27,7 +30,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333",
     marginLeft: 10,
   },
 });

@@ -1,10 +1,12 @@
 import { View, Text, StyleSheet, Switch } from "react-native";
 import React from "react";
 import { Button } from "react-native-elements";
+import Header from "../../components/Header";
 
 export default function Payment() {
   return (
     <View style={styles.container}>
+      <Header />
       <View style={styles.section}>
         <Text style={styles.title}>Payment Methods</Text>
         <Button

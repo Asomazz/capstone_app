@@ -29,7 +29,11 @@ const Orders = () => {
 
   useEffect(() => {
     if (data && data.receipts) {
-      setFilteredOrders(data.receipts);
+      setFilteredOrders(
+        data.receipts.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        })
+      );
     }
   }, [data]);
 
@@ -52,7 +56,11 @@ const Orders = () => {
           return formattedDate.includes(searchQuery);
         }
       });
-      setFilteredOrders(filtered);
+      setFilteredOrders(
+        filtered.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        })
+      );
     }
   }, [searchQuery, filterType, data]);
 
@@ -97,7 +105,7 @@ const Orders = () => {
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
-                Receipt: {item._id}
+                Receipt: {item?.receiptNumber}
               </Text>
               <Text style={styles.orderAmount}>{item.totalAmount} KWD</Text>
             </View>
