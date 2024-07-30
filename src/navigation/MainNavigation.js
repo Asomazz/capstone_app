@@ -19,7 +19,7 @@ const MainNavigation = () => {
         name="dashboardIndex"
         component={DashboardNavigation}
         options={{
-          headerTitle:"Dashboard", //the title of the page on top
+          headerTitle: "Dashboard", //the title of the page on top
           tabBarLabel: "Dashboard",
           tabBarIcon: ({ size, focused }) => (
             <AntDesign
@@ -59,7 +59,7 @@ const MainNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="settingsNavigation"
+        name="Settings"
         component={SettingsNavigation}
         options={{
           tabBarLabel: "Settings",

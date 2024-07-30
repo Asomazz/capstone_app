@@ -1,34 +1,44 @@
 import {
-  Button,
+  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
-  View,
-  Image,
   TouchableOpacity,
-  SafeAreaView,
+  View,
+  Alert,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import Login from "./Login";
-import logo from "../../../assets/logo.png";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "../../apis/auth";
 import UserContext from "../../context/UserContext";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import registerForPushNotificationsAsync from "../../utils/GetUserNotification";
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({});
   const [confirmPassword, setConfirmPassword] = useState("");
   const [user, setUser] = useContext(UserContext);
-
+  const [notificationToken, setNotificationToken] = useState("");
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const getNotificationToken = async () => {
+      const notificationToken = await registerForPushNotificationsAsync();
+      setNotificationToken(notificationToken);
+    };
+    getNotificationToken();
+  }, []);
 
   const { mutate } = useMutation({
     mutationKey: ["register"],
-    mutationFn: () => register(userInfo),
+    mutationFn: () => register(userInfo, notificationToken),
     onSuccess: () => {
       setUser(true);
+      navigation.navigate("dashboard");
+    },
+    onError: () => {
+      Alert.alert("Registration Failed", "Please try again later.");
     },
   });
 
@@ -40,10 +50,9 @@ const Register = () => {
     setConfirmPassword(value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     if (userInfo.password !== confirmPassword) {
-      alert("Passwords do not match!");
+      Alert.alert("Passwords do not match!");
       return;
     }
     mutate(userInfo);
@@ -55,118 +64,59 @@ const Register = () => {
 
   return (
     <>
-      <SafeAreaView style={{ flex: 0, backgroundColor: "#574EFA" }} />
-      <SafeAreaView
-        style={{
-          flex: 1,
-        }}
-      >
-        <View
-          style={{
-            flex: 2,
-            justifyContent: "center",
-            alignItems: "flex-start",
-            padding: 20,
-            backgroundColor: "#574EFA",
-            overflow: "hidden",
-            height: "60%",
-          }}
-        >
-          <Text style={{ fontSize: 30, color: "white" }}>Create Account</Text>
+      <SafeAreaView style={styles.safeArea} />
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Create Account</Text>
         </View>
-        <KeyboardAwareScrollView
-          style={{
-            borderTopEndRadius: 10,
-            width: "100%",
-          }}
-          contentContainerStyle={{
-            // flex: 10,
-            justifyContent: "space-evenly",
-            alignItems: "center",
-          }}
-        >
-          <View style={{ padding: 45, width: 380 }}>
-            <Text
-              style={{
-                fontSize: 18,
-                marginBottom: 25,
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
-            >
-              Welcome to Fluid
-            </Text>
-            <Text style={{ fontWeight: "500" }}>Email</Text>
-            <TextInput
-              style={{
-                borderBottomWidth: 1,
-                borderColor: "lightgray",
-                paddingVertical: 10,
-              }}
-              value={userInfo.email}
-              onChangeText={(text) => handleChange("email", text)}
-              placeholder="Enter your email"
-            />
-            <Text style={{ paddingTop: 20, fontWeight: "500" }}>Password</Text>
-            <TextInput
-              style={{
-                borderBottomWidth: 1,
-                borderColor: "lightgray",
-                paddingVertical: 10,
-              }}
-              secureTextEntry
-              onChangeText={(text) => handleChange("password", text)}
-              value={userInfo.password}
-              placeholder="Enter your password"
-            />
-            <Text style={{ paddingTop: 20, fontWeight: "500" }}>
-              Confirm your password
-            </Text>
-            <TextInput
-              style={{
-                borderBottomWidth: 1,
-                borderColor: "lightgray",
-                paddingVertical: 10,
-              }}
-              secureTextEntry
-              onChangeText={handleConfirmPasswordChange}
-              value={confirmPassword}
-              placeholder="Re-Enter your password"
-            />
-            <Text style={{ paddingTop: 20, fontWeight: "500" }}>
-              Now choose your username
-            </Text>
-            <TextInput
-              style={{
-                borderBottomWidth: 1,
-                borderColor: "lightgray",
-                paddingVertical: 10,
-              }}
-              onChangeText={(text) => handleChange("username", text)}
-              value={userInfo.username}
-              placeholder="This will be shown in your link"
-            />
-          </View>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#574EFA",
-                borderRadius: 7,
-                justifyContent: "center",
-                alignItems: "center",
-                padding: 10,
-                width: 300,
-                height: 45,
-              }}
-              onPress={handleSubmit}
-            >
-              <Text style={{ color: "white" }}>Create Account</Text>
-            </TouchableOpacity>
-            <View style={{ flexDirection: "row", paddingTop: 20 }}>
-              <Text>Already have an account? </Text>
-              <TouchableOpacity title="Go to Login" onPress={handleGoToLogin}>
-                <Text style={{ color: "#574EFA" }}>Login here</Text>
+        <KeyboardAwareScrollView contentContainerStyle={styles.scrollView}>
+          <View style={styles.formContainer}>
+            <Text style={styles.welcomeText}>Welcome to Fluid</Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                placeholderTextColor="#B0B0B0"
+                onChangeText={(text) => handleChange("email", text)}
+                value={userInfo.email}
+              />
+              <TextInput
+                style={styles.input}
+                secureTextEntry
+                placeholder="Password"
+                placeholderTextColor="#B0B0B0"
+                onChangeText={(text) => handleChange("password", text)}
+                value={userInfo.password}
+              />
+              <TextInput
+                style={styles.input}
+                secureTextEntry
+                placeholder="Confirm Password"
+                placeholderTextColor="#B0B0B0"
+                onChangeText={handleConfirmPasswordChange}
+                value={confirmPassword}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Username"
+                placeholderTextColor="#B0B0B0"
+                onChangeText={(text) => handleChange("username", text)}
+                value={userInfo.username}
+              />
+              <TouchableOpacity
+                style={styles.registerButton}
+                onPress={handleSubmit}
+              >
+                <Text style={styles.registerButtonText}>Create Account</Text>
               </TouchableOpacity>
+              <View style={styles.loginRedirect}>
+                <Text style={styles.registerPrompt}>
+                  Already have an account?{" "}
+                </Text>
+                <TouchableOpacity onPress={handleGoToLogin}>
+                  <Text style={styles.loginLink}>Login here</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </KeyboardAwareScrollView>
@@ -176,3 +126,104 @@ const Register = () => {
 };
 
 export default Register;
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 0,
+
+    backgroundColor: "#403a58", // Navy Blue
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#F7F7F7", // Light Gray
+  },
+  header: {
+    height: 200,
+    justifyContent: "center",
+    alignItems: "center",
+    color: "", // Navy Blue
+    backgroundColor: "#403a58", // Navy Blue
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  headerText: {
+    fontSize: 34,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingHorizontal: 20,
+  },
+  scrollView: {
+    flexGrow: 1,
+    padding: 20,
+  },
+  formContainer: {
+    flex: 1,
+    backgroundColor: "white",
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    padding: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  welcomeText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 30,
+    textAlign: "center",
+    color: "#403a58", // Navy Blue
+  },
+  inputContainer: {
+    width: "100%",
+    maxWidth: 400,
+    marginBottom: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#DDDDDD",
+    borderRadius: 25,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    marginBottom: 20,
+    color: "#333",
+    backgroundColor: "#F9F9F9",
+  },
+  registerButton: {
+    backgroundColor: "#403a58", // Coral color
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  registerButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  loginRedirect: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  registerPrompt: {
+    color: "#333",
+  },
+  loginLink: {
+    color: "#FB543C", // Coral color
+    fontWeight: "bold",
+  },
+});

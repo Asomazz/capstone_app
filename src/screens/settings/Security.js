@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -13,13 +13,19 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 const Security = () => {
   const navigation = useNavigation();
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    password: "",
+    reenterPassword: "",
+  });
+
   const handleGoSetting = () => {
     navigation.navigate("settings");
   };
 
   return (
     <>
-      <SafeAreaView style={{ flex: 0, backgroundColor: "#574EFA" }} />
+      <SafeAreaView style={{ flex: 0, backgroundColor: "#403a58" }} />
       <SafeAreaView style={{ flex: 1, backgroundColor: "#f4f4f9" }}>
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>
@@ -44,7 +50,7 @@ const Security = () => {
               placeholder="Enter Your New Username"
               placeholderTextColor="#999"
               onChangeText={(text) => {
-                setuserInfo({ ...userInfo, username: text });
+                setUserInfo({ ...userInfo, username: text });
               }}
             />
             <Text style={styles.label}>Change Your Password</Text>
@@ -54,7 +60,7 @@ const Security = () => {
               placeholder="Enter Your New Password"
               placeholderTextColor="#999"
               onChangeText={(text) => {
-                setuserInfo({ ...userInfo, password: text });
+                setUserInfo({ ...userInfo, password: text });
               }}
             />
             <Text style={styles.label}>Reenter Your Password</Text>
@@ -64,7 +70,7 @@ const Security = () => {
               placeholder="Reenter Your Password"
               placeholderTextColor="#999"
               onChangeText={(text) => {
-                setuserInfo({ ...userInfo, reenterPassword: text });
+                setUserInfo({ ...userInfo, reenterPassword: text });
               }}
             />
             <TouchableOpacity style={styles.submitButton}>
@@ -91,8 +97,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     padding: 32,
-    backgroundColor: "#574EFA",
+    backgroundColor: "#403a58",
     height: "60%",
+    borderBottomEndRadius: 30,
+    borderBottomLeftRadius: 30,
   },
   headerText: {
     fontSize: 28,
@@ -123,7 +131,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginTop: 20,
-    color: "#333",
+    color: "#403a58",
     fontWeight: "500",
   },
   input: {
@@ -138,7 +146,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   submitButton: {
-    backgroundColor: "#574EFA",
+    backgroundColor: "#403a58",
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
@@ -157,7 +165,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   cancelButton: {
-    backgroundColor: "grey",
+    backgroundColor: "#FB543C",
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",

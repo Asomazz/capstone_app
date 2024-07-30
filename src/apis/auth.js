@@ -1,13 +1,17 @@
 import instance from ".";
 import { storeToken } from "./storage";
 
-const register = async (userInfo) => {
+const register = async (userInfo, token) => {
   try {
-    const { data } = await instance.post("/creator/register/", userInfo);
+    const { data } = await instance.post("/creator/register/", {
+      ...userInfo,
+      notification_token: token,
+    });
     storeToken(data.token);
     return data;
   } catch (error) {
     console.log(error);
+    s;
   }
 };
 

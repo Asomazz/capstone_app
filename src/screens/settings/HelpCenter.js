@@ -4,16 +4,25 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Modal,
+  Pressable,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const HelpCenter = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
-  const handleGoSetting = () => {
+
+  const handleSendPress = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
     navigation.navigate("settings");
   };
 
@@ -57,7 +66,7 @@ const HelpCenter = () => {
               />
               <TouchableOpacity
                 style={styles.sendButton}
-                onPress={handleGoSetting}
+                onPress={handleSendPress}
               >
                 <Text style={styles.sendButtonText}>Send</Text>
               </TouchableOpacity>
@@ -65,6 +74,24 @@ const HelpCenter = () => {
           </View>
         </KeyboardAwareScrollView>
       </SafeAreaView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={handleCloseModal}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>Thank You!</Text>
+            <Text style={styles.modalSubText}>
+              Our team will contact you shortly.
+            </Text>
+            <Pressable style={styles.modalButton} onPress={handleCloseModal}>
+              <Text style={styles.modalButtonText}>OK</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -74,14 +101,14 @@ export default HelpCenter;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 0,
-    backgroundColor: "#574EFA",
+    backgroundColor: "#403a58",
   },
   container: {
     flex: 1,
-    backgroundColor: "#f4f4f9",
+    backgroundColor: "#403a58",
   },
   headerContainer: {
-    backgroundColor: "#574EFA",
+    backgroundColor: "#403a58",
     paddingVertical: 30,
     paddingHorizontal: 20,
     alignItems: "center",
@@ -184,7 +211,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   sendButton: {
-    backgroundColor: "#574EFA",
+    backgroundColor: "#FB543C",
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
@@ -201,5 +228,46 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "600",
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    width: 300,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 15,
+    color: "#333",
+  },
+  modalSubText: {
+    fontSize: 16,
+    color: "#333",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  modalButton: {
+    backgroundColor: "#574EFA",
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 2,
+  },
+  modalButtonText: {
+    color: "white",
+    fontSize: 18,
   },
 });

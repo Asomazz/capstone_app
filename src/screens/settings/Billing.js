@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 18,
-    color: "#5a67d8",
+    color: "#FB543C",
     fontWeight: "600",
   },
   subtitle: {
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   button: {
-    backgroundColor: "#5a67d8",
+    backgroundColor: "#403a58",
     borderRadius: 25,
     paddingVertical: 14,
     paddingHorizontal: 22,
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
   },
   updateButton: {
-    backgroundColor: "#48BB78",
+    backgroundColor: "#FB543C",
     borderRadius: 25,
     paddingVertical: 14,
     paddingHorizontal: 22,
