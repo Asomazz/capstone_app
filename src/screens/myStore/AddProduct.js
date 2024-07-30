@@ -17,6 +17,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
 import ImagePickerComp from "../../components/ImagePicker";
+import Header from "../../components/Header";
 
 const AddProduct = () => {
   const [productInfo, setProductInfo] = useState({
@@ -68,9 +69,12 @@ const AddProduct = () => {
       style={{
         flex: 1,
         borderRadius: 10,
-        padding: 5,
+        paddingBottom: 12,
+        paddingHorizontal: 12,
+        paddingTop: 4,
       }}
     >
+      <Header title="Back to store" />
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View
           style={{

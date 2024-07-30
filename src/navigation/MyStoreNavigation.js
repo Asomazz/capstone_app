@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 
 const MyStoreNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         options={{
           headerTitle: "My Store",

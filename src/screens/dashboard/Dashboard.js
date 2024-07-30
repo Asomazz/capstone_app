@@ -72,7 +72,10 @@ const Dashboard = () => {
   }, [data]);
 
   const totalRevenue = data?.revenue ?? 0;
-  const receipts = data?.receipts ?? [];
+  const receipts =
+    data?.receipts?.sort((a, b) => {
+      return new Date(b.updatedAt) - new Date(a.updatedAt);
+    }) ?? [];
   const storeClicks = data?.storeClicks ?? 0;
 
   if (isLoading) {

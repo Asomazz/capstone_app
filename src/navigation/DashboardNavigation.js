@@ -6,7 +6,7 @@ const Stack = createStackNavigator();
 
 const DashboardNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         options={{ headerTitle: "Dashboard" }}
         name="dashboard"

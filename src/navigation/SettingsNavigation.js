@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 
 const SettingsNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         options={{
           headerTitle: "Settings",
