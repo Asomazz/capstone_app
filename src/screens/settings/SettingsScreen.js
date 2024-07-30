@@ -1,26 +1,44 @@
 import {
-  Button,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
   Modal,
   TouchableOpacity as RNTouchableOpacity,
+  Switch,
 } from "react-native";
-import React, { useContext, useState } from "react";
-import { Switch, TouchableOpacity } from "react-native-gesture-handler";
-import { logout } from "../../apis/auth";
+import React, { useContext, useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { removeToken } from "../../apis/storage";
 import UserContext from "../../context/UserContext";
+import registerForPushNotificationsAsync from "../../utils/GetUserNotification";
+import TermsConditions from "./TermsConditions";
 
 const SettingsScreen = () => {
   const [user, setUser] = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
+  const [notificationToken, setNotificationToken] = useState("");
+  const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const getNotificationToken = async () => {
+      const notificationToken = await registerForPushNotificationsAsync();
+      setNotificationToken(notificationToken);
+    };
+    getNotificationToken();
+  }, []);
+
+  const toggleNotificationSwitch = () => {
+    setIsNotificationEnabled((previousState) => !previousState);
+    if (!isNotificationEnabled) {
+      // navigation.navigate("notificationToken");
+    }
+  };
 
   const handleLogoutConfirmation = () => {
     removeToken();
@@ -51,50 +69,62 @@ const SettingsScreen = () => {
   const handleGopayment = () => {
     navigation.navigate("payment");
   };
+  const handleGoTerm = () => {
+    navigation.navigate("TermConditions");
+  };
+  const handleGoPrivacy = () => {
+    navigation.navigate("PrivacyPolicy");
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.settingRow}>
           <Text style={styles.settingText}>Notification Setting</Text>
-          <Switch value={true} />
+          <Switch
+            value={isNotificationEnabled}
+            onValueChange={toggleNotificationSwitch}
+          />
         </View>
 
         <TouchableOpacity onPress={handleGoBilling}>
           <View style={styles.settingRow}>
             <Text style={styles.settingText}>Billing</Text>
-            <AntDesign name="right" size={20} color="#574EFA" />
+            <AntDesign name="right" size={20} color="#FB543C" />
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleGopayment}>
           <View style={styles.settingRow}>
             <Text style={styles.settingText}>Payment</Text>
-            <AntDesign name="right" size={20} color="#574EFA" />
+            <AntDesign name="right" size={20} color="#FB543C" />
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleGoHelp}>
           <View style={styles.settingRow}>
             <Text style={styles.settingText}>Help Center</Text>
-            <AntDesign name="right" size={20} color="#574EFA" />
+            <AntDesign name="right" size={20} color="#FB543C" />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleGoTerm}>
+          <View style={styles.settingRow}>
+            <Text style={styles.settingText}>Term & Conditions</Text>
+            <AntDesign name="right" size={20} color="#FB543C" />
           </View>
         </TouchableOpacity>
 
-        <View style={styles.settingRow}>
-          <Text style={styles.settingText}>Term & Conditions</Text>
-          <AntDesign name="right" size={20} color="#574EFA" />
-        </View>
-
-        <View style={styles.settingRow}>
-          <Text style={styles.settingText}>Privacy Policy</Text>
-          <AntDesign name="right" size={20} color="#574EFA" />
-        </View>
+        <TouchableOpacity onPress={handleGoPrivacy}>
+          <View style={styles.settingRow}>
+            <Text style={styles.settingText}>Privacy Policy</Text>
+            <AntDesign name="right" size={20} color="#FB543C" />
+          </View>
+        </TouchableOpacity>
 
         <TouchableOpacity onPress={handleGoSecurity}>
           <View style={styles.settingRow}>
             <Text style={styles.settingText}>Security</Text>
-            <AntDesign name="right" size={20} color="#574EFA" />
+            <AntDesign name="right" size={20} color="#FB543C" />
           </View>
         </TouchableOpacity>
       </View>
@@ -105,7 +135,7 @@ const SettingsScreen = () => {
           <MaterialCommunityIcons
             name="logout-variant"
             size={24}
-            color="#574EFA"
+            color="#FB543C"
           />
         </TouchableOpacity>
       </View>
@@ -173,6 +203,7 @@ const styles = StyleSheet.create({
   settingText: {
     fontSize: 16,
     fontWeight: "500",
+    color: "#403a58", // Dark Purple
   },
   logoutContainer: {
     padding: 10,
@@ -184,14 +215,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 100,
     borderWidth: 1,
-    borderColor: "#574EFA",
+    borderColor: "#FB543C",
     paddingVertical: 10,
     paddingHorizontal: 20,
     width: 200,
     justifyContent: "center",
   },
   logoutText: {
-    color: "#574EFA",
+    color: "#FB543C",
     fontSize: 18,
     fontWeight: "bold",
     marginRight: 10,
@@ -218,6 +249,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     fontSize: 18,
+    color: "#403a58", // Dark Purple
   },
   modalButtons: {
     flexDirection: "row",
@@ -230,10 +262,10 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#403a58", // Dark Purple
   },
   buttonConfirm: {
-    backgroundColor: "#FF0000",
+    backgroundColor: "#FB543C", // Coral color
   },
   textStyle: {
     color: "white",

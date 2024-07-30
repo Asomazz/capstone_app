@@ -63,7 +63,7 @@ const MainNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="settingsNavigation"
+        name="Settings"
         component={SettingsNavigation}
         options={{
           headerTitle: "Settings",

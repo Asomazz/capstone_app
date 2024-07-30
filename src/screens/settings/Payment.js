@@ -1,11 +1,31 @@
-import { View, Text, StyleSheet, Switch } from "react-native";
-import React from "react";
+import { View, Text, StyleSheet, Switch, Animated } from "react-native";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-native-elements";
 import Header from "../../components/Header";
 
 export default function Payment() {
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const opacity = useState(new Animated.Value(1))[0];
+
+  useEffect(() => {
+    if (isSwitchOn) {
+      Animated.sequence([
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [isSwitchOn, opacity]);
+
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { opacity }]}>
       <Header />
       <View style={styles.section}>
         <Text style={styles.title}>Payment Methods</Text>
@@ -16,12 +36,15 @@ export default function Payment() {
         />
       </View>
       <View style={styles.section}>
-        <Text style={styles.addPayPal}>+ Add PayPal</Text>
+        <Text style={styles.addPayPal}>+ Add Stripe</Text>
       </View>
       <View style={styles.section}>
         <View style={styles.switchContainer}>
           <Text style={styles.label}>Enable Terms & Condition</Text>
-          <Switch value={true} />
+          <Switch
+            value={isSwitchOn}
+            onValueChange={(value) => setIsSwitchOn(value)}
+          />
         </View>
         <Text style={styles.description}>
           When enabled, customers are required to agree to the terms and
@@ -29,7 +52,7 @@ export default function Payment() {
           will appear on each checkout page.
         </Text>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -53,12 +76,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
+    color: "#403a58",
     marginBottom: 15,
     textAlign: "center",
   },
   button: {
-    backgroundColor: "#5a67d8",
+    backgroundColor: "#FB543C",
     borderRadius: 25,
     paddingVertical: 14,
     paddingHorizontal: 25,
@@ -70,7 +93,7 @@ const styles = StyleSheet.create({
   },
   addPayPal: {
     fontSize: 14,
-    color: "#5a67d8",
+    color: "#403a58",
     fontWeight: "500",
     textAlign: "right",
     marginTop: 10,
