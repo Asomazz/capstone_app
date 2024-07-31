@@ -1,9 +1,7 @@
 {
   "expo": {
-    "assets": [
-      "assets/fonts/"
-    ],
-    "name": "capstone_app",
+    "assets": ["assets/fonts/"],
+    "name": "Fluid Store",
     "slug": "capstone-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.yourappname",
+      "bundleIdentifier": "com.fluid.store",
       "config": {
         "googleSignIn": {
           "reservedClientId": "YOUR_REVERSED_CLIENT_ID"
@@ -28,9 +26,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.yourcompany.yourappname"
     },
     "web": {
@@ -49,6 +45,12 @@
         "projectId": "a7165250-d247-474a-b04c-130db4f5eee3"
       }
     },
-    "owner": "asomaz"
+    "owner": "asomaz",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a7165250-d247-474a-b04c-130db4f5eee3"
+    }
   }
 }
