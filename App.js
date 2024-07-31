@@ -1,13 +1,24 @@
-import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
-import AuthNavigation from "./src/navigation/AuthNavigation";
-import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { SafeAreaView, View } from "react-native";
+import { getToken } from "./src/apis/storage";
 import UserContext from "./src/context/UserContext";
-import { getToken, removeToken } from "./src/apis/storage";
+import AuthNavigation from "./src/navigation/AuthNavigation";
 import MainNavigation from "./src/navigation/MainNavigation";
-import SettingsNavigation from "./src/navigation/SettingsNavigation";
+import * as Updates from "expo-updates";
+
+async function onFetchUpdateAsync() {
+  try {
+    const update = await Updates.checkForUpdateAsync();
+    if (update.isAvailable) {
+      await Updates.fetchUpdateAsync();
+      await Updates.reloadAsync();
+    }
+  } catch (error) {
+    console.log(`Error fetching latest Expo update: ${error}`);
+  }
+}
 
 export default function App() {
   const [user, setUser] = useState(false);
@@ -23,6 +34,12 @@ export default function App() {
 
   useEffect(() => {
     checkToken();
+  }, []);
+
+  useEffect(() => {
+    if (!__DEV__) {
+      onFetchUpdateAsync();
+    }
   }, []);
 
   const queryClient = new QueryClient();
