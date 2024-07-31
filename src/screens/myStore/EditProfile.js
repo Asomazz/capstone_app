@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Modal,
-} from "react-native";
+import { StyleSheet, Text, View, Image, Modal } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -41,7 +35,7 @@ const EditProfile = () => {
     mutationFn: () =>
       updateProfile({
         ...userInfo,
-        image: image.includes("file") ? image : "",
+        image: image?.includes("file") ? image : "",
       }),
     onSuccess: () => {
       setAlertMessage("Profile Updated");
@@ -62,14 +56,14 @@ const EditProfile = () => {
   useEffect(() => {
     if (data) {
       setUserInfo({
-        name: data.name,
-        bio: data.bio,
-        instagram: data.instagram,
-        snapchat: data.snapchat,
-        twitter: data.twitter,
-        tiktok: data.tiktok,
+        name: data.name || "",
+        bio: data.bio || "",
+        instagram: data.instagram || "",
+        snapchat: data.snapchat || "",
+        twitter: data.twitter || "",
+        tiktok: data.tiktok || "",
       });
-      setImage(data.image);
+      setImage(data.image || "");
     }
   }, [data]);
 

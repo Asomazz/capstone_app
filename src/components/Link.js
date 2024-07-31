@@ -1,6 +1,13 @@
 import * as Clipboard from "expo-clipboard";
 import React, { useState } from "react";
-import { Modal, Pressable, Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import {
+  Modal,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+} from "react-native";
 
 const Link = ({ userInfo }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -36,10 +43,12 @@ const Link = ({ userInfo }) => {
       <View style={styles.linkContainer}>
         <TouchableOpacity
           style={styles.copyButton}
-          onPress={() => handleCopy(`https://fluidstore.link/${userInfo?.username}`)}
+          onPress={() =>
+            handleCopy(`https://fluidstore.link/#/${userInfo?.username}`)
+          }
         >
           <Text style={styles.copyButtonText}>
-            https://fluidstore.link/{userInfo?.username}
+            https://fluidstore.link/#/{userInfo?.username}
           </Text>
         </TouchableOpacity>
       </View>

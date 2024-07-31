@@ -1,5 +1,12 @@
 import React from "react";
-import { Image, StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import logo from "../../../assets/logo.png";
 
@@ -16,7 +23,6 @@ const StartPage = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.safeArea} />
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Image source={logo} style={styles.logo} resizeMode="contain" />
@@ -41,7 +47,9 @@ const StartPage = () => {
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>All rights reserved to Fluid Store, 2024</Text>
+          <Text style={styles.footerText}>
+            All rights reserved to Fluid Store, 2024
+          </Text>
         </View>
       </SafeAreaView>
     </>
@@ -50,7 +58,6 @@ const StartPage = () => {
 
 const styles = StyleSheet.create({
   safeArea: {
-    flex: 0,
     backgroundColor: "#403a58", // Navy Blue
   },
   container: {

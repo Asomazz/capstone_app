@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, StatusBar, View } from "react-native";
 import { getToken } from "./src/apis/storage";
 import UserContext from "./src/context/UserContext";
 import AuthNavigation from "./src/navigation/AuthNavigation";
@@ -19,6 +19,8 @@ async function onFetchUpdateAsync() {
     console.log(`Error fetching latest Expo update: ${error}`);
   }
 }
+
+StatusBar.setBarStyle("auto");
 
 export default function App() {
   const [user, setUser] = useState(false);
@@ -49,7 +51,16 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <UserContext.Provider value={[user, setUser]}>
           <NavigationContainer>
-            <SafeAreaView style={{ flex: 1,  backgroundColor: "#F7F7F7" }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: "#F7F7F7" }}>
+              <View
+                style={{
+                  position: "absolute",
+                  top: -30,
+                  backgroundColor: "#403a58",
+                  height: 100,
+                  width: "100%",
+                }}
+              />
               {user ? <MainNavigation /> : <AuthNavigation />}
             </SafeAreaView>
           </NavigationContainer>

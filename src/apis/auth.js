@@ -35,8 +35,36 @@ const getProfile = async () => {
     console.log(error);
   }
 };
+// const updateProfile = async (userInfo) => {
+//   try {
+//     const formData = new FormData();
+
+//     for (let key in userInfo) {
+//       if (key === "image" && userInfo[key]) {
+//         formData.append(key, {
+//           uri: userInfo[key],
+//           name: "image",
+//           type: "png",
+//         });
+//       } else {
+//         formData.append(key, userInfo[key]);
+//       }
+//     }
+
+//     const { data } = await instance.put("/creator/profile/", formData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 const updateProfile = async (userInfo) => {
   try {
+    console.log(userInfo);
     const formData = new FormData();
 
     for (let key in userInfo) {
@@ -47,9 +75,11 @@ const updateProfile = async (userInfo) => {
           type: "png",
         });
       } else {
-        formData.append(key, userInfo[key]);
+        // Explicitly append empty strings as well
+        formData.append(key, userInfo[key] !== undefined ? userInfo[key] : "");
       }
     }
+    console.log(formData);
 
     const { data } = await instance.put("/creator/profile/", formData, {
       headers: {
@@ -62,7 +92,6 @@ const updateProfile = async (userInfo) => {
     console.log(error);
   }
 };
-
 const logout = () => {
   localStorage.removeItem("token");
 };

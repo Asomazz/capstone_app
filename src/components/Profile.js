@@ -132,49 +132,69 @@ const Profile = ({ userInfo, refetch }) => {
           flexDirection: "row",
         }}
       >
-        {userInfo?.instagram && (
-          <TouchableOpacity
-            onPress={() => Linking.openURL(userInfo?.instagram)}
-          >
-            <AntDesign
-              name="instagram"
-              size={25}
-              color="#342B7F"
-              style={{ marginLeft: 7 }}
-            />
-          </TouchableOpacity>
-        )}
-        {userInfo?.snapchat && (
-          <TouchableOpacity onPress={() => Linking.openURL(userInfo?.snapchat)}>
-            <MaterialIcons
-              name="snapchat"
-              size={25}
-              color="#342B7F"
-              style={{ marginLeft: 7 }}
-            />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          onPress={() => {
+            if (!userInfo?.instagram) {
+              return navigation.navigate("editProfile");
+            }
+            Linking.openURL(userInfo?.instagram);
+          }}
+        >
+          <AntDesign
+            name="instagram"
+            size={25}
+            color={!userInfo?.instagram ? "#342B7F30" : "#342B7F"}
+            style={{ marginLeft: 7 }}
+          />
+        </TouchableOpacity>
 
-        {userInfo?.twitter && (
-          <TouchableOpacity onPress={() => Linking.openURL(userInfo?.twitter)}>
-            <FontAwesome6
-              name="x-twitter"
-              size={25}
-              color="#342B7F"
-              style={{ marginLeft: 7 }}
-            />
-          </TouchableOpacity>
-        )}
-        {userInfo?.tiktok && (
-          <TouchableOpacity onPress={() => Linking.openURL(userInfo?.tiktok)}>
-            <MaterialIcons
-              name="tiktok"
-              size={25}
-              color="#342B7F"
-              style={{ marginLeft: 7 }}
-            />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          onPress={() => {
+            if (!userInfo?.snapchat) {
+              return navigation.navigate("editProfile");
+            }
+            Linking.openURL(userInfo?.snapchat);
+          }}
+        >
+          <MaterialIcons
+            name="snapchat"
+            size={25}
+            color={!userInfo?.snapchat ? "#342B7F30" : "#342B7F"}
+            style={{ marginLeft: 7 }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            if (!userInfo?.twitter) {
+              return navigation.navigate("editProfile");
+            }
+            Linking.openURL(userInfo?.twitter);
+          }}
+        >
+          <FontAwesome6
+            name="x-twitter"
+            size={25}
+            color={!userInfo?.twitter ? "#342B7F30" : "#342B7F"}
+            style={{ marginLeft: 7 }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            if (!userInfo?.tiktok) {
+              return navigation.navigate("editProfile");
+            }
+            Linking.openURL(userInfo?.tiktok);
+          }}
+        >
+          <MaterialIcons
+            name="tiktok"
+            size={25}
+            color={!userInfo?.tiktok ? "#342B7F30" : "#342B7F"}
+            style={{ marginLeft: 7 }}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );

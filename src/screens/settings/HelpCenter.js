@@ -32,7 +32,6 @@ const HelpCenter = () => {
       <SafeAreaView style={styles.container}>
         <View
           style={{
-            backgroundColor: "#574EFA",
             paddingVertical: 30,
             paddingHorizontal: 20,
           }}
