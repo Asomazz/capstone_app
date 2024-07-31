@@ -12,7 +12,7 @@ export default function Header({
   return (
     <View style={[styles.header, { backgroundColor: backgroundColor }]}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Icon name="arrow-left" size={24} color={isDark ? "#fff" : "#574EFA"} />
+        <Icon name="arrow-left" size={24} color={isDark ? "#fff" : "#FC533E"} />
       </TouchableOpacity>
       <Text style={[styles.headerTitle, { color: isDark ? "#fff" : "#333" }]}>
         {title}

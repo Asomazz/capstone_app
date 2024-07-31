@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 const MainNavigation = () => {
   return (
     <Tab.Navigator
-      screenOptions={{ tabBarActiveTintColor: "#574EFA", headerShown: false }}
+      screenOptions={{ tabBarActiveTintColor: "#fb543c", headerShown: false }}
     >
       <Tab.Screen
         name="dashboardIndex"
@@ -26,7 +26,7 @@ const MainNavigation = () => {
           tabBarIcon: ({ size, focused }) => (
             <AntDesign
               name="dashboard"
-              color={focused ? "#574EFA" : "gray"}
+              color={focused ? "#fb543c" : "#403a58"}
               size={size}
             />
           ),
@@ -41,7 +41,7 @@ const MainNavigation = () => {
           tabBarIcon: ({ size, focused }) => (
             <Ionicons
               name="storefront-outline"
-              color={focused ? "#574EFA" : "gray"}
+              color={focused ? "#fb543c" : "#403a58"}
               size={size}
             />
           ),
@@ -56,7 +56,7 @@ const MainNavigation = () => {
           tabBarIcon: ({ size, focused }) => (
             <MaterialIcons
               name="analytics"
-              color={focused ? "#574EFA" : "gray"}
+              color={focused ? "#fb543c" : "#403a58"}
               size={size}
             />
           ),
@@ -71,7 +71,7 @@ const MainNavigation = () => {
           tabBarIcon: ({ size, focused }) => (
             <Feather
               name="settings"
-              color={focused ? "#574EFA" : "gray"}
+              color={focused ? "#fb543c" : "#403a58"}
               size={size}
             />
           ),
