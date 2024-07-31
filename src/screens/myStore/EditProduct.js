@@ -30,7 +30,7 @@ const EditProduct = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const navigation = useNavigation();
-
+  console.log(pdf);
   const { data, isLoading } = useQuery({
     queryKey: ["getProduct", id],
     queryFn: () => getProduct(id),
@@ -197,41 +197,82 @@ const EditProduct = () => {
               blurOnSubmit={true}
             />
           </View>
-          {pdf ? (
-            <View style={styles.fileContainer}>
-              <Text style={styles.label}>Product File</Text>
-              <TouchableOpacity onPress={() => handleRemovePdf()}>
-                <Text style={styles.removeFileText}>Remove File</Text>
+          <View
+            style={{
+              width: "100%",
+              alignItems: "flex-start",
+              padding: 30,
+              gap: 8,
+            }}
+          >
+            {pdf ? (
+              <View style={{ paddingBottom: 30 }}>
+                <Text style={styles.label}>Product File</Text>
+                <TouchableOpacity onPress={() => handleRemovePdf()}>
+                  <Text style={styles.removeFileText}>Remove File</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    // Implement download functionality if needed
+                  }}
+                >
+                  <Text style={styles.downloadFileText}>Download File</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={styles.pickFileButton}
+                onPress={handlePickPdf}
+              >
+                <Text style={styles.buttonText}>Pick PDF</Text>
+              </TouchableOpacity>
+            )}
+            <View style={styles.buttonsContainer}>
+              <TouchableOpacity
+                style={[
+                  {
+                    backgroundColor: "#403a58", // Navy Blue
+                    borderRadius: 25,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingVertical: 15,
+                    paddingHorizontal: 30,
+                    width: "49%",
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 8,
+                    elevation: 5,
+                  },
+                  styles.updateButton,
+                ]}
+                onPress={handleUpdate}
+              >
+                <Text style={styles.buttonText}>Update</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => {
-                  // Implement download functionality if needed
-                }}
+                style={[
+                  {
+                    backgroundColor: "#403a58", // Navy Blue
+                    borderRadius: 25,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingVertical: 15,
+                    paddingHorizontal: 30,
+                    width: "49%",
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 8,
+                    elevation: 5,
+                  },
+                  styles.deleteButton,
+                ]}
+                onPress={handleDelete}
               >
-                <Text style={styles.downloadFileText}>Download File</Text>
+                <Text style={styles.buttonText}>Delete</Text>
               </TouchableOpacity>
             </View>
-          ) : (
-            <TouchableOpacity
-              style={styles.pickFileButton}
-              onPress={handlePickPdf}
-            >
-              <Text style={styles.buttonText}>Pick PDF</Text>
-            </TouchableOpacity>
-          )}
-          <View style={styles.buttonsContainer}>
-            <TouchableOpacity
-              style={[styles.pickFileButton, styles.updateButton]}
-              onPress={handleUpdate}
-            >
-              <Text style={styles.buttonText}>Update</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.pickFileButton, styles.deleteButton]}
-              onPress={handleDelete}
-            >
-              <Text style={styles.buttonText}>Delete</Text>
-            </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -305,7 +346,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   imagePickerContainer: {
-    width: '100%',
+    width: "100%",
     height: 200,
     borderRadius: 10,
     overflow: "hidden",
@@ -348,9 +389,10 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flex: 2.5,
     paddingTop: 12,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 10,
+    flexDirection: "row",
+    width: "100%",
   },
   pickFileButton: {
     backgroundColor: "#403a58", // Navy Blue
@@ -359,7 +401,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 15,
     paddingHorizontal: 30,
-    width: "80%",
+    width: "100%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -371,11 +413,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  fileContainer: {
-    width: "100%",
-    alignItems: "flex-start",
-    padding: 30,
-  },
+
   removeFileText: {
     color: "red",
     marginTop: 10,

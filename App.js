@@ -7,6 +7,10 @@ import UserContext from "./src/context/UserContext";
 import AuthNavigation from "./src/navigation/AuthNavigation";
 import MainNavigation from "./src/navigation/MainNavigation";
 import * as Updates from "expo-updates";
+// RN >= 0.63
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["Warning: ...", "Remote debugger"]);
 
 async function onFetchUpdateAsync() {
   try {

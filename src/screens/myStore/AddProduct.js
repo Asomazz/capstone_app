@@ -44,10 +44,12 @@ const AddProduct = () => {
     },
   });
 
+  console.log(pdf);
+
   const handleChange = (key, value) => {
     setProductInfo((prev) => ({ ...prev, [key]: value }));
   };
-  
+
   const handlePickPdf = async () => {
     let result = await DocumentPicker.getDocumentAsync({
       type: "application/pdf",
@@ -174,7 +176,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   imagePickerContainer: {
-    width: '100%',
+    width: "100%",
     height: 200,
     borderRadius: 10,
     overflow: "hidden",
