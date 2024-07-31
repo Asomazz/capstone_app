@@ -2,9 +2,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   Modal,
-  Pressable,
   TouchableOpacity,
   TextInput,
   Platform,
@@ -14,7 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import { createOneProduct } from "../../apis/products";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
 import ImagePickerComp from "../../components/ImagePicker";
 import Header from "../../components/Header";
@@ -26,7 +23,7 @@ const AddProduct = () => {
     description: "",
   });
   const [image, setImage] = useState(null);
-  const [pdf, setPdf] = useState(null); // New state for PDF
+  const [pdf, setPdf] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const navigation = useNavigation();
@@ -50,6 +47,7 @@ const AddProduct = () => {
   const handleChange = (key, value) => {
     setProductInfo((prev) => ({ ...prev, [key]: value }));
   };
+  
   const handlePickPdf = async () => {
     let result = await DocumentPicker.getDocumentAsync({
       type: "application/pdf",
@@ -65,212 +63,67 @@ const AddProduct = () => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        borderRadius: 10,
-        paddingBottom: 12,
-        paddingHorizontal: 12,
-        paddingTop: 4,
-      }}
-    >
+    <View style={styles.container}>
       <Header title="Back to store" />
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <View
-            style={{
-              margin: 20,
-              width: 250,
-              backgroundColor: "white",
-              borderRadius: 20,
-              padding: 35,
-              alignItems: "center",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 4,
-              elevation: 5,
-            }}
-          >
-            <Text
-              style={{
-                marginBottom: 15,
-                textAlign: "center",
-              }}
-            >
-              {alertMessage}
-            </Text>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{alertMessage}</Text>
           </View>
         </View>
       </Modal>
 
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "white",
-          borderRadius: 10,
-          overflow: "hidden",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 10,
-          padding: 10,
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: "blue",
-            flex: 4,
-            width: "85%",
-            borderRadius: 10,
-            overflow: "hidden",
-            elevation: 50,
-          }}
-        >
-          <ImagePickerComp setImage={setImage} image={image} />
-        </View>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#574EFA",
-            borderRadius: 7,
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 10,
-            width: 300,
-            height: 45,
-            marginVertical: 10,
-          }}
-          onPress={handlePickPdf}
-        >
-          <Text style={{ color: "white" }}>Pick PDF</Text>
-        </TouchableOpacity>
-        {pdf && (
-          <Text style={{ marginBottom: 10 }}>Picked PDF: {pdf.name}</Text>
-        )}
+      <View style={styles.innerContainer}>
         <KeyboardAwareScrollView
-          style={{
-            borderTopEndRadius: 10,
-            width: "100%",
-          }}
-          contentContainerStyle={{
-            justifyContent: "space-evenly",
-            alignItems: "center",
-          }}
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollViewContent}
         >
-          <View
-            style={{
-              flex: 1,
-              width: "100%",
-              alignItems: "flex-start",
-              justifyContent: "center",
-              padding: 30,
-              gap: 5,
-            }}
+          <View style={styles.imagePickerContainer}>
+            <ImagePickerComp setImage={setImage} image={image} />
+          </View>
+          <TouchableOpacity
+            style={styles.pickFileButton}
+            onPress={handlePickPdf}
           >
-            <Text style={{ fontWeight: "500" }}>Product Title</Text>
+            <Text style={styles.buttonText}>Pick PDF</Text>
+          </TouchableOpacity>
+          {pdf && <Text style={styles.pdfText}>Picked PDF: {pdf.name}</Text>}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Product Title</Text>
             <TextInput
-              style={{
-                borderWidth: 1,
-                borderRadius: 7,
-                width: "100%",
-                borderColor: "lightgray",
-                paddingVertical: 10,
-                paddingHorizontal: 5,
-              }}
+              style={styles.input}
               value={productInfo?.title}
               onChangeText={(text) => handleChange("title", text)}
-              placeholder={productInfo.title}
+              placeholder="Enter product title"
             />
           </View>
-          <View
-            style={{
-              backgroundColor: "white",
-              flex: 2,
-              justifyContent: "center",
-              width: "100%",
-              alignItems: "flex-start",
-              padding: 30,
-              gap: 5,
-            }}
-          >
-            <Text style={{ fontWeight: "500" }}>Product Price</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Product Price</Text>
             <TextInput
-              style={{
-                borderWidth: 1,
-                borderRadius: 7,
-                width: "100%",
-                borderColor: "lightgray",
-                paddingVertical: 10,
-                paddingHorizontal: 5,
-              }}
+              style={styles.input}
               value={productInfo?.price}
               onChangeText={(text) => handleChange("price", text)}
-              placeholder={productInfo.price}
+              placeholder="Enter product price"
               keyboardType="numeric"
             />
           </View>
-          <View
-            style={{
-              backgroundColor: "white",
-              flex: 1,
-              justifyContent: "center",
-              width: "100%",
-              alignItems: "flex-start",
-              padding: 30,
-            }}
-          >
-            <Text style={{ fontWeight: "500" }}>Product Description</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Product Description</Text>
             <TextInput
-              style={{
-                borderWidth: 1,
-                borderRadius: 7,
-                width: "100%",
-                height: 80,
-                borderColor: "lightgray",
-                paddingVertical: 10,
-                paddingHorizontal: 5,
-                textAlignVertical: "top",
-              }}
-              onChangeText={(text) => handleChange("description", text)}
+              style={[styles.input, styles.textArea]}
               value={productInfo?.description}
+              onChangeText={(text) => handleChange("description", text)}
+              placeholder="Enter product description"
               multiline={true}
               blurOnSubmit={true}
             />
           </View>
-          <View
-            style={{
-              flex: 2.5,
-              backgroundColor: "white",
-              paddingTop: 12,
-              justifyContent: "center",
-              width: "100%",
-              alignItems: "center",
-            }}
+          <TouchableOpacity
+            style={[styles.pickFileButton, styles.addButton]}
+            onPress={handleSubmit}
           >
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#574EFA",
-                borderRadius: 7,
-                justifyContent: "center",
-                alignItems: "center",
-                padding: 10,
-                width: 300,
-                height: 45,
-              }}
-              onPress={handleSubmit}
-            >
-              <Text style={{ color: "white" }}>Add Product</Text>
-            </TouchableOpacity>
-          </View>
+            <Text style={styles.buttonText}>Add Product</Text>
+          </TouchableOpacity>
         </KeyboardAwareScrollView>
       </View>
     </View>
@@ -278,3 +131,114 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalView: {
+    margin: 20,
+    width: 250,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 18,
+  },
+  innerContainer: {
+    flex: 1,
+    backgroundColor: "white",
+    borderRadius: 10,
+    overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+  },
+  imagePickerContainer: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    overflow: "hidden",
+    elevation: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  scrollView: {
+    borderTopEndRadius: 10,
+    width: "100%",
+  },
+  scrollViewContent: {
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  inputContainer: {
+    flex: 1,
+    width: "100%",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    padding: 30,
+  },
+  label: {
+    fontWeight: "500",
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1,
+    borderRadius: 25,
+    width: "100%",
+    borderColor: "lightgray",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  textArea: {
+    height: 80,
+    textAlignVertical: "top",
+  },
+  pickFileButton: {
+    backgroundColor: "#403a58", // Navy Blue
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    width: "80%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  pdfText: {
+    marginBottom: 10,
+    color: "#333",
+  },
+  addButton: {
+    backgroundColor: "#FC533E", // Coral color
+  },
+});

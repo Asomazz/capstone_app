@@ -25,7 +25,7 @@ const EditProduct = () => {
     description: "",
   });
   const [image, setImage] = useState(null);
-  const [pdf, setPdf] = useState(null); // New state for PDF
+  const [pdf, setPdf] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -123,7 +123,7 @@ const EditProduct = () => {
 
   return (
     <View style={styles.container}>
-      <Header/>
+      <Header />
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>
@@ -221,13 +221,13 @@ const EditProduct = () => {
           )}
           <View style={styles.buttonsContainer}>
             <TouchableOpacity
-              style={styles.updateButton}
+              style={[styles.pickFileButton, styles.updateButton]}
               onPress={handleUpdate}
             >
               <Text style={styles.buttonText}>Update</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.deleteButton}
+              style={[styles.pickFileButton, styles.deleteButton]}
               onPress={handleDelete}
             >
               <Text style={styles.buttonText}>Delete</Text>
@@ -279,15 +279,16 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    marginHorizontal: 10,
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#403a58", // Navy Blue
   },
   buttonConfirm: {
-    backgroundColor: "#FF0000",
+    backgroundColor: "#FC533E", // Coral color
   },
   textStyle: {
     color: "white",
@@ -304,13 +305,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   imagePickerContainer: {
-    backgroundColor: "blue",
-    // flex: 8,
-    width: "85%",
-    height: 180,
+    width: '100%',
+    height: 200,
     borderRadius: 10,
     overflow: "hidden",
     elevation: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
   },
   scrollView: {
     borderTopEndRadius: 10,
@@ -325,7 +327,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "flex-start",
     justifyContent: "center",
-    padding: 30,
+    padding: 15,
   },
   label: {
     fontWeight: "500",
@@ -333,11 +335,11 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderRadius: 7,
+    borderRadius: 25,
     width: "100%",
     borderColor: "lightgray",
     paddingVertical: 10,
-    paddingHorizontal: 5,
+    paddingHorizontal: 15,
   },
   textArea: {
     height: 80,
@@ -350,41 +352,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
   },
-  updateButton: {
-    backgroundColor: "#574EFA",
-    borderRadius: 7,
+  pickFileButton: {
+    backgroundColor: "#403a58", // Navy Blue
+    borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
-    width: 300,
-    height: 45,
-  },
-  deleteButton: {
-    backgroundColor: "#FF6F6F",
-    borderRadius: 7,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    width: 300,
-    height: 45,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    width: "80%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
   },
   buttonText: {
     color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   fileContainer: {
     width: "100%",
     alignItems: "flex-start",
     padding: 30,
-  },
-  pickFileButton: {
-    backgroundColor: "#574EFA",
-    borderRadius: 7,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    width: 300,
-    height: 45,
-    marginTop: 20,
   },
   removeFileText: {
     color: "red",
@@ -393,5 +383,11 @@ const styles = StyleSheet.create({
   downloadFileText: {
     color: "#0066cc",
     marginTop: 10,
+  },
+  updateButton: {
+    backgroundColor: "#FC533E", // Coral color
+  },
+  deleteButton: {
+    backgroundColor: "#403a58", // Navy Blue
   },
 });

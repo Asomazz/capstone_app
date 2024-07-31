@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import logo from "../../../assets/logo.png";
 
@@ -15,62 +15,85 @@ const StartPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={logo} style={styles.logo} resizeMode="contain" />
-      </View>
+    <>
+      <SafeAreaView style={styles.safeArea} />
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Image source={logo} style={styles.logo} resizeMode="contain" />
+        </View>
 
-      <View style={styles.content}>
-        <Text style={styles.title}>Welcome to</Text>
-        <Text style={styles.subtitle}>Empower Your Creativity</Text>
+        <View style={styles.content}>
+          <Text style={styles.title}>Welcome to Fluid Store</Text>
+          <Text style={styles.subtitle}>Sell smart, grow fast.</Text>
 
-        <TouchableOpacity
-          style={[styles.button, styles.registerButton]}
-          onPress={handleGoToRegister}
-        >
-          <Text style={styles.buttonText}>Get Started</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.loginButton]}
-          onPress={handleGoToLogin}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          <TouchableOpacity
+            style={[styles.button, styles.registerButton]}
+            onPress={handleGoToRegister}
+          >
+            <Text style={styles.buttonText}>Get Started</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, styles.loginButton]}
+            onPress={handleGoToLogin}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>All rights reserved to Fluid Store, 2024</Text>
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 0,
+    backgroundColor: "#403a58", // Navy Blue
+  },
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#F7F7F7", // Light Gray
+    justifyContent: "space-between", // Align items vertically
   },
   header: {
-    flex: 1,
+    height: 200,
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 50,
+    backgroundColor: "#403a58", // Navy Blue
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 120,
+    height: 120,
   },
   content: {
-    flex: 2,
+    flex: 1,
     alignItems: "center",
+    justifyContent: "center", // Center buttons vertically
     paddingHorizontal: 20,
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#333",
+    color: "#403a58", // Navy Blue
     marginTop: 20,
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 18,
-    color: "#666",
-    marginBottom: 30,
+    color: "#403a58",
+    marginTop: 5,
+    marginBottom: 20,
+    textAlign: "center",
   },
   button: {
     width: "80%",
@@ -79,16 +102,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
   },
   registerButton: {
-    backgroundColor: "#574EFA",
+    backgroundColor: "#FC533E", // Coral color
   },
   loginButton: {
-    backgroundColor: "#50D2C2",
+    backgroundColor: "#403a58", // Navy Blue
   },
   buttonText: {
     color: "white",
     fontSize: 18,
+    fontWeight: "bold",
+  },
+  footer: {
+    padding: 10,
+    alignItems: "center",
+    backgroundColor: "#F7F7F7", // Light Gray, same as the container background
+  },
+  footerText: {
+    color: "#666",
+    fontSize: 14,
   },
 });
 

@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { LineChart } from "react-native-chart-kit";
+import { BarChart, LineChart } from "react-native-chart-kit";
 import { getProfile } from "../../apis/auth";
 import { useNavigation } from "@react-navigation/native";
 
@@ -37,11 +37,7 @@ const Dashboard = () => {
       const dateLabels = [];
       const dateData = {};
 
-      for (
-        let d = new Date(startDate);
-        d <= endDate;
-        d.setDate(d.getDate() + 1)
-      ) {
+      for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
         const dateString = `${d.getDate()}/${d.getMonth() + 1}`;
         dateLabels.push(dateString);
         dateData[dateString] = 0;
@@ -63,7 +59,7 @@ const Dashboard = () => {
         datasets: [
           {
             data: dataset,
-            color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+            color: (opacity = 1) => `rgba(252, 83, 62, ${opacity})`,
             strokeWidth: 2,
           },
         ],
@@ -83,7 +79,7 @@ const Dashboard = () => {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#574EFA" />
+        <ActivityIndicator size="large" color="#FC533E" />
       </View>
     );
   }
@@ -112,9 +108,9 @@ const Dashboard = () => {
       </View>
       <View style={styles.chartContainer}>
         {data?.receipts && (
-          <LineChart
+          <BarChart
             data={chartData}
-            width={screenWidth - 20}
+            width={screenWidth - 55}
             height={250}
             verticalLabelRotation={30}
             chartConfig={chartConfig}
@@ -183,7 +179,7 @@ const chartConfig = {
   backgroundGradientFrom: "#ffffff",
   backgroundGradientTo: "#ffffff",
   decimalPlaces: 2,
-  color: (opacity = 1) => `rgba(87, 78, 250, ${opacity})`,
+  color: (opacity = 1) => `rgba(252, 83, 62, ${opacity})`,
   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
   style: {
     borderRadius: 16,
@@ -191,7 +187,7 @@ const chartConfig = {
   propsForDots: {
     r: "6",
     strokeWidth: "2",
-    stroke: "#574EFA",
+    stroke: "#FC533E",
   },
 };
 
@@ -212,19 +208,19 @@ const styles = StyleSheet.create({
   dashboardText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#333",
+    color: "#000",
     marginBottom: 10,
   },
   revenueText: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#574EFA",
+    color: "#000",
     marginBottom: 5,
   },
   revenueAmount: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333",
+    color: "#FC533E",
   },
   chartContainer: {
     marginVertical: 8,
@@ -248,7 +244,7 @@ const styles = StyleSheet.create({
   analyticsTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#333",
+    color: "#000",
     marginBottom: 10,
   },
   analyticsCards: {
@@ -268,12 +264,12 @@ const styles = StyleSheet.create({
   analyticsCardTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#574EFA",
+    color: "#000",
   },
   analyticsCardValue: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333",
+    color: "#FC533E",
   },
   ordersContainer: {
     marginVertical: 20,
@@ -287,11 +283,11 @@ const styles = StyleSheet.create({
   ordersTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#333",
+    color: "#000",
   },
   viewAll: {
     fontSize: 14,
-    color: "#574EFA",
+    color: "#FC533E",
   },
   orderCard: {
     marginBottom: 15,
@@ -310,13 +306,13 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     fontWeight: "bold",
-    color: "#333",
+    color: "#000",
     marginRight: 10,
   },
   orderAmount: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#574EFA",
+    color: "#FC533E",
   },
   orderDate: {
     fontSize: 12,
@@ -330,12 +326,12 @@ const styles = StyleSheet.create({
   detailLabel: {
     fontSize: 12,
     fontWeight: "bold",
-    color: "#333",
+    color: "#000",
     width: "30%",
   },
   detailValue: {
     fontSize: 12,
-    color: "#333",
+    color: "#000",
     flex: 1,
   },
   loadingContainer: {

@@ -67,7 +67,7 @@ const Orders = () => {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#574EFA" />
+        <ActivityIndicator size="large" color="#FC533E" />
       </View>
     );
   }
@@ -91,7 +91,7 @@ const Orders = () => {
           onChangeText={setSearchQuery}
         />
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Icon name="filter" size={24} color="#574EFA" />
+          <Icon name="filter" size={24} color="#FC533E" />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -135,7 +135,7 @@ const Orders = () => {
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Icon name="times" size={24} color="#574EFA" />
+              <Icon name="times" size={24} color="#FC533E" />
             </TouchableOpacity>
             <Text style={styles.modalTitle}>Filter By</Text>
             <TouchableOpacity
@@ -173,9 +173,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f8f8f8",
-    padding: 20,
+    padding: 10,
   },
-
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -194,20 +193,17 @@ const styles = StyleSheet.create({
   },
   filterIcon: {
     borderWidth: 1,
-    borderColor: "#574EFA",
+    borderColor: "#FC533E",
     borderRadius: 10,
     padding: 5,
   },
   orderCard: {
     marginBottom: 15,
-    padding: 20,
+    padding: 15,
     borderRadius: 10,
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
+    borderWidth: 1,
+    borderColor: "#ddd",
   },
   orderHeader: {
     flexDirection: "row",
@@ -216,18 +212,18 @@ const styles = StyleSheet.create({
   },
   orderTitle: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
-    color: "#333",
+    color: "#000",
     marginRight: 10,
   },
   orderAmount: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
-    color: "#574EFA",
+    color: "#FC533E",
   },
   orderDate: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#666",
     marginBottom: 10,
   },
@@ -236,14 +232,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   detailLabel: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "bold",
-    color: "#333",
+    color: "#000",
     width: "30%",
   },
   detailValue: {
-    fontSize: 14,
-    color: "#333",
+    fontSize: 12,
+    color: "#000",
     flex: 1,
   },
   loadingContainer: {
@@ -286,7 +282,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "100%",
     textAlign: "center",
-    color: "#574EFA",
+    color: "#FC533E",
   },
 });
 

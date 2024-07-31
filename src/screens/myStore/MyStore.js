@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Profile from "../../components/Profile";
 import Link from "../../components/Link";
-
 import { getProfile } from "../../apis/auth";
 import {
   FlatList,
@@ -13,7 +12,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import ProductsList from "../../components/ProductsList";
 import { SearchBar } from "react-native-elements";
-import { getAllProducts, getProduct } from "../../apis/products";
+import { getAllProducts } from "../../apis/products";
 import { useQuery } from "@tanstack/react-query";
 
 const MyStore = () => {
@@ -50,58 +49,29 @@ const MyStore = () => {
   return (
     <View style={styles.container}>
       <ScrollView stickyHeaderIndices={[1]} contentContainerStyle={{}}>
-        <View
-          style={{
-            overflow: "hidden",
-            backgroundColor: "white",
-          }}
-        >
+        <View style={styles.headerContainer}>
           <Link userInfo={userInfo} />
           <Profile userInfo={userInfo} refetch={userRefetch} />
         </View>
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-              paddingHorizontal: 20,
-              flexDirection: "row",
-              flexWrap: "wrap",
-              gap: 6,
-              backgroundColor: "white",
-              padding: 12,
-              borderBottomLeftRadius: 12,
-              borderBottomRightRadius: 12,
-            }}
-          >
-            <View style={{ flex: 7 }}>
+        <View style={styles.searchContainer}>
+          <View style={styles.searchBarContainer}>
+            <View style={styles.searchBar}>
               <SearchBar
                 placeholder="Search..."
                 onChangeText={handleChange}
                 lightTheme
-                containerStyle={{
-                  backgroundColor: "transparent",
-                  borderWidth: 0,
-                  padding: 0,
-                }}
+                containerStyle={styles.searchBarInputContainer}
                 round={true}
-                inputContainerStyle={{
-                  borderRadius: 10,
-                }}
+                inputContainerStyle={styles.searchBarInput}
                 value={query}
               />
             </View>
-            <View style={{ flex: 3 }}>
-              <TouchableOpacity
-                style={styles.addButton}
-                onPress={handleGoToAddProduct}
-              >
-                <Text style={styles.addButtonText}>+ Add A Product</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={handleGoToAddProduct}
+            >
+              <Text style={styles.addButtonText}>+ Add A Product</Text>
+            </TouchableOpacity>
           </View>
         </View>
         <ProductsList data={filteredProducts} refetch={refetch} />
@@ -115,15 +85,50 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     gap: 5,
+    backgroundColor: "#F7F7F7", // Light Gray
   },
-
-  addButton: {
-    borderColor: "gray",
-    backgroundColor: "#342B7F",
-    borderWidth: 0.3,
-    padding: 5,
-    borderRadius: 10,
+  headerContainer: {
     overflow: "hidden",
+    backgroundColor: "white",
+  },
+  searchContainer: {
+    flex: 1,
+  },
+  searchBarContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+    backgroundColor: "white",
+    padding: 12,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+  },
+  searchBar: {
+    flex: 7,
+  },
+  searchBarInputContainer: {
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    padding: 0,
+  },
+  searchBarInput: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    height: 40,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  addButton: {
+    flex: 3,
+    backgroundColor: "#403a58", // Navy Blue
+    borderWidth: 0.3,
+    padding: 10,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -135,3 +140,4 @@ const styles = StyleSheet.create({
 });
 
 export default MyStore;
+
